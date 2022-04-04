@@ -1,20 +1,51 @@
-// ss.pl.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#include "raylib.h"
+#include <vector>
 
-#include <iostream>
+const int screenWidth = 800;
+const int screenHeight = 450;
+
+std::vector<Vector2> initNewEntities()
+{
+    std::vector<Vector2> entities;
+
+    for (size_t i = 0; i < GetRandomValue(5, 20); i++)
+    {
+        Vector2 entity = { GetRandomValue(10.0f, screenWidth - 10.0f), GetRandomValue(10.0f, screenHeight - 10.0f) };
+
+        entities.push_back(entity);
+    }
+
+    return entities;
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    const float entityRadius = 20.0f, speed = 5000.0f;
+    Vector2 entityPos = { entityRadius, entityRadius };
+
+    InitWindow(screenWidth, screenHeight, "raylib [models] example - heightmap loading and drawing");
+
+    SetTargetFPS(60);
+
+    std::vector<Vector2> entities = initNewEntities();
+
+    while (!WindowShouldClose())
+    {
+
+        if (IsKeyPressed(KEY_SPACE))
+            entities = initNewEntities();
+
+        BeginDrawing();
+
+        ClearBackground(WHITE);
+
+        for (auto entity : entities)
+        {
+            DrawCircle(entity.x, entity.y, entityRadius, RED);
+        }
+
+        EndDrawing();
+    }
+
+    CloseWindow();
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
