@@ -24,7 +24,7 @@ std::vector<Vector2> initNewEntities()
 
 int main()
 {
-    const float entityRadius = 20.0f, speed = 5000.0f;
+	const float entityRadius = 20.0f, speed = 5000.0f;
     Vector2 entityPos = { entityRadius, entityRadius };
 
     InitWindow(screenWidth, screenHeight, "Simulation");
