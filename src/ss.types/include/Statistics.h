@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+using json = nlohmann::json;
 
 namespace ss::types
 {
