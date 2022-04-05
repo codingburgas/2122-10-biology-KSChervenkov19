@@ -1,14 +1,17 @@
 #pragma once
 #include "pch.h"
 
-struct Trait
+namespace ss::types
 {
-	float sense;
-	float speed;
-};
+	struct Trait
+	{
+		float sense;
+		float speed;
+	};
 
-struct Cycle
-{
-	int lastedEntities;
-	std::vector<Trait> traitsInfo; // traitsInfo.size() == lastedEntities
-};
+	struct Cycle
+	{
+		int lastedEntities;
+		std::vector<Trait> traitsInfo; // traitsInfo.size() == lastedEntities
+	};
+}
