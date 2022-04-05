@@ -3,8 +3,8 @@
 
 struct Trait
 {
-	float speed;
 	float sense;
+	float speed;
 };
 
 struct Cycle
