@@ -1,5 +1,7 @@
+// clang-format off
 #include "pch_unit_testing.h"
 #include "CppUnitTest.h"
+// clang-format on
 
 //https://docs.microsoft.com/en-us/visualstudio/test/microsoft-visualstudio-testtools-cppunittestframework-api-reference?view=vs-2022#general_asserts
 

@@ -1,5 +1,7 @@
+// clang-format off
 #include "pch_dal.h"
 #include "statistics_store.h"
+// clang-format on
 
 json ss::dal::StatisticStore::toJson(const std::vector<ss::types::Cycle>& cycles)
 {

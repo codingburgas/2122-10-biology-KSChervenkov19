@@ -1,5 +1,7 @@
 #pragma once
+// clang-format off
 #include "pch_types.h"
+// clang-format on
 using json = nlohmann::json;
 
 namespace ss::types

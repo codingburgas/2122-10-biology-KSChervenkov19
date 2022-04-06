@@ -1,6 +1,8 @@
 #pragma once
+// clang-format off
 #include "pch_dal.h"
 #include "statistics.h"
+// clang-format on
 
 namespace ss::dal
 {
