@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "StatisticsStore.h"
+#include "pch_dal.h"
+#include "statistics_store.h"
 
 json ss::dal::StatisticStore::toJson(const std::vector<ss::types::Cycle>& cycles)
 {
