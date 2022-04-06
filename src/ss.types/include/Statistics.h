@@ -6,15 +6,15 @@ using json = nlohmann::json;
 
 namespace ss::types
 {
-	struct Trait
-	{
-		float sense;
-		float speed;
-	};
+struct Trait
+{
+    float sense;
+    float speed;
+};
 
-	struct Cycle
-	{
-		int lastedEntities;
-		std::vector<Trait> traitsInfo; // traitsInfo.size() == lastedEntities
-	};
-}
+struct Cycle
+{
+    int lastedEntities;
+    std::vector<Trait> traitsInfo; // traitsInfo.size() == lastedEntities
+};
+} // namespace ss::types

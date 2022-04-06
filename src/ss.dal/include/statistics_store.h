@@ -6,20 +6,20 @@
 
 namespace ss::dal
 {
-	class StatisticStore
-	{
-	private:
-		static json toJson(const std::vector<ss::types::Cycle>& cycles);
-		
-		static std::vector<ss::types::Cycle> fromJson(const json& j);
+class StatisticStore
+{
+  private:
+    static json toJson(const std::vector<ss::types::Cycle> &cycles);
 
-		static std::string generateTimeStamp(const time_t& time);
-	public:
-		static void saveStatisticTo(const std::string& fileName,
-			const std::vector<ss::types::Cycle>& cycles);
+    static std::vector<ss::types::Cycle> fromJson(const json &j);
 
-		static void saveStatisticTo(const std::vector<ss::types::Cycle>& cycles);
+    static std::string generateTimeStamp(const time_t &time);
 
-		static std::vector<ss::types::Cycle> getStatisticFrom(const std::string& fileName);
-	};
-}
+  public:
+    static void saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles);
+
+    static void saveStatisticTo(const std::vector<ss::types::Cycle> &cycles);
+
+    static std::vector<ss::types::Cycle> getStatisticFrom(const std::string &fileName);
+};
+} // namespace ss::dal

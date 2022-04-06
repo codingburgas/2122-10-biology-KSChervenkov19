@@ -3,37 +3,36 @@
 #include "statistics_store.h"
 // clang-format on
 
-json ss::dal::StatisticStore::toJson(const std::vector<ss::types::Cycle>& cycles)
+json ss::dal::StatisticStore::toJson(const std::vector<ss::types::Cycle> &cycles)
 {
-	return json();
+    return json();
 }
 
-std::vector<ss::types::Cycle> ss::dal::StatisticStore::fromJson(const json& j)
+std::vector<ss::types::Cycle> ss::dal::StatisticStore::fromJson(const json &j)
 {
-	return std::vector<ss::types::Cycle>();
+    return std::vector<ss::types::Cycle>();
 }
 
-std::string ss::dal::StatisticStore::generateTimeStamp(const time_t& time)
+std::string ss::dal::StatisticStore::generateTimeStamp(const time_t &time)
 {
-	return std::string();
+    return std::string();
 }
 
-void ss::dal::StatisticStore::saveStatisticTo(const std::string& fileName,
-	const std::vector<ss::types::Cycle>& cycles)
+void ss::dal::StatisticStore::saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles)
 {
-	return;
+    return;
 }
 
-//Uses current time as a timestamp
-void ss::dal::StatisticStore::saveStatisticTo(const std::vector<ss::types::Cycle>& cycles)
+// Uses current time as a timestamp
+void ss::dal::StatisticStore::saveStatisticTo(const std::vector<ss::types::Cycle> &cycles)
 {
-	time_t currentTime;
-	time(&currentTime);
+    time_t currentTime;
+    time(&currentTime);
 
-	saveStatisticTo(generateTimeStamp(currentTime), cycles);
+    saveStatisticTo(generateTimeStamp(currentTime), cycles);
 }
 
-std::vector<ss::types::Cycle> ss::dal::StatisticStore::getStatisticFrom(const std::string& fileName)
+std::vector<ss::types::Cycle> ss::dal::StatisticStore::getStatisticFrom(const std::string &fileName)
 {
-	return std::vector<ss::types::Cycle>();
+    return std::vector<ss::types::Cycle>();
 }
