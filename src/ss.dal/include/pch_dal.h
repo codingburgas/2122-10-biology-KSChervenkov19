@@ -9,8 +9,8 @@
 
 // add headers that you want to pre-compile here
 #include <ctime>
+#include <fstream>
 #include <stdexcept>
 #include <vector>
-#include <fstream>
 
 #endif // PCH_H_DAL
