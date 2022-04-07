@@ -3,9 +3,14 @@
 #include "statistics_store.h"
 // clang-format on
 
-void ss::dal::StatisticStore::saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles)
+void ss::dal::StatisticStore::saveStatisticTo(const std::string& fileName, const std::vector<ss::types::Cycle>& cycles)
 {
-    return;
+    json j(cycles);
+
+    std::ofstream out(fileName + ".json");
+    out << j;
+
+    out.close();
 }
 
 // Uses current time as a timestamp
