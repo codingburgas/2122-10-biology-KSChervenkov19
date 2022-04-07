@@ -14,7 +14,7 @@ void ss::dal::StatisticStore::saveStatisticTo(const std::string &fileName, const
 }
 
 // Uses current time as a timestamp
-void ss::dal::StatisticStore::saveStatisticTo(const std::vector<ss::types::Cycle>& cycles)
+void ss::dal::StatisticStore::saveStatisticTo(const std::vector<ss::types::Cycle> &cycles)
 {
     time_t currentTimeStamp = std::time(0);
 
