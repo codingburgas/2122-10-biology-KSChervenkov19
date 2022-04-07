@@ -8,17 +8,6 @@ namespace ss::dal
 {
 class StatisticStore
 {
-  private:
-    static void to_json(json &j, const ss::types::Trait &trait);
-
-    static void from_json(const json &j, ss::types::Trait &trait);
-
-    static void to_json(json &j, const ss::types::Cycle &cycle);
-
-    static void from_json(const json &j, ss::types::Cycle &cycle);
-
-    static std::string generateTimeStamp(const time_t &time);
-
   public:
     static void saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles);
 
