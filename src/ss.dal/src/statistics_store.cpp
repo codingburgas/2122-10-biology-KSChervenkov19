@@ -3,27 +3,6 @@
 #include "statistics_store.h"
 // clang-format on
 
-void ss::dal::StatisticStore::to_json(json &j, const ss::types::Trait &trait)
-{
-}
-
-void ss::dal::StatisticStore::from_json(const json &j, ss::types::Trait &trait)
-{
-}
-
-void ss::dal::StatisticStore::to_json(json &j, const ss::types::Cycle &cycle)
-{
-}
-
-void ss::dal::StatisticStore::from_json(const json &j, ss::types::Cycle &cycle)
-{
-}
-
-std::string ss::dal::StatisticStore::generateTimeStamp(const time_t &time)
-{
-    return std::string();
-}
-
 void ss::dal::StatisticStore::saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles)
 {
     return;
