@@ -21,7 +21,7 @@ void ss::dal::StatisticStore::saveStatisticTo(const std::vector<ss::types::Cycle
     saveStatisticTo(std::to_string(currentTimeStamp), cycles);
 }
 
-std::vector<ss::types::Cycle> ss::dal::StatisticStore::getStatisticFrom(const std::string& fileName)
+std::vector<ss::types::Cycle> ss::dal::StatisticStore::getStatisticFrom(const std::string &fileName)
 {
     std::ifstream in(fileName + ".json");
     json j;
