@@ -100,7 +100,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(SolutionDir)src\ss.dal\include;$(SolutionDir)src\ss.bll\include;$(SolutionDir)src\ss.pl\include;$(SolutionDir)src\ss.types\include;$(ProjectDir)include;$(SolutionDir)lib\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(SolutionDir)src\ss.dal\include;$(SolutionDir)src\ss.bll\include;$(SolutionDir)src\ss.pl\include;$(SolutionDir)src\ss.types\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch_unit_testing.h</PrecompiledHeaderFile>
@@ -116,7 +116,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(SolutionDir)src\ss.dal\include;$(SolutionDir)src\ss.bll\include;$(SolutionDir)src\ss.pl\include;$(SolutionDir)src\ss.types\include;$(ProjectDir)include;$(SolutionDir)lib\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(SolutionDir)src\ss.dal\include;$(SolutionDir)src\ss.bll\include;$(SolutionDir)src\ss.pl\include;$(SolutionDir)src\ss.types\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch_unit_testing.h</PrecompiledHeaderFile>
@@ -134,7 +134,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(SolutionDir)src\ss.dal\include;$(SolutionDir)src\ss.bll\include;$(SolutionDir)src\ss.pl\include;$(SolutionDir)src\ss.types\include;$(ProjectDir)include;$(SolutionDir)lib\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(SolutionDir)src\ss.dal\include;$(SolutionDir)src\ss.bll\include;$(SolutionDir)src\ss.pl\include;$(SolutionDir)src\ss.types\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch_unit_testing.h</PrecompiledHeaderFile>
@@ -154,7 +154,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(SolutionDir)src\ss.dal\include;$(SolutionDir)src\ss.bll\include;$(SolutionDir)src\ss.pl\include;$(SolutionDir)src\ss.types\include;$(ProjectDir)include;$(SolutionDir)lib\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(SolutionDir)src\ss.dal\include;$(SolutionDir)src\ss.bll\include;$(SolutionDir)src\ss.pl\include;$(SolutionDir)src\ss.types\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch_unit_testing.h</PrecompiledHeaderFile>

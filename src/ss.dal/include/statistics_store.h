@@ -9,9 +9,13 @@ namespace ss::dal
 class StatisticStore
 {
   private:
-    static json toJson(const std::vector<ss::types::Cycle> &cycles);
+    static void to_json(json& j, const ss::types::Trait& trait);
 
-    static std::vector<ss::types::Cycle> fromJson(const json &j);
+    static void from_json(const json& j, ss::types::Trait& trait);
+
+    static void to_json(json& j, const ss::types::Cycle& cycle);
+
+    static void from_json(const json& j, ss::types::Cycle& cycle);
 
     static std::string generateTimeStamp(const time_t &time);
 
