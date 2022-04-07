@@ -8,7 +8,7 @@
 #define PCH_H_TYPES
 
 // add headers that you want to pre-compile here
-#include <vector>
 #include "json.hpp"
+#include <vector>
 
 #endif // PCH_H_TYPES
