@@ -8,7 +8,7 @@ class Simulation : public Scene
 {
 public:
 
-	Simulation(std::string sceneName);
+	Simulation(std::string sceneName, SceneManager& sceneManager);
 
 	virtual void Start();
 
@@ -16,5 +16,5 @@ public:
 
 	void onExit();
 
-	SceneManager* sceneManager;
+	SceneManager& m_sceneManager;
 };

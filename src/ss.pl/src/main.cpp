@@ -14,18 +14,15 @@ int main()
 
     SetTargetFPS(60);
 
-    MainMenu* scene_MainMenu = new MainMenu("MainMenu");
-    Simulation* scene_Simulation = new Simulation("Simulation");
+    SceneManager sceneManager;
 
-    SceneManager* sceneManager = new SceneManager;
+    MainMenu* scene_MainMenu = new MainMenu("MainMenu", sceneManager);
+    Simulation* scene_Simulation = new Simulation("Simulation", sceneManager);
 
-    scene_MainMenu->sceneManager = sceneManager;
-    scene_Simulation->sceneManager = sceneManager;
+    sceneManager.addScene(scene_MainMenu);
+    sceneManager.addScene(scene_Simulation);
 
-    sceneManager->addScene(scene_MainMenu);
-    sceneManager->addScene(scene_Simulation);
-
-    sceneManager->setCurrentScene("MainMenu");
+    sceneManager.setCurrentScene("MainMenu");
 
 
     while (!WindowShouldClose())
@@ -36,7 +33,7 @@ int main()
         //cubePos.x += cubeSpeed * fElapsedTime;
 
         //timeScale = GuiSlider(Rectangle{ screenWidth/2 - 165.0f / 2.0f, screenHeight - 25.0f, 165, 20 }, "TIME SCALE", TextFormat("%0.1f", timeScale), timeScale, 0.5f, 100.0f);
-        sceneManager->updateScene();
+        sceneManager.updateScene();
     }
 
     delete scene_MainMenu;

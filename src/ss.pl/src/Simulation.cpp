@@ -1,6 +1,6 @@
 #include "Simulation.h"
 
-Simulation::Simulation(std::string sceneName) : Scene(sceneName)
+Simulation::Simulation(std::string sceneName, SceneManager& sceneManager) : Scene(sceneName), m_sceneManager(sceneManager)
 {
 
 }
@@ -26,7 +26,7 @@ void Simulation::Update() // called every frame
 
 	if (CheckCollisionPointRec(mousePos, { 500, 390, 250, 100 }) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 	{
-		sceneManager->setCurrentScene("MainMenu");
+		m_sceneManager.setCurrentScene("MainMenu");
 	}
 
 }

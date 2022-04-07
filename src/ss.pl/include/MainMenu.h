@@ -7,7 +7,7 @@ class MainMenu : public Scene
 {
 public:
 
-	MainMenu(std::string sceneName);
+	MainMenu(std::string sceneName, SceneManager& sceneManager);
 
 	void Start();
 
@@ -15,6 +15,6 @@ public:
 
 	void onExit();
 
-	SceneManager* sceneManager;
+	SceneManager& m_sceneManager;
 
 };
