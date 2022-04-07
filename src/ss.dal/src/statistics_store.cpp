@@ -14,12 +14,11 @@ void ss::dal::StatisticStore::saveStatisticTo(const std::string &fileName, const
 }
 
 // Uses current time as a timestamp
-void ss::dal::StatisticStore::saveStatisticTo(const std::vector<ss::types::Cycle> &cycles)
+void ss::dal::StatisticStore::saveStatisticTo(const std::vector<ss::types::Cycle>& cycles)
 {
-    time_t currentTime;
-    time(&currentTime);
+    time_t currentTimeStamp = std::time(0);
 
-    saveStatisticTo(generateTimeStamp(currentTime), cycles);
+    saveStatisticTo(std::to_string(currentTimeStamp), cycles);
 }
 
 std::vector<ss::types::Cycle> ss::dal::StatisticStore::getStatisticFrom(const std::string &fileName)
