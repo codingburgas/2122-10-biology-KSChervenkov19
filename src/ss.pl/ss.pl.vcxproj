@@ -163,10 +163,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MainMenu.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MainMenu.cpp" />
+    <ClCompile Include="src\SceneManager.cpp" />
+    <ClCompile Include="src\Simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ss.bll\ss.bll.vcxproj">
@@ -180,10 +180,10 @@
     <None Include="include\.gitkeep" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Simulation.h" />
+    <ClInclude Include="include\MainMenu.h" />
+    <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="include\SceneManager.h" />
+    <ClInclude Include="include\Simulation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

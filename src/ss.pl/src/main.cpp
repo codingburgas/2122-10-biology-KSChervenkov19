@@ -1,6 +1,6 @@
-#include "../SceneManager.h"
-#include "../MainMenu.h"
-#include "../Simulation.h"
+#include "SceneManager.h"
+#include "MainMenu.h"
+#include "Simulation.h"
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
