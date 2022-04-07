@@ -36,7 +36,4 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="src\ss.dal.unit_testing\json_test\json_test_1.json" />
-  </ItemGroup>
 </Project>

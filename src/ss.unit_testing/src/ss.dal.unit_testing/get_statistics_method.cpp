@@ -11,12 +11,16 @@ TEST_CLASS(statistics_getter)
 {
 public:
 
-        /*BEGIN_TEST_METHOD_ATTRIBUTE(getStatisticsFrom)
+        BEGIN_TEST_METHOD_ATTRIBUTE(getStatisticsFrom1)
         TEST_OWNER(L"MCBerberov19")
         TEST_PRIORITY("High")
-        END_TEST_METHOD_ATTRIBUTE()*/
-        TEST_METHOD(getStatisticsFrom)
+        END_TEST_METHOD_ATTRIBUTE()
+        TEST_METHOD(getStatisticsFrom1)
         {
+            std::ofstream out("Test.json");
+            out << "[{\"Alive\":50,\"Traits\":[{\"Sense\":2.5,\"Speed\":3.4000000953674316},{\"Sense\":10.0,\"Speed\":1.100000023841858}]},{\"Alive\":25,\"Traits\":[{\"Sense\":10.0,\"Speed\":1.100000023841858},{\"Sense\":2.5,\"Speed\":3.4000000953674316}]}]";
+            out.close();
+
             //Arrange
             std::vector<ss::types::Cycle> cycles;
             std::vector<ss::types::Cycle> expected = 
@@ -26,20 +30,10 @@ public:
             };
 
             //Act
-            cycles = ss::dal::StatisticStore::getStatisticFrom("json_test");
+            cycles = ss::dal::StatisticStore::getStatisticFrom("Test");
+            std::remove("Test.json");
 
             //Assert
-           /* for (size_t i = 0; i < cycles.size(); i++)
-            {
-                Assert::AreEqual(cycles[i].lastedEntities, expected[i].lastedEntities);
-
-                for (size_t j = 0; j < cycles[i].traitsInfo.size(); j++)
-                {
-                    Assert::AreEqual(expected[i].traitsInfo[j].sense, cycles[i].traitsInfo[j].sense, L"No");
-                    Assert::AreEqual(expected[i].traitsInfo[j].speed, cycles[i].traitsInfo[j].speed, L"No");
-                }
-            }*/
-            //Assert::AreEqual(1, 1);
-            Assert::AreSame(expected, cycles);
+            Assert::IsTrue(expected == cycles, L"Is not equal!");
         }
 };
