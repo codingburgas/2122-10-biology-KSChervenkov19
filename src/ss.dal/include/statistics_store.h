@@ -1,7 +1,7 @@
 #pragma once
 // clang-format off
 #include "pch_dal.h"
-#include "statistics.h"
+#include "simulation_data.h"
 // clang-format on
 
 using json = nlohmann::json;

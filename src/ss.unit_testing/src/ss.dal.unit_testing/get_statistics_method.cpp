@@ -1,7 +1,7 @@
 // clang-format off
 #include "pch_unit_testing.h"
 #include "CppUnitTest.h"
-#include "statistics.h"
+#include "simulation_data.h"
 #include "statistics_store.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
