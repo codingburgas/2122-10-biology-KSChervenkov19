@@ -14,7 +14,7 @@
     <ClInclude Include="include\pch_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\statistics.h">
+    <ClInclude Include="include\simulation_data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,8 +3,21 @@
 #include "pch_types.h"
 // clang-format on
 
+// TODO: Change name to simulation_data;
+
 namespace ss::types
 {
+struct SimulationInfo
+{
+	int width;
+	int height;
+	int cyclesCount;
+	int foodCount;
+	int startingEntityCount;
+	float initialSpeed;
+	float initialSense;
+};
+
 struct Trait
 {
     float sense;
