@@ -34,7 +34,7 @@ public:
 		std::remove("Test.json");
 
 		// Assert
-		Assert::IsTrue(expected == cycles, L"Is not equal!");
+		Assert::IsTrue(expected == cycles, L"Equality != =");
 	}
 };
 // clang-format on
