@@ -1,5 +1,5 @@
-#include "SceneManager.h"
 #include "MainMenu.h"
+#include "SceneManager.h"
 #include "Simulation.h"
 
 #define RAYGUI_IMPLEMENTATION
@@ -16,23 +16,23 @@ int main()
 
     SceneManager sceneManager;
 
-    MainMenu* scene_MainMenu = new MainMenu("MainMenu", sceneManager);
-    Simulation* scene_Simulation = new Simulation("Simulation", sceneManager);
+    MainMenu *scene_MainMenu = new MainMenu("MainMenu", sceneManager);
+    Simulation *scene_Simulation = new Simulation("Simulation", sceneManager);
 
     sceneManager.addScene(scene_MainMenu);
     sceneManager.addScene(scene_Simulation);
 
     sceneManager.setCurrentScene("MainMenu");
 
-
     while (!WindowShouldClose())
     {
 
-        //fElapsedTime = timeScale * GetFrameTime();
+        // fElapsedTime = timeScale * GetFrameTime();
 
-        //cubePos.x += cubeSpeed * fElapsedTime;
+        // cubePos.x += cubeSpeed * fElapsedTime;
 
-        //timeScale = GuiSlider(Rectangle{ screenWidth/2 - 165.0f / 2.0f, screenHeight - 25.0f, 165, 20 }, "TIME SCALE", TextFormat("%0.1f", timeScale), timeScale, 0.5f, 100.0f);
+        // timeScale = GuiSlider(Rectangle{ screenWidth/2 - 165.0f / 2.0f, screenHeight - 25.0f, 165, 20 }, "TIME
+        // SCALE", TextFormat("%0.1f", timeScale), timeScale, 0.5f, 100.0f);
         sceneManager.updateScene();
     }
 

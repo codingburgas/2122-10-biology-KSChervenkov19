@@ -10,7 +10,7 @@ struct Trait
     float sense;
     float speed;
 
-    auto operator<=>(const Trait&) const = default;
+    auto operator<=>(const Trait &) const = default;
 };
 
 struct Cycle
@@ -18,6 +18,6 @@ struct Cycle
     int lastedEntities;
     std::vector<Trait> traitsInfo; // traitsInfo.size() == lastedEntities
 
-    auto operator<=>(const Cycle&) const = default;
+    auto operator<=>(const Cycle &) const = default;
 };
 } // namespace ss::types

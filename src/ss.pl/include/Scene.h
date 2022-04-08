@@ -4,20 +4,18 @@
 
 class Scene
 {
-public:
+  public:
+    Scene(std::string sceneName) : m_sceneName(sceneName)
+    {
+    }
 
-	Scene(std::string sceneName) : m_sceneName(sceneName)
-	{
+    bool isSetUp = false;
 
-	}
+    std::string m_sceneName;
 
-	bool isSetUp = false;
+    virtual void Start() = 0;
 
-	std::string m_sceneName;
+    virtual void Update() = 0;
 
-	virtual void Start() = 0;
-
-	virtual void Update() = 0;
-
-	virtual void onExit() = 0;
+    virtual void onExit() = 0;
 };

@@ -1,20 +1,18 @@
 #pragma once
 
-#include <raylib.h>
 #include "SceneManager.h"
-
+#include <raylib.h>
 
 class Simulation : public Scene
 {
-public:
+  public:
+    Simulation(std::string sceneName, SceneManager &sceneManager);
 
-	Simulation(std::string sceneName, SceneManager& sceneManager);
+    virtual void Start();
 
-	virtual void Start();
+    virtual void Update();
 
-	virtual void Update();
+    void onExit();
 
-	void onExit();
-
-	SceneManager& m_sceneManager;
+    SceneManager &m_sceneManager;
 };

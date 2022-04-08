@@ -1,20 +1,18 @@
 #pragma once
 
-#include <raylib.h>
 #include "SceneManager.h"
+#include <raylib.h>
 
 class MainMenu : public Scene
 {
-public:
+  public:
+    MainMenu(std::string sceneName, SceneManager &sceneManager);
 
-	MainMenu(std::string sceneName, SceneManager& sceneManager);
+    void Start();
 
-	void Start();
+    void Update();
 
-	void Update();
+    void onExit();
 
-	void onExit();
-
-	SceneManager& m_sceneManager;
-
+    SceneManager &m_sceneManager;
 };
