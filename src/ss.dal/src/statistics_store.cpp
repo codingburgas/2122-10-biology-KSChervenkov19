@@ -27,9 +27,12 @@ void ss::types::from_json(const json &j, ss::types::Cycle &cycle)
 
 void ss::dal::StatisticStore::saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles)
 {
-    json j(cycles);
-
     std::ofstream out(fileName + ".json");
+    
+    if (!out.is_open())
+        throw std::runtime_error("File: " + fileName + " cannot be opened!");
+
+    json j(cycles);
     out << j;
 
     out.close();
@@ -46,6 +49,10 @@ void ss::dal::StatisticStore::saveStatisticTo(const std::vector<ss::types::Cycle
 std::vector<ss::types::Cycle> ss::dal::StatisticStore::getStatisticFrom(const std::string &fileName)
 {
     std::ifstream in(fileName + ".json");
+
+    if (!in.is_open()) 
+        throw std::runtime_error("File: " + fileName + " cannot be opened!");
+
     json j;
     in >> j;
 
