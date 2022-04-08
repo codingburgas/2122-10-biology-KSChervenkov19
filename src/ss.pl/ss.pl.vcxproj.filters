@@ -25,9 +25,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="include\.gitkeep" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="include\MainMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>

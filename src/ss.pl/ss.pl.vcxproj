@@ -177,9 +177,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="include\.gitkeep" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="include\MainMenu.h" />
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\SceneManager.h" />
