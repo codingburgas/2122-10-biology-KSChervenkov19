@@ -9,13 +9,13 @@ namespace ss::types
 {
 struct SimulationInfo
 {
-	int width;
-	int height;
-	int cyclesCount;
-	int foodCount;
-	int startingEntityCount;
-	float initialSpeed;
-	float initialSense;
+    int width;
+    int height;
+    int cyclesCount;
+    int foodCount;
+    int startingEntityCount;
+    float initialSpeed;
+    float initialSense;
 };
 
 struct Trait
