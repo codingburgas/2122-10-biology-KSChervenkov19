@@ -15,4 +15,6 @@ class MainMenu : public Scene
     void onExit();
 
     SceneManager &m_sceneManager;
+
+    Font font;
 };

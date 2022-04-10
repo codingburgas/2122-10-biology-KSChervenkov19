@@ -6,6 +6,7 @@ MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager) : Scene(sc
 
 void MainMenu::Start() // called once, at the start of the scene
 {
+    font = LoadFontEx("../../assets/OpenSans.ttf", 96, 0, 0);
 }
 
 void MainMenu::Update() // called every frame
@@ -13,17 +14,27 @@ void MainMenu::Update() // called every frame
     BeginDrawing();
     ClearBackground(WHITE);
 
-    DrawRectangle(500, 390, 250, 100, BLUE);
+    // DrawRectangle(560, 250, 380, 80, BLUE);
 
-    DrawText("MAIN MENU", 1500 / 2, 980 / 3, 15, BLACK);
+    DrawTextEx(font, "Simulation", { 560, 250 }, 80, 10, BLACK);
+    DrawTextEx(font, "Graphs", { 628, 450 }, 80, 10, BLACK);
+    DrawTextEx(font, "Exit", { 685, 650 }, 80, 10, BLACK);
 
     EndDrawing();
 
     Vector2 mousePos = GetMousePosition();
 
-    if (CheckCollisionPointRec(mousePos, {500, 390, 250, 100}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    if (CheckCollisionPointRec(mousePos, { 560, 250, 380, 80 }))
     {
-        m_sceneManager.setCurrentScene("Simulation");
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        {
+            m_sceneManager.setCurrentScene("Simulation");
+        }
+        SetMouseCursor(4);
+    }
+    else
+    {
+        SetMouseCursor(MOUSE_CURSOR_DEFAULT);
     }
 }
 
