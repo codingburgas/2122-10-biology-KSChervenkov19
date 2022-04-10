@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SceneManager.h"
+#include "sceneManager.h"
 #include <raylib.h>
 
 class Simulation : public Scene

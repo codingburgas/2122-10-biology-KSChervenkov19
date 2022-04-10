@@ -1,4 +1,4 @@
-#include "SceneManager.h"
+#include "sceneManager.h"
 
 void SceneManager::setCurrentScene(std::string sceneName)
 {

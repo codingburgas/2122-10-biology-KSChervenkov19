@@ -1,4 +1,4 @@
-#include "MainMenu.h"
+#include "mainMenu.h"
 
 MainMenu::MainMenu(std::string sceneName, SceneManager& sceneManager) : Scene(sceneName), m_sceneManager(sceneManager)
 {

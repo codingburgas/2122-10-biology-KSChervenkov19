@@ -164,9 +164,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\MainMenu.cpp" />
+    <ClCompile Include="src\mainMenu.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
-    <ClCompile Include="src\Simulation.cpp" />
+    <ClCompile Include="src\simulator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ss.bll\ss.bll.vcxproj">
@@ -177,10 +177,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\MainMenu.h" />
+    <ClInclude Include="include\mainMenu.h" />
     <ClInclude Include="include\Scene.h" />
-    <ClInclude Include="include\SceneManager.h" />
-    <ClInclude Include="include\Simulation.h" />
+    <ClInclude Include="include\sceneManager.h" />
+    <ClInclude Include="include\simulator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

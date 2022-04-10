@@ -1,4 +1,4 @@
-#include "Simulation.h"
+#include "simulator.h"
 
 Simulation::Simulation(std::string sceneName, SceneManager &sceneManager)
     : Scene(sceneName), m_sceneManager(sceneManager)
