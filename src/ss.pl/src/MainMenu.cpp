@@ -7,24 +7,23 @@ MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager) : Scene(sc
 void MainMenu::Start() // called once, at the start of the scene
 {
     font = LoadFontEx("../../assets/OpenSans.ttf", 96, 0, 0);
+    buttonTexture = LoadTexture("../../assets/button.png");
+    logoTexture = LoadTexture("../../assets/Logo_Transparent_Light.png");
 }
 
 void MainMenu::Update() // called every frame
 {
     BeginDrawing();
-    ClearBackground(WHITE);
+    ClearBackground({ 4, 12, 32, 255 });
+    //ClearBackground(WHITE);
 
-    // DrawRectangle(560, 250, 380, 80, BLUE);
-
-    DrawTextEx(font, "Simulation", { 560, 250 }, 80, 10, BLACK);
-    DrawTextEx(font, "Graphs", { 628, 450 }, 80, 10, BLACK);
-    DrawTextEx(font, "Exit", { 685, 650 }, 80, 10, BLACK);
-
+    DrawTexture(buttonTexture, 525, 736, WHITE);
+    DrawTexture(logoTexture, 310, 219, WHITE);
     EndDrawing();
 
     Vector2 mousePos = GetMousePosition();
 
-    if (CheckCollisionPointRec(mousePos, { 560, 250, 380, 80 }))
+    if (CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(buttonTexture.width), static_cast<float>(buttonTexture.height) }))
     {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
@@ -41,4 +40,7 @@ void MainMenu::Update() // called every frame
 void MainMenu::onExit() // called once, at the end of the scene
 {
     isSetUp = false;
+    UnloadFont(font);
+    UnloadTexture(buttonTexture);
+    UnloadTexture(logoTexture);
 }
