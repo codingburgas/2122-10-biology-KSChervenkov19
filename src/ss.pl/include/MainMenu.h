@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SceneManager.h"
+#include "elements.h"
 #include <raylib.h>
 
 class MainMenu : public Scene
@@ -8,7 +9,8 @@ class MainMenu : public Scene
 private:
     Texture2D simulatorButton_Texture;
     Texture2D logo_Texture;
-    Texture2D graphsContainer_Texture;
+    //Texture2D graphsContainer_Texture;
+    Container* graphsContainer;
     Texture2D graphsMenu_Texture;
     bool graphsIsAnimatingIn = false;
     bool graphsIsAnimatingOut = false;
