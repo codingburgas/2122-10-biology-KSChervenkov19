@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ss.pl", "src\ss.pl\ss.pl.vcxproj", "{D943C87D-AB8F-422F-8529-FDAD8A088639}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ss.types", "src\ss.types\ss.types.vcxproj", "{0B62742B-5050-4702-A573-8D9D1F3B1A81}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ss.dal", "src\ss.dal\ss.dal.vcxproj", "{ED3CAF12-B7A0-44BA-9626-622A3A7FC696}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ss.pl", "src\ss.pl\ss.pl.vcxproj", "{D943C87D-AB8F-422F-8529-FDAD8A088639}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ss.bll", "src\ss.bll\ss.bll.vcxproj", "{43D6CBB3-6267-4534-B03D-49B8BA9CE038}"
 EndProject
