@@ -8,7 +8,7 @@ using json = nlohmann::json;
 
 namespace ss::dal
 {
-class StatisticStore
+class StatisticsStore
 {
   public:
       static std::vector<std::string> getStatisticsNames();

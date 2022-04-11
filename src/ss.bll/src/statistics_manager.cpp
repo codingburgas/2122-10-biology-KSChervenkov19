@@ -4,23 +4,23 @@
 #include "statistics_store.h"
 // clang-format on
 
-std::vector<std::string> ss::bll::statistics::StatisticManager::getStatisticsNames()
+std::vector<std::string> ss::bll::statistics::StatisticsManager::getStatisticsNames()
 {
-	return ss::dal::StatisticStore::getStatisticsNames();
+	return ss::dal::StatisticsStore::getStatisticsNames();
 }
 
-void ss::bll::statistics::StatisticManager::saveStatistic(const std::string& fileName,
+void ss::bll::statistics::StatisticsManager::saveStatistic(const std::string& fileName,
 	const std::vector<ss::types::Cycle>& cycles)
 {
-	ss::dal::StatisticStore::saveStatisticTo(fileName, cycles);
+	ss::dal::StatisticsStore::saveStatisticTo(fileName, cycles);
 }
 
-void ss::bll::statistics::StatisticManager::saveStatistic(const std::vector<ss::types::Cycle>& cycles)
+void ss::bll::statistics::StatisticsManager::saveStatistic(const std::vector<ss::types::Cycle>& cycles)
 {
-	ss::dal::StatisticStore::saveStatisticTo(cycles);
+	ss::dal::StatisticsStore::saveStatisticTo(cycles);
 }
 
-std::vector<ss::types::Cycle> ss::bll::statistics::StatisticManager::getStatisticFrom(const std::string& fileName)
+std::vector<ss::types::Cycle> ss::bll::statistics::StatisticsManager::getStatisticFrom(const std::string& fileName)
 {
-	return ss::dal::StatisticStore::getStatisticFrom(fileName);
+	return ss::dal::StatisticsStore::getStatisticFrom(fileName);
 }

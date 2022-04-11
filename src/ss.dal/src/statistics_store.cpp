@@ -25,7 +25,7 @@ void ss::types::from_json(const json &j, ss::types::Cycle &cycle)
     j.at("Traits").get_to(cycle.traitsInfo);
 }
 
-std::vector<std::string> ss::dal::StatisticStore::getStatisticsNames()
+std::vector<std::string> ss::dal::StatisticsStore::getStatisticsNames()
 {
     std::vector<std::string> fileNames;
     std::string path = "/2122-10-biology-KSChervenkov19\\src\\ss.pl";
@@ -43,7 +43,7 @@ std::vector<std::string> ss::dal::StatisticStore::getStatisticsNames()
     return fileNames;
 }
 
-void ss::dal::StatisticStore::saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles)
+void ss::dal::StatisticsStore::saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles)
 {
     std::ofstream out(fileName + ".json");
 
@@ -57,14 +57,14 @@ void ss::dal::StatisticStore::saveStatisticTo(const std::string &fileName, const
 }
 
 // Uses current time as a timestamp
-void ss::dal::StatisticStore::saveStatisticTo(const std::vector<ss::types::Cycle> &cycles)
+void ss::dal::StatisticsStore::saveStatisticTo(const std::vector<ss::types::Cycle> &cycles)
 {
     time_t currentTimeStamp = std::time(0);
 
     saveStatisticTo(std::to_string(currentTimeStamp), cycles);
 }
 
-std::vector<ss::types::Cycle> ss::dal::StatisticStore::getStatisticFrom(const std::string &fileName)
+std::vector<ss::types::Cycle> ss::dal::StatisticsStore::getStatisticFrom(const std::string &fileName)
 {
     std::ifstream in(fileName + ".json");
 

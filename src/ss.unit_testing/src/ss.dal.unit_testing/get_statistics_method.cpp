@@ -33,7 +33,7 @@ public:
 		};
 
 		// Act
-		cycles = ss::dal::StatisticStore::getStatisticFrom("Test");
+		cycles = ss::dal::StatisticsStore::getStatisticFrom("Test");
 		std::remove("Test.json");
 
 		// Assert

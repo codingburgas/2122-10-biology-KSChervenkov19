@@ -6,7 +6,7 @@
 
 namespace ss::bll::statistics
 {
-	class StatisticManager
+	class StatisticsManager
 	{
 	public:
 		static std::vector<std::string> getStatisticsNames();
