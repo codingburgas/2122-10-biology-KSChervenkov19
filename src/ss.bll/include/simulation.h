@@ -3,7 +3,7 @@
 #include "pch_bll.h"
 #include "simulation_data.h"
 
-namespace ss::bll
+namespace ss::bll::simulation
 {
 class Simulation
 {
