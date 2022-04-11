@@ -11,10 +11,10 @@ namespace ss::bll::statistics
 	public:
 		static std::vector<std::string> getStatisticsNames();
 
-		static void saveStatistic(const std::vector<ss::types::Cycle>& cycles);
-
 		static void saveStatistic(const std::string& fileName, const std::vector<ss::types::Cycle>& cycles);
 
-		static std::vector<ss::types::Cycle> getStatistic(const std::string& fileName);
+		static void saveStatistic(const std::vector<ss::types::Cycle>& cycles);
+
+		static std::vector<ss::types::Cycle> getStatisticFrom(const std::string& fileName);
 	};
 }
