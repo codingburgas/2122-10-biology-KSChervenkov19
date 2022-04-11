@@ -25,6 +25,24 @@ void ss::types::from_json(const json &j, ss::types::Cycle &cycle)
     j.at("Traits").get_to(cycle.traitsInfo);
 }
 
+std::vector<std::string> ss::dal::StatisticStore::getStatisticsNames()
+{
+    std::vector<std::string> fileNames;
+    std::string path = "/2122-10-biology-KSChervenkov19\\src\\ss.pl";
+    std::string file;
+
+    for (const auto& entry : std::filesystem::directory_iterator(path))
+    {
+        if (entry.path().extension().string() == ".json")
+        {
+            file = entry.path().filename().string();
+            fileNames.push_back(file.substr(0, file.find(".json")));
+        }
+    }
+
+    return fileNames;
+}
+
 void ss::dal::StatisticStore::saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles)
 {
     std::ofstream out(fileName + ".json");
