@@ -53,7 +53,8 @@ float MainMenu::calculateGraphsContainer()
 
 void MainMenu::animateGraphsContainer()
 {
-    /*if (graphsIsAnimatingIn)
+    /*
+    if (graphsIsAnimatingIn)
     {
         graphsContainerPos += calculateGraphsContainer();
     }
@@ -73,9 +74,11 @@ void MainMenu::animateGraphsContainer()
         graphsIsAnimatingOut = false;
         drag = 3000;
         graphsContainerPos = -887;
-    }*/
+    }
+    */
 }
 
+// clang-format off
 auto MainMenu::collisionCoordiantes()
 {
     return CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) }) 
@@ -88,21 +91,17 @@ void MainMenu::checkCollision()
 
     if (collisionCoordiantes())
     {
-        SetMouseCursor(4);
+        SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
     }
     else
     {
         SetMouseCursor(MOUSE_CURSOR_DEFAULT);
     }
 
-    if (CheckCollisionPointRec(mousePos, { 57, 53, static_cast<float>(graphsMenu_Texture.width),
-                                          static_cast<float>(graphsMenu_Texture.height) }) &&
-        !graphsIsAnimatingIn && !graphsIsAnimatingOut)
+    if (CheckCollisionPointRec(mousePos, { 57, 53, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) })
+        && !graphsIsAnimatingIn && !graphsIsAnimatingOut && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-        {
-            graphsIsAnimatingIn = true;
-        }
+        graphsIsAnimatingIn = true;
     }
 
     if (CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) }) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -110,13 +109,15 @@ void MainMenu::checkCollision()
         m_sceneManager.setCurrentScene("Simulation");
     }
 
-    /*if (!CheckCollisionPointRec(mousePos, { 0, 0, static_cast<float>(graphsContainer_Texture.width),
-    static_cast<float>(graphsContainer_Texture.height) }) && graphsIsOut && !graphsIsAnimatingIn &&
-    !graphsIsAnimatingOut)
+    /*
+    if (!CheckCollisionPointRec(mousePos, { 0, 0, static_cast<float>(graphsContainer_Texture.width), static_cast<float>(graphsContainer_Texture.height) })
+        && graphsIsOut && !graphsIsAnimatingIn && !graphsIsAnimatingOut)
     {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             graphsIsAnimatingOut = true;
         }
-    }*/
+    }
+    */
 }
+// clang-format on
