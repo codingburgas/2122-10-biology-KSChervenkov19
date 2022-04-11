@@ -11,6 +11,8 @@ void MainMenu::Start() // called once, at the start of the scene
     logo_Texture = LoadTexture("../../assets/Logo_Transparent_Light.png");
     graphsContainer = new Container("../../assets/assets_MainMenu/Graphs_Container.png", {0, 0});
     graphsMenu_Texture = LoadTexture("../../assets/assets_MainMenu/Graphs_Button.png");
+    //MainMenu::m_theme = "darkTheme";
+    //std::cout << MainMenu::m_theme;
 }
 
 void MainMenu::Update() // called every frame
@@ -48,10 +50,34 @@ void MainMenu::Update() // called every frame
     DrawTexture(graphsMenu_Texture, 57, 53, WHITE);
     EndDrawing();
 
-    Vector2 mousePos = GetMousePosition();
+    checkCollision();
+}
 
-    if (CheckCollisionPointRec(mousePos, {525, 736, static_cast<float>(simulatorButton_Texture.width),
-                                          static_cast<float>(simulatorButton_Texture.height)}))
+void MainMenu::onExit() // called once, at the end of the scene
+{
+    isSetUp = false;
+    UnloadFont(font);
+    UnloadTexture(simulatorButton_Texture);
+    UnloadTexture(logo_Texture);
+    /*UnloadTexture(graphsContainer_Texture);*/
+    UnloadTexture(graphsMenu_Texture);
+    graphsContainer->unloadTexture();
+    delete graphsContainer;
+}
+
+float MainMenu::animateGraphsContainer()
+{
+    float animationCalc = GetFrameTime() * drag;
+    drag *= .9441F;
+    return animationCalc;
+}
+
+void MainMenu::checkCollision()
+{
+    mousePos = GetMousePosition();
+
+    if (CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width),
+                                          static_cast<float>(simulatorButton_Texture.height) }))
     {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
@@ -64,8 +90,8 @@ void MainMenu::Update() // called every frame
         SetMouseCursor(MOUSE_CURSOR_DEFAULT);
     }
 
-    if (CheckCollisionPointRec(mousePos, {57, 53, static_cast<float>(graphsMenu_Texture.width),
-                                          static_cast<float>(graphsMenu_Texture.height)}) &&
+    if (CheckCollisionPointRec(mousePos, { 57, 53, static_cast<float>(graphsMenu_Texture.width),
+                                          static_cast<float>(graphsMenu_Texture.height) }) &&
         !graphsIsAnimatingIn && !graphsIsAnimatingOut)
     {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -93,23 +119,4 @@ void MainMenu::Update() // called every frame
     {
         SetMouseCursor(MOUSE_CURSOR_DEFAULT);
     }*/
-}
-
-void MainMenu::onExit() // called once, at the end of the scene
-{
-    isSetUp = false;
-    UnloadFont(font);
-    UnloadTexture(simulatorButton_Texture);
-    UnloadTexture(logo_Texture);
-    /*UnloadTexture(graphsContainer_Texture);*/
-    UnloadTexture(graphsMenu_Texture);
-    graphsContainer->unloadTexture();
-    delete graphsContainer;
-}
-
-float MainMenu::animateGraphsContainer()
-{
-    float animationCalc = GetFrameTime() * drag;
-    drag *= .9441F;
-    return animationCalc;
 }

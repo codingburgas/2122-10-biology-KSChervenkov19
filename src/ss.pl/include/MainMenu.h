@@ -7,6 +7,7 @@
 class MainMenu : public Scene
 {
   private:
+    Vector2 mousePos;
     Texture2D simulatorButton_Texture;
     Texture2D logo_Texture;
     // Texture2D graphsContainer_Texture;
@@ -19,6 +20,8 @@ class MainMenu : public Scene
     float drag = 3000;
 
     float animateGraphsContainer();
+
+    void checkCollision();
 
   public:
     MainMenu(std::string sceneName, SceneManager &sceneManager);
