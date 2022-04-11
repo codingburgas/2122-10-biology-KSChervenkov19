@@ -19,11 +19,10 @@ void MainMenu::Update() // called every frame
 {
     BeginDrawing();
     ClearBackground({4, 12, 32, 255});
-    // ClearBackground(WHITE);
 
     DrawTexture(simulatorButton_Texture, 525, 736, WHITE);
     DrawTexture(logo_Texture, 310, 219, WHITE);
-    /*DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);*/
+    //DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
     graphsContainer->display();
     DrawTexture(graphsMenu_Texture, 57, 53, WHITE);
     EndDrawing();
@@ -77,17 +76,18 @@ void MainMenu::animateGraphsContainer()
     }*/
 }
 
+auto MainMenu::collisionCoordiantes()
+{
+    return CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) }) 
+        || CheckCollisionPointRec(mousePos, { 57, 53, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) });
+}
+
 void MainMenu::checkCollision()
 {
     mousePos = GetMousePosition();
 
-    if (CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width),
-                                          static_cast<float>(simulatorButton_Texture.height) }))
+    if (collisionCoordiantes())
     {
-        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-        {
-            m_sceneManager.setCurrentScene("Simulation");
-        }
         SetMouseCursor(4);
     }
     else
@@ -103,11 +103,11 @@ void MainMenu::checkCollision()
         {
             graphsIsAnimatingIn = true;
         }
-        SetMouseCursor(4);
     }
-    else
+
+    if (CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) }) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+        m_sceneManager.setCurrentScene("Simulation");
     }
 
     /*if (!CheckCollisionPointRec(mousePos, { 0, 0, static_cast<float>(graphsContainer_Texture.width),
@@ -118,10 +118,5 @@ void MainMenu::checkCollision()
         {
             graphsIsAnimatingOut = true;
         }
-        SetMouseCursor(4);
-    }
-    else
-    {
-        SetMouseCursor(MOUSE_CURSOR_DEFAULT);
     }*/
 }

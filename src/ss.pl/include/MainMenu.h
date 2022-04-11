@@ -25,6 +25,8 @@ class MainMenu : public Scene
 
     void animateGraphsContainer();
 
+    auto collisionCoordiantes();
+
   public:
     MainMenu(std::string sceneName, SceneManager &sceneManager);
 
