@@ -11,6 +11,7 @@ void MainMenu::Start() // called once, at the start of the scene
     logo_Texture = LoadTexture("../../assets/Logo_Transparent_Light.png");
     graphsContainer = new Container("../../assets/assets_MainMenu/Graphs_Container.png", {0, 0});
     graphsMenu_Texture = LoadTexture("../../assets/assets_MainMenu/Graphs_Button.png");
+    themeButton_Texture = LoadTexture("../../assets/assets_MainMenu/Theme_Button.png");
     //MainMenu::m_theme = "darkTheme";
     //std::cout << MainMenu::m_theme;
 }
@@ -18,13 +19,16 @@ void MainMenu::Start() // called once, at the start of the scene
 void MainMenu::Update() // called every frame
 {
     BeginDrawing();
+
     ClearBackground({4, 12, 32, 255});
 
     DrawTexture(simulatorButton_Texture, 525, 736, WHITE);
     DrawTexture(logo_Texture, 310, 219, WHITE);
     //DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
-    graphsContainer->display();
+    //graphsContainer->display();
     DrawTexture(graphsMenu_Texture, 57, 53, WHITE);
+    DrawTexture(themeButton_Texture, 1386, 41, WHITE);
+
     EndDrawing();
 
     checkCollision();
@@ -81,8 +85,9 @@ void MainMenu::animateGraphsContainer()
 // clang-format off
 auto MainMenu::collisionCoordiantes()
 {
-    return CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) }) 
-        || CheckCollisionPointRec(mousePos, { 57, 53, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) });
+    return CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) })
+        || CheckCollisionPointRec(mousePos, { 57, 53, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) })
+        || CheckCollisionPointRec(mousePos, { 1386, 41, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) });
 }
 
 void MainMenu::checkCollision()
@@ -104,9 +109,16 @@ void MainMenu::checkCollision()
         graphsIsAnimatingIn = true;
     }
 
-    if (CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) }) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    if (CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) }) 
+        && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         m_sceneManager.setCurrentScene("Simulation");
+    }
+
+    if (CheckCollisionPointRec(mousePos, { 1386, 41, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) })
+        && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        std::cout << "Theme Switched!";
     }
 
     /*

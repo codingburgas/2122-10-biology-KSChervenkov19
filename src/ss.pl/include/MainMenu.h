@@ -13,6 +13,8 @@ class MainMenu : public Scene
     // Texture2D graphsContainer_Texture;
     Container *graphsContainer;
     Texture2D graphsMenu_Texture;
+    Texture2D themeButton_Texture;
+
     bool graphsIsAnimatingIn = false;
     bool graphsIsAnimatingOut = false;
     bool graphsIsOut = false;
