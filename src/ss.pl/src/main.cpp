@@ -16,11 +16,11 @@ int main()
 
     SceneManager sceneManager;
 
-    MainMenu *scene_MainMenu = new MainMenu("MainMenu", sceneManager);
-    Simulation *scene_Simulation = new Simulation("Simulation", sceneManager);
+    MainMenu scene_MainMenu { "MainMenu", sceneManager };
+    Simulation scene_Simulation { "Simulation", sceneManager };
 
-    sceneManager.addScene(scene_MainMenu);
-    sceneManager.addScene(scene_Simulation);
+    sceneManager.addScene(&scene_MainMenu);
+    sceneManager.addScene(&scene_Simulation);
 
     sceneManager.setCurrentScene("MainMenu");
 
@@ -35,9 +35,6 @@ int main()
         // SCALE", TextFormat("%0.1f", timeScale), timeScale, 0.5f, 100.0f);
         sceneManager.updateScene();
     }
-
-    delete scene_MainMenu;
-    delete scene_Simulation;
 
     CloseWindow();
 }
