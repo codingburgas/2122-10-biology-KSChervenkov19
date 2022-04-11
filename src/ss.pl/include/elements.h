@@ -5,20 +5,19 @@
 
 enum ANIMATION
 {
-	ENTER,
-	HIDE,
+    ENTER,
+    HIDE,
 };
 
 class Container
 {
-private:
+  private:
+  public:
+    Container(const char *textureDest, Vector2 pos);
 
-public:
-	Container(const char* textureDest, Vector2 pos);
-
-	Texture2D texture;
-	Vector2 m_pos;
-	void display();
-	void triggerAnimation(ANIMATION animation);
-	void unloadTexture();
+    Texture2D texture;
+    Vector2 m_pos;
+    void display();
+    void triggerAnimation(ANIMATION animation);
+    void unloadTexture();
 };

@@ -6,11 +6,11 @@
 
 class MainMenu : public Scene
 {
-private:
+  private:
     Texture2D simulatorButton_Texture;
     Texture2D logo_Texture;
-    //Texture2D graphsContainer_Texture;
-    Container* graphsContainer;
+    // Texture2D graphsContainer_Texture;
+    Container *graphsContainer;
     Texture2D graphsMenu_Texture;
     bool graphsIsAnimatingIn = false;
     bool graphsIsAnimatingOut = false;
@@ -20,8 +20,8 @@ private:
 
     float animateGraphsContainer();
 
-public:
-    MainMenu(std::string sceneName, SceneManager& sceneManager);
+  public:
+    MainMenu(std::string sceneName, SceneManager &sceneManager);
 
     void Start();
 
@@ -29,7 +29,7 @@ public:
 
     void onExit();
 
-    SceneManager& m_sceneManager;
+    SceneManager &m_sceneManager;
 
     Font font;
 };
