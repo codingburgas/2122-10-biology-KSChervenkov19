@@ -19,9 +19,11 @@ class MainMenu : public Scene
     float graphsContainerPos = -887;
     float drag = 3000;
 
-    float animateGraphsContainer();
+    float calculateGraphsContainer();
 
     void checkCollision();
+
+    void animateGraphsContainer();
 
   public:
     MainMenu(std::string sceneName, SceneManager &sceneManager);

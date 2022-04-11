@@ -17,28 +17,6 @@ void MainMenu::Start() // called once, at the start of the scene
 
 void MainMenu::Update() // called every frame
 {
-    /*if (graphsIsAnimatingIn)
-    {
-        graphsContainerPos += animateGraphsContainer();
-    }
-    if (graphsIsAnimatingOut)
-    {
-        graphsContainerPos -= animateGraphsContainer();
-    }
-    if (graphsContainerPos >= 0)
-    {
-        graphsIsAnimatingIn = false;
-        drag = 3000;
-        graphsContainerPos = 0;
-        graphsIsOut = true;
-    }
-    if (graphsContainerPos <= -887)
-    {
-        graphsIsAnimatingOut = false;
-        drag = 3000;
-        graphsContainerPos = -887;
-    }*/
-
     BeginDrawing();
     ClearBackground({4, 12, 32, 255});
     // ClearBackground(WHITE);
@@ -51,6 +29,8 @@ void MainMenu::Update() // called every frame
     EndDrawing();
 
     checkCollision();
+
+    animateGraphsContainer();
 }
 
 void MainMenu::onExit() // called once, at the end of the scene
@@ -65,11 +45,36 @@ void MainMenu::onExit() // called once, at the end of the scene
     delete graphsContainer;
 }
 
-float MainMenu::animateGraphsContainer()
+float MainMenu::calculateGraphsContainer()
 {
     float animationCalc = GetFrameTime() * drag;
     drag *= .9441F;
     return animationCalc;
+}
+
+void MainMenu::animateGraphsContainer()
+{
+    /*if (graphsIsAnimatingIn)
+    {
+        graphsContainerPos += calculateGraphsContainer();
+    }
+    if (graphsIsAnimatingOut)
+    {
+        graphsContainerPos -= calculateGraphsContainer();
+    }
+    if (graphsContainerPos >= 0)
+    {
+        graphsIsAnimatingIn = false;
+        drag = 3000;
+        graphsContainerPos = 0;
+        graphsIsOut = true;
+    }
+    if (graphsContainerPos <= -887)
+    {
+        graphsIsAnimatingOut = false;
+        drag = 3000;
+        graphsContainerPos = -887;
+    }*/
 }
 
 void MainMenu::checkCollision()
