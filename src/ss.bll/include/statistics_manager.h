@@ -4,7 +4,7 @@
 #include "simulation_data.h"
 // clang-format on
 
-namespace ss::dal::statistics
+namespace ss::bll::statistics
 {
 	class StatisticManager
 	{

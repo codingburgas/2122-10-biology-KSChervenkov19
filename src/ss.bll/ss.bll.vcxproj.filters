@@ -17,12 +17,18 @@
     <ClInclude Include="include\simulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\statistics_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pch_bll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\simulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\statistics_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
