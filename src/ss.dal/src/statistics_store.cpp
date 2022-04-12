@@ -28,7 +28,7 @@ void ss::types::from_json(const json &j, ss::types::Cycle &cycle)
 std::vector<std::string> ss::dal::StatisticsStore::getStatisticsNames()
 {
     std::vector<std::string> fileNames;
-    const std::string path = R"(/2122-10-biology-KSChervenkov19\src\ss.pl)";
+    const std::string path = R"(/2122-10-biology-KSChervenkov19\statistics)";
 
     for (std::string file; const auto &entry : std::filesystem::directory_iterator(path))
     {
@@ -65,7 +65,7 @@ void ss::dal::StatisticsStore::saveStatisticTo(const std::vector<ss::types::Cycl
 
 std::vector<ss::types::Cycle> ss::dal::StatisticsStore::getStatisticFrom(const std::string &fileName)
 {
-    std::ifstream in(fileName + ".json");
+    std::ifstream in("/2122-10-biology-KSChervenkov19\\statistics\\" + fileName + ".json");
 
     if (!in.is_open())
         throw std::runtime_error("File: " + fileName + " cannot be opened!");

@@ -16,7 +16,7 @@ public:
 		END_TEST_METHOD_ATTRIBUTE()
 		TEST_METHOD(getStatisticsFrom1)
 	{
-		std::ofstream out("Test.json");
+		std::ofstream out(R"(/2122-10-biology-KSChervenkov19\statistics\Test0.json)");
 		if (out.is_open())
 		{
 			out << "[{\"Alive\":50,\"Traits\":[{\"Sense\":2.5,\"Speed\":3.4000000953674316},{\"Sense\":10.0,\"Speed\":1."
@@ -33,8 +33,8 @@ public:
 		};
 
 		// Act
-		cycles = ss::dal::StatisticsStore::getStatisticFrom("Test");
-		std::remove("Test.json");
+		cycles = ss::dal::StatisticsStore::getStatisticFrom("Test0");
+		//std::remove("Test0.json");
 
 		// Assert
 		Assert::IsTrue(expected == cycles, L"Equality != =");

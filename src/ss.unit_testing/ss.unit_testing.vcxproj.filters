@@ -30,6 +30,9 @@
     <ClCompile Include="src\ss.dal.unit_testing\get_statistics_method.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ss.dal.unit_testing\get_statistics_files_names.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\pch_unit_testing.h">
