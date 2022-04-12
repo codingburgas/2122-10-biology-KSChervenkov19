@@ -9,7 +9,7 @@ void MainMenu::Start() // called once, at the start of the scene
     font = LoadFontEx("../../assets/OpenSans.ttf", 96, 0, 0);
     simulatorButton_Texture = LoadTexture("../../assets/assets_MainMenu/Simulator_Button.png");
     logo_Texture = LoadTexture("../../assets/Logo_Transparent_Light.png");
-    graphsContainer = new Container("../../assets/assets_MainMenu/Graphs_Container.png", {0, 0});
+    graphsContainer_Texture = LoadTexture("../../assets/assets_MainMenu/Graphs_Container.png");
     graphsMenu_Texture = LoadTexture("../../assets/assets_MainMenu/Graphs_Button.png");
     themeButton_Texture = LoadTexture("../../assets/assets_MainMenu/Theme_Button.png");
     // MainMenu::m_theme = "darkTheme";
@@ -24,8 +24,7 @@ void MainMenu::Update() // called every frame
 
     DrawTexture(simulatorButton_Texture, 525, 736, WHITE);
     DrawTexture(logo_Texture, 310, 219, WHITE);
-    // DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
-    // graphsContainer->display();
+    DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
     DrawTexture(graphsMenu_Texture, 57, 53, WHITE);
     DrawTexture(themeButton_Texture, 1386, 41, WHITE);
 
@@ -44,8 +43,7 @@ void MainMenu::onExit() // called once, at the end of the scene
     UnloadTexture(logo_Texture);
     /*UnloadTexture(graphsContainer_Texture);*/
     UnloadTexture(graphsMenu_Texture);
-    graphsContainer->unloadTexture();
-    delete graphsContainer;
+    UnloadTexture(graphsContainer_Texture);
 }
 
 float MainMenu::calculateGraphsContainer()
@@ -57,7 +55,7 @@ float MainMenu::calculateGraphsContainer()
 
 void MainMenu::animateGraphsContainer()
 {
-    /*
+    
     if (graphsIsAnimatingIn)
     {
         graphsContainerPos += calculateGraphsContainer();
@@ -79,7 +77,7 @@ void MainMenu::animateGraphsContainer()
         drag = 3000;
         graphsContainerPos = -887;
     }
-    */
+    
 }
 
 // clang-format off
@@ -121,7 +119,7 @@ void MainMenu::checkCollision()
         std::cout << "Theme Switched!";
     }
 
-    /*
+    
     if (!CheckCollisionPointRec(mousePos, { 0, 0, static_cast<float>(graphsContainer_Texture.width), static_cast<float>(graphsContainer_Texture.height) })
         && graphsIsOut && !graphsIsAnimatingIn && !graphsIsAnimatingOut)
     {
@@ -130,6 +128,6 @@ void MainMenu::checkCollision()
             graphsIsAnimatingOut = true;
         }
     }
-    */
+    
 }
 // clang-format on
