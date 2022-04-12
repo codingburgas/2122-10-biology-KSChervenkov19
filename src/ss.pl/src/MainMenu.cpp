@@ -114,10 +114,9 @@ void MainMenu::checkCollision()
     if (CheckCollisionPointRec(mousePos, { 1386, 41, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) })
         && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        /*MainMenu::m_theme = (MainMenu::m_theme == "darkTheme") ? "lightTheme" : "darkTheme";
-        std::cout << MainMenu::m_theme;*/
-
-        std::cout << themePaths.at(static_cast<int>(MainMenu::currentTheme));
+        MainMenu::currentTheme = (MainMenu::currentTheme == ThemeTypes::LightTheme) ? ThemeTypes::DarkTheme : ThemeTypes::LightTheme;
+        MainMenu::onExit();
+        MainMenu::Start();
     }
 
     
