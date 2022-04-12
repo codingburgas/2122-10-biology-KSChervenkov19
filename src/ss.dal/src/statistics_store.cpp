@@ -30,7 +30,7 @@ std::vector<std::string> ss::dal::StatisticsStore::getStatisticsNames()
     std::vector<std::string> fileNames;
     const std::string path = R"(/2122-10-biology-KSChervenkov19\src\ss.pl)";
 
-    for (std::string file; const auto& entry : std::filesystem::directory_iterator(path))
+    for (std::string file; const auto &entry : std::filesystem::directory_iterator(path))
     {
         if (entry.path().extension().string() == ".json")
         {

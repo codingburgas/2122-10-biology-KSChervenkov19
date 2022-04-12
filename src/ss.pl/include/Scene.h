@@ -13,7 +13,7 @@ class Scene
 
     std::string m_sceneName;
 
-    //static std::string m_theme;
+    // static std::string m_theme;
 
     virtual void Start() = 0;
 
@@ -22,4 +22,4 @@ class Scene
     virtual void onExit() = 0;
 };
 
-//std::string Scene::m_theme = "lightTheme";
+// std::string Scene::m_theme = "lightTheme";

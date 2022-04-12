@@ -11,7 +11,7 @@ namespace ss::dal
 class StatisticsStore
 {
   public:
-      static std::vector<std::string> getStatisticsNames();
+    static std::vector<std::string> getStatisticsNames();
 
     static void saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles);
 

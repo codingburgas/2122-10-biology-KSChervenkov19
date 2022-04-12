@@ -17,4 +17,4 @@ class Simulation
     // TODO: update method
     // TODO:
 };
-} // namespace ss::bll
+} // namespace ss::bll::simulation

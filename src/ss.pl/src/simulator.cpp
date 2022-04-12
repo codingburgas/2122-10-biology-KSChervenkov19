@@ -13,7 +13,7 @@ void Simulation::Update() // called every frame
 {
     BeginDrawing();
 
-    ClearBackground({ 4, 12, 32, 255 });
+    ClearBackground({4, 12, 32, 255});
 
     DrawRectangle(500, 390, 250, 100, RED);
 

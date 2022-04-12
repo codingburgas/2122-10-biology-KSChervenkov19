@@ -12,8 +12,8 @@ void MainMenu::Start() // called once, at the start of the scene
     graphsContainer = new Container("../../assets/assets_MainMenu/Graphs_Container.png", {0, 0});
     graphsMenu_Texture = LoadTexture("../../assets/assets_MainMenu/Graphs_Button.png");
     themeButton_Texture = LoadTexture("../../assets/assets_MainMenu/Theme_Button.png");
-    //MainMenu::m_theme = "darkTheme";
-    //std::cout << MainMenu::m_theme;
+    // MainMenu::m_theme = "darkTheme";
+    // std::cout << MainMenu::m_theme;
 }
 
 void MainMenu::Update() // called every frame
@@ -24,8 +24,8 @@ void MainMenu::Update() // called every frame
 
     DrawTexture(simulatorButton_Texture, 525, 736, WHITE);
     DrawTexture(logo_Texture, 310, 219, WHITE);
-    //DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
-    //graphsContainer->display();
+    // DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
+    // graphsContainer->display();
     DrawTexture(graphsMenu_Texture, 57, 53, WHITE);
     DrawTexture(themeButton_Texture, 1386, 41, WHITE);
 

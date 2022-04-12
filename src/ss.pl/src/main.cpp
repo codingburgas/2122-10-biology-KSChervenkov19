@@ -16,8 +16,8 @@ int main()
 
     SceneManager sceneManager;
 
-    MainMenu scene_MainMenu { "MainMenu", sceneManager };
-    Simulation scene_Simulation { "Simulation", sceneManager };
+    MainMenu scene_MainMenu{"MainMenu", sceneManager};
+    Simulation scene_Simulation{"Simulation", sceneManager};
 
     sceneManager.addScene(&scene_MainMenu);
     sceneManager.addScene(&scene_Simulation);
