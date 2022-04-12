@@ -12,8 +12,6 @@ void MainMenu::Start() // called once, at the start of the scene
     graphsContainer_Texture = LoadTexture("../../assets/assets_MainMenu/Graphs_Container.png");
     graphsMenu_Texture = LoadTexture("../../assets/assets_MainMenu/Graphs_Button.png");
     themeButton_Texture = LoadTexture("../../assets/assets_MainMenu/Theme_Button.png");
-    // MainMenu::m_theme = "darkTheme";
-    // std::cout << MainMenu::m_theme;
 }
 
 void MainMenu::Update() // called every frame
@@ -41,7 +39,6 @@ void MainMenu::onExit() // called once, at the end of the scene
     UnloadFont(font);
     UnloadTexture(simulatorButton_Texture);
     UnloadTexture(logo_Texture);
-    /*UnloadTexture(graphsContainer_Texture);*/
     UnloadTexture(graphsMenu_Texture);
     UnloadTexture(graphsContainer_Texture);
 }
@@ -49,7 +46,8 @@ void MainMenu::onExit() // called once, at the end of the scene
 float MainMenu::calculateGraphsContainer()
 {
     float animationCalc = GetFrameTime() * drag;
-    drag *= .9441F;
+    if(graphsContainerPos >= -500 && graphsIsAnimatingIn) drag *= .8981F;
+    if (graphsContainerPos <= -400 && graphsIsAnimatingOut) drag *= .8981F;
     return animationCalc;
 }
 
@@ -116,7 +114,8 @@ void MainMenu::checkCollision()
     if (CheckCollisionPointRec(mousePos, { 1386, 41, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) })
         && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        std::cout << "Theme Switched!";
+        MainMenu::m_theme = (MainMenu::m_theme == "darkTheme") ? "lightTheme" : "darkTheme";
+        std::cout << MainMenu::m_theme;
     }
 
     
