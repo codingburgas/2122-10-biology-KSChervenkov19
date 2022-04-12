@@ -7,18 +7,18 @@ MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager) : Scene(sc
 void MainMenu::Start() // called once, at the start of the scene
 {
     font = LoadFontEx("../../assets/OpenSans.ttf", 96, 0, 0);
-    simulatorButton_Texture = LoadTexture("../../assets/assets_MainMenu/Simulator_Button.png");
-    logo_Texture = LoadTexture("../../assets/Logo_Transparent_Light.png");
-    graphsContainer_Texture = LoadTexture("../../assets/assets_MainMenu/Graphs_Container.png");
-    graphsMenu_Texture = LoadTexture("../../assets/assets_MainMenu/Graphs_Button.png");
-    themeButton_Texture = LoadTexture("../../assets/assets_MainMenu/Theme_Button.png");
+    simulatorButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Simulator_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    logo_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Logo_Transparent.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    graphsMenu_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    themeButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Theme_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
 }
 
 void MainMenu::Update() // called every frame
 {
     BeginDrawing();
 
-    ClearBackground({4, 12, 32, 255});
+    ClearBackground(backgroundColors.at(static_cast<int>(MainMenu::currentTheme)));
 
     DrawTexture(simulatorButton_Texture, 525, 736, WHITE);
     DrawTexture(logo_Texture, 310, 219, WHITE);
@@ -114,8 +114,10 @@ void MainMenu::checkCollision()
     if (CheckCollisionPointRec(mousePos, { 1386, 41, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) })
         && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        MainMenu::m_theme = (MainMenu::m_theme == "darkTheme") ? "lightTheme" : "darkTheme";
-        std::cout << MainMenu::m_theme;
+        /*MainMenu::m_theme = (MainMenu::m_theme == "darkTheme") ? "lightTheme" : "darkTheme";
+        std::cout << MainMenu::m_theme;*/
+
+        std::cout << themePaths.at(static_cast<int>(MainMenu::currentTheme));
     }
 
     

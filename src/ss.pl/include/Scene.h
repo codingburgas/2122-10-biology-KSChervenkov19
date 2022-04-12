@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <array>
+#include <format>
 
 class Scene
 {
@@ -13,8 +15,16 @@ class Scene
 
     std::string m_sceneName;
 
-    inline static std::string m_theme = "lightTheme";
+    inline static enum class ThemeTypes
+    {
+        LightTheme,
+        DarkTheme
+    };
 
+    inline static ThemeTypes currentTheme = ThemeTypes::LightTheme;
+
+    inline static const std::array<std::string, 2> themePaths = { "lightTheme", "darkTheme" };
+    
     virtual void Start() = 0;
 
     virtual void Update() = 0;
