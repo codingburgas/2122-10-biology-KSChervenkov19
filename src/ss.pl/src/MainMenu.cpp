@@ -13,7 +13,7 @@ void MainMenu::Update() // called every frame
 {
     BeginDrawing();
 
-    ClearBackground(backgroundColors.at(static_cast<int>(MainMenu::currentTheme)));
+    ClearBackground(MainMenu::backgroundColors.at(static_cast<int>(MainMenu::currentTheme)));
 
     DrawTexture(simulatorButton_Texture, 525, 736, WHITE);
     DrawTexture(logo_Texture, 310, 219, WHITE);

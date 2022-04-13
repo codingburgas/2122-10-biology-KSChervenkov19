@@ -7,23 +7,34 @@ Simulation::Simulation(std::string sceneName, SceneManager &sceneManager)
 
 void Simulation::Start() // called once, at the start of the scene
 {
+    setupContainer_Texture = LoadTexture(std::format("../../assets/{}/simulator/Setup_Container.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
+    backArrow_Texture = LoadTexture(std::format("../../assets/{}/simulator/Back_Arrow.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
 }
 
 void Simulation::Update() // called every frame
 {
     BeginDrawing();
 
-    ClearBackground({4, 12, 32, 255});
+    ClearBackground(backgroundColors.at(static_cast<int>(currentTheme)));
 
-    DrawRectangle(500, 390, 250, 100, RED);
-
-    DrawText("SIMULATION", 1500 / 2, 980 / 3, 15, BLACK);
+    DrawTexture(setupContainer_Texture, graphsContainerPos, 0, WHITE);
+    DrawTexture(backArrow_Texture, 57, 53, WHITE);
 
     EndDrawing();
 
     Vector2 mousePos = GetMousePosition();
 
-    if (CheckCollisionPointRec(mousePos, {500, 390, 250, 100}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    if (CheckCollisionPointRec(mousePos, { 57, 53, static_cast<float>(backArrow_Texture.width), static_cast<float>(backArrow_Texture.height) }))
+    {
+        SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
+    }
+    else
+    {
+        SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+    }
+
+    if (CheckCollisionPointRec(mousePos, { 57, 53, static_cast<float>(backArrow_Texture.width), static_cast<float>(backArrow_Texture.height) })
+        && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         m_sceneManager.setCurrentScene("MainMenu");
     }
