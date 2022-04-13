@@ -5,14 +5,14 @@
 
 class MainMenu : public Scene
 {
-  private:
+private:
     Vector2 mousePos;
     Texture2D simulatorButton_Texture;
     Texture2D logo_Texture;
     Texture2D graphsContainer_Texture;
     Texture2D graphsMenu_Texture;
     Texture2D themeButton_Texture;
-    std::array<Color, 2> backgroundColors{{{235, 239, 247, 255}, {4, 12, 32, 255}}};
+    std::array<Color, 2> backgroundColors{ {{235, 239, 247, 255}, {4, 12, 32, 255}} };
 
     bool graphsIsAnimatingIn = false;
     bool graphsIsAnimatingOut = false;
@@ -28,8 +28,11 @@ class MainMenu : public Scene
 
     auto collisionCoordiantes();
 
-  public:
-    MainMenu(std::string sceneName, SceneManager &sceneManager);
+    void loadTextures();
+    void deleteTextures();
+
+public:
+    MainMenu(std::string sceneName, SceneManager& sceneManager);
 
     void Start();
 
@@ -37,7 +40,7 @@ class MainMenu : public Scene
 
     void onExit();
 
-    SceneManager &m_sceneManager;
+    SceneManager& m_sceneManager;
 
     Font font;
 };

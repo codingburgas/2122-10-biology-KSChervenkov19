@@ -1,27 +1,12 @@
 #include "mainMenu.h"
 
-MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager) : Scene(sceneName), m_sceneManager(sceneManager)
+MainMenu::MainMenu(std::string sceneName, SceneManager& sceneManager) : Scene(sceneName), m_sceneManager(sceneManager)
 {
 }
 
 void MainMenu::Start() // called once, at the start of the scene
 {
-    font = LoadFontEx("../../assets/OpenSans.ttf", 96, 0, 0);
-    simulatorButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Simulator_Button.png",
-                                                      themePaths.at(static_cast<int>(MainMenu::currentTheme)))
-                                              .c_str());
-    logo_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Logo_Transparent.png",
-                                           themePaths.at(static_cast<int>(MainMenu::currentTheme)))
-                                   .c_str());
-    graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png",
-                                                      themePaths.at(static_cast<int>(MainMenu::currentTheme)))
-                                              .c_str());
-    graphsMenu_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Button.png",
-                                                 themePaths.at(static_cast<int>(MainMenu::currentTheme)))
-                                         .c_str());
-    themeButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Theme_Button.png",
-                                                  themePaths.at(static_cast<int>(MainMenu::currentTheme)))
-                                          .c_str());
+    loadTextures();
 }
 
 void MainMenu::Update() // called every frame
@@ -46,20 +31,14 @@ void MainMenu::Update() // called every frame
 void MainMenu::onExit() // called once, at the end of the scene
 {
     isSetUp = false;
-    UnloadFont(font);
-    UnloadTexture(simulatorButton_Texture);
-    UnloadTexture(logo_Texture);
-    UnloadTexture(graphsMenu_Texture);
-    UnloadTexture(graphsContainer_Texture);
+    deleteTextures();
 }
 
 float MainMenu::calculateGraphsContainer()
 {
     float animationCalc = GetFrameTime() * drag;
-    if (graphsContainerPos >= -500 && graphsIsAnimatingIn)
-        drag *= .8981F;
-    if (graphsContainerPos <= -400 && graphsIsAnimatingOut)
-        drag *= .8981F;
+    if (graphsContainerPos >= -500 && graphsIsAnimatingIn) drag *= .8981F;
+    if (graphsContainerPos <= -400 && graphsIsAnimatingOut) drag *= .8981F;
     return animationCalc;
 }
 
@@ -87,6 +66,26 @@ void MainMenu::animateGraphsContainer()
         drag = 3000;
         graphsContainerPos = -887;
     }
+
+}
+
+void MainMenu::loadTextures()
+{
+    font = LoadFontEx("../../assets/OpenSans.ttf", 96, 0, 0);
+    simulatorButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Simulator_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    logo_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Logo_Transparent.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    graphsMenu_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    themeButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Theme_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+}
+
+void MainMenu::deleteTextures()
+{
+    UnloadFont(font);
+    UnloadTexture(simulatorButton_Texture);
+    UnloadTexture(logo_Texture);
+    UnloadTexture(graphsMenu_Texture);
+    UnloadTexture(graphsContainer_Texture);
 }
 
 // clang-format off
@@ -116,7 +115,7 @@ void MainMenu::checkCollision()
         graphsIsAnimatingIn = true;
     }
 
-    if (CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) }) 
+    if (CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) })
         && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         m_sceneManager.setCurrentScene("Simulation");
@@ -126,12 +125,13 @@ void MainMenu::checkCollision()
         && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         MainMenu::currentTheme = (MainMenu::currentTheme == ThemeTypes::LightTheme) ? ThemeTypes::DarkTheme : ThemeTypes::LightTheme;
-        MainMenu::onExit();
-        MainMenu::Start();
+        MainMenu::deleteTextures();
+        MainMenu::loadTextures();
     }
 
-    
+
     if (!CheckCollisionPointRec(mousePos, { 0, 0, static_cast<float>(graphsContainer_Texture.width), static_cast<float>(graphsContainer_Texture.height) })
+        && !CheckCollisionPointRec(mousePos, { 1386, 41, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) })
         && graphsIsOut && !graphsIsAnimatingIn && !graphsIsAnimatingOut)
     {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -139,6 +139,6 @@ void MainMenu::checkCollision()
             graphsIsAnimatingOut = true;
         }
     }
-    
+
 }
 // clang-format on
