@@ -12,7 +12,7 @@ class MainMenu : public Scene
     Texture2D graphsContainer_Texture;
     Texture2D graphsMenu_Texture;
     Texture2D themeButton_Texture;
-    std::array<Color, 2> backgroundColors{ { {235, 239, 247, 255}, {4, 12, 32, 255} } };
+    std::array<Color, 2> backgroundColors{{{235, 239, 247, 255}, {4, 12, 32, 255}}};
 
     bool graphsIsAnimatingIn = false;
     bool graphsIsAnimatingOut = false;

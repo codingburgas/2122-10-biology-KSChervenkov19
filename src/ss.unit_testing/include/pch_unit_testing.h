@@ -8,7 +8,7 @@
 #define PCH_H_UNIT_TESTING
 
 // add headers that you want to pre-compile here
-#include <vector>
 #include <fstream>
+#include <vector>
 
 #endif // PCH_H_UNIT_TESTING
