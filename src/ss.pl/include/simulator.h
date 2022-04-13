@@ -10,6 +10,7 @@ class Simulation : public Scene
 
     Texture2D setupContainer_Texture;
     Texture2D backArrow_Texture;
+    Texture2D simulateButton_Texture;
 
     float graphsContainerPos = 950;
 
@@ -18,6 +19,13 @@ class Simulation : public Scene
     virtual void Update();
 
     void onExit();
+
+    void drawSetup();
+    void drawSimulation();
+
+    enum class SimulatorState { Setup, Simulation } currentState = SimulatorState::Setup;
+
+    //SimulatorState currentState = SimulatorState::Setup;
 
     SceneManager &m_sceneManager;
 };
