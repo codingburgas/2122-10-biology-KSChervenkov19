@@ -19,6 +19,7 @@ class Simulation : public Scene
     int worldSize;
     int entities;
     int food;
+    int cycles;
 
     virtual void Start();
 
@@ -29,7 +30,7 @@ class Simulation : public Scene
     void drawSetup();
     void drawSimulation();
 
-    void loadTextures();
+    void loadAssets();
     void deleteTextures();
 
     enum class SimulatorState

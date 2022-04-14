@@ -7,12 +7,13 @@ Simulation::Simulation(std::string sceneName, SceneManager &sceneManager)
 
 void Simulation::Start() // called once, at the start of the scene
 {
-    loadTextures();
+    loadAssets();
     graphsContainerPos = 950;
     cyclesCount = 1;
     worldSize = 100;
     entities = 10;
     food = 20;
+    cycles = 5;
 }
 
 void Simulation::Update() // called every frame
@@ -27,8 +28,8 @@ void Simulation::Update() // called every frame
 
     Vector2 mousePos = GetMousePosition();
 
-    if (CheckCollisionPointRec(mousePos, {57, 53, static_cast<float>(backArrow_Texture.width),
-                                          static_cast<float>(backArrow_Texture.height)}))
+    if (CheckCollisionPointRec(mousePos, {57, 53, static_cast<float>(backArrow_Texture.width), static_cast<float>(backArrow_Texture.height)}) 
+     || CheckCollisionPointRec(mousePos, { 1064, 820, static_cast<float>(simulateButton_Texture.width), static_cast<float>(simulateButton_Texture.height) }))
     {
         SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
     }
@@ -44,7 +45,7 @@ void Simulation::Update() // called every frame
         m_sceneManager.setCurrentScene("MainMenu");
     }
 
-    if (CheckCollisionPointRec(mousePos, {1079, 873, static_cast<float>(simulateButton_Texture.width),
+    if (CheckCollisionPointRec(mousePos, {1064, 820, static_cast<float>(simulateButton_Texture.width),
                                           static_cast<float>(simulateButton_Texture.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
@@ -62,14 +63,19 @@ void Simulation::drawSetup()
     DrawTexture(setupContainer_Texture, graphsContainerPos, 0, WHITE);
     DrawTexture(simulateButton_Texture, 1064, 820, WHITE);
     DrawTexture(backArrow_Texture, 57, 53, WHITE);
-    DrawTextEx(fontInter, "World Size:", { 1001 , 86 }, 32.6F, 0, {5, 11, 30, 255});
-    DrawTextEx(fontInter, "Entities:", { 1001 , 236 }, 32.6F, 0, { 5, 11, 30, 255 });
-    DrawTextEx(fontInter, "Food:", { 1001 , 386 }, 32.6F, 0, { 5, 11, 30, 255 });
-    DrawTextEx(fontInter, "Cycles:", { 1028 , 730 }, 39.1F, 0, { 5, 11, 30, 255 });
-    worldSize = GuiSliderBar({ 1000, 132, 455, 53 }, nullptr, TextFormat("%i", worldSize), worldSize, 50, 500);
-    entities = GuiSliderBar({ 1000, 282, 455, 53 }, nullptr, TextFormat("%i", entities), entities, 1, 200);
-    food = GuiSliderBar({ 1000, 432, 455, 53 }, nullptr, TextFormat("%i", food), food, 1, 500);
-    GuiSpinner({ 1180, 730, 242, 51 }, nullptr, &cyclesCount, 1, 1000, true);
+
+    DrawTextEx(fontInter, "World Size:", { 1001 , 86 }, 32.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, "Entities:", { 1001 , 236 }, 32.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, "Food:", { 1001 , 386 }, 32.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, "Cycles:", { 1028 , 730 }, 39.1F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, TextFormat("%i", worldSize), { 1412 , 186 }, 25.5F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, TextFormat("%i", entities), { 1412 , 336 }, 25.5F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, TextFormat("%i", food), { 1412 , 490 }, 25.5F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+
+    worldSize = GuiSliderBar({ 1000, 132, 455, 53 }, nullptr, nullptr, worldSize, 50, 500);
+    entities = GuiSliderBar({ 1000, 282, 455, 53 }, nullptr, nullptr, entities, 1, 200);
+    food = GuiSliderBar({ 1000, 432, 455, 53 }, nullptr, nullptr, food, 1, 500);
+    GuiValueBox({ 1180, 730, 242, 51 }, nullptr, &cycles, 1, 200, true);
 }
 
 void Simulation::drawSimulation()
@@ -78,12 +84,13 @@ void Simulation::drawSimulation()
 }
 
 // clang-format off
-void Simulation::loadTextures()
+void Simulation::loadAssets()
 {
     fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 96, 0, 0);
     setupContainer_Texture = LoadTexture(std::format("../../assets/{}/simulator/Setup_Container.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
     backArrow_Texture = LoadTexture(std::format("../../assets/{}/simulator/Back_Arrow.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
     simulateButton_Texture = LoadTexture(std::format("../../assets/{}/simulator/Simulate_Button.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
+    GuiLoadStyle((currentTheme == ThemeTypes::LightTheme) ? "../../assets/bluish.txt.rgs" : "../../assets/lavanda.txt.rgs");
 }
 void Simulation::deleteTextures()
 {
