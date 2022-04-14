@@ -14,6 +14,11 @@ void Simulation::Start() // called once, at the start of the scene
     entities = 10;
     food = 20;
     cycles = 5;
+
+    camera = Camera3D{ {10.0f, 10.0f, 10.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, 45.0f, CAMERA_PERSPECTIVE };
+
+    SetCameraMode(camera, CAMERA_FREE);
+
 }
 
 void Simulation::Update() // called every frame
@@ -80,7 +85,11 @@ void Simulation::drawSetup()
 
 void Simulation::drawSimulation()
 {
-    std::cout << "in simulating";
+    UpdateCamera(&camera);
+
+    BeginMode3D(camera);
+        DrawPlane({ 0.0f, 0.0f, 0.0f }, { 15.0f, 15.0f }, RED);
+    EndMode3D();
 }
 
 // clang-format off

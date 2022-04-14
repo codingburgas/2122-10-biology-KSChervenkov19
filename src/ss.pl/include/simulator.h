@@ -6,13 +6,15 @@
 
 class Simulation : public Scene
 {
-  public:
+ public:
     Simulation(std::string sceneName, SceneManager &sceneManager);
 
     Texture2D setupContainer_Texture;
     Texture2D backArrow_Texture;
     Texture2D simulateButton_Texture;
     Font fontInter;
+
+    Camera3D camera{ 0 };
 
     float graphsContainerPos;
     int cyclesCount;
@@ -25,7 +27,7 @@ class Simulation : public Scene
 
     virtual void Update();
 
-    void onExit();
+    virtual void onExit();
 
     void drawSetup();
     void drawSimulation();
