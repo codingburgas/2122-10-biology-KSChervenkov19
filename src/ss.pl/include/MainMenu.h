@@ -8,6 +8,7 @@ class MainMenu : public Scene
 {
   private:
     Vector2 mousePos;
+    Vector2 currentGraphPos;
     Texture2D simulatorButton_Texture;
     Texture2D logo_Texture;
     Texture2D graphsContainer_Texture;

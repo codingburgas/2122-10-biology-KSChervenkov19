@@ -7,6 +7,7 @@ MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager) : Scene(sc
 void MainMenu::Start() // called once, at the start of the scene
 {
     loadTextures();
+    currentGraphPos = { -834, 54 };
     statisticNames = ss::bll::statistics::StatisticsManager::getStatisticsNames();
 
 }
@@ -21,12 +22,12 @@ void MainMenu::Update() // called every frame
 
     DrawTexture(simulatorButton_Texture, 525, 736, WHITE);
     DrawTexture(logo_Texture, 310, 219, WHITE);
-    DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
     DrawTexture(graphsMenu_Texture, 57, 53, WHITE);
+    DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
     DrawTexture(themeButton_Texture, 1386, 41, WHITE);
 
     animateGraphsContainer();
-    if (graphsIsOut) displayGraphCards();
+    if (graphsIsAnimatingIn || graphsIsOut) displayGraphCards();
 
     EndDrawing();
     
@@ -55,10 +56,12 @@ void MainMenu::animateGraphsContainer()
     if (graphsIsAnimatingIn)
     {
         graphsContainerPos += calculateGraphsContainer();
+        currentGraphPos.x = graphsContainerPos + 53;
     }
     if (graphsIsAnimatingOut)
     {
         graphsContainerPos -= calculateGraphsContainer();
+        currentGraphPos.x = graphsContainerPos - 53;
     }
     if (graphsContainerPos >= 0)
     {
@@ -78,13 +81,13 @@ void MainMenu::animateGraphsContainer()
 
 void MainMenu::displayGraphCards()
 {
-    Vector2 currentPos{ 53, 54 };
+    currentGraphPos.y = 54;
 
     for (auto statistics : statisticNames)
     {
-        currentPos.y -= GetMouseWheelMove();
-        DrawRectangleRounded({ 53, currentPos.y + offset , 781, 144 }, 0.54f, 20, RED);
-        currentPos.y += 189;
+        currentGraphPos.y -= GetMouseWheelMove();
+        DrawRectangleRounded({ currentGraphPos.x, currentGraphPos.y + offset , 781, 144 }, 0.54f, 20, RED);
+        currentGraphPos.y += 189;
     }
 }
 
@@ -130,7 +133,7 @@ void MainMenu::checkCollision()
     }
 
     if (CheckCollisionPointRec(mousePos, { 57, 53, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) })
-        && !graphsIsAnimatingIn && !graphsIsAnimatingOut && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        && !graphsIsAnimatingIn && !graphsIsAnimatingOut && !graphsIsOut && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         graphsIsAnimatingIn = true;
     }
@@ -157,6 +160,7 @@ void MainMenu::checkCollision()
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             graphsIsAnimatingOut = true;
+
         }
     }
 
