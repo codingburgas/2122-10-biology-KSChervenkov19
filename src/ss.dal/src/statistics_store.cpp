@@ -1,6 +1,7 @@
 // clang-format off
 #include "pch_dal.h"
 #include "statistics_store.h"
+#include <iostream>
 // clang-format on
 
 void ss::types::to_json(json &j, const ss::types::Trait &trait)
@@ -28,7 +29,7 @@ void ss::types::from_json(const json &j, ss::types::Cycle &cycle)
 std::vector<std::string> ss::dal::StatisticsStore::getStatisticsNames()
 {
     std::vector<std::string> fileNames;
-    const std::string path = R"(/2122-10-biology-KSChervenkov19\statistics)";
+    const std::string path = R"(../../statistics/)";
 
     for (std::string file; const auto &entry : std::filesystem::directory_iterator(path))
     {
@@ -36,6 +37,7 @@ std::vector<std::string> ss::dal::StatisticsStore::getStatisticsNames()
         {
             file = entry.path().filename().string();
             fileNames.push_back(file.substr(0, file.find(".json")));
+            std::cout << file;
         }
     }
 
@@ -65,7 +67,7 @@ void ss::dal::StatisticsStore::saveStatisticTo(const std::vector<ss::types::Cycl
 
 std::vector<ss::types::Cycle> ss::dal::StatisticsStore::getStatisticFrom(const std::string &fileName)
 {
-    std::ifstream in("/2122-10-biology-KSChervenkov19\\statistics\\" + fileName + ".json");
+    std::ifstream in("../../statistics/" + fileName + ".json");
 
     if (!in.is_open())
         throw std::runtime_error("File: " + fileName + " cannot be opened!");

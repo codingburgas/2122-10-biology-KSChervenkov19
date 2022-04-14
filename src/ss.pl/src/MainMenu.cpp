@@ -7,10 +7,14 @@ MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager) : Scene(sc
 void MainMenu::Start() // called once, at the start of the scene
 {
     loadTextures();
+    statisticNames = ss::bll::statistics::StatisticsManager::getStatisticsNames();
+
 }
 
 void MainMenu::Update() // called every frame
 {
+    checkCollision();
+
     BeginDrawing();
 
     ClearBackground(MainMenu::backgroundColors.at(static_cast<int>(MainMenu::currentTheme)));
@@ -21,11 +25,12 @@ void MainMenu::Update() // called every frame
     DrawTexture(graphsMenu_Texture, 57, 53, WHITE);
     DrawTexture(themeButton_Texture, 1386, 41, WHITE);
 
-    EndDrawing();
-
-    checkCollision();
-
     animateGraphsContainer();
+    if (graphsIsOut) displayGraphCards();
+
+    EndDrawing();
+    
+    if(offset + GetMouseWheelMove() * 35 <= 0) offset += GetMouseWheelMove() * 35;
 }
 
 void MainMenu::onExit() // called once, at the end of the scene
@@ -67,8 +72,22 @@ void MainMenu::animateGraphsContainer()
         graphsIsAnimatingOut = false;
         drag = 3000;
         graphsContainerPos = -887;
+        graphsIsOut = false;
     }
 }
+
+void MainMenu::displayGraphCards()
+{
+    Vector2 currentPos{ 53, 54 };
+
+    for (auto statistics : statisticNames)
+    {
+        currentPos.y -= GetMouseWheelMove();
+        DrawRectangleRounded({ 53, currentPos.y + offset , 781, 144 }, 0.54f, 20, RED);
+        currentPos.y += 189;
+    }
+}
+
 
 void MainMenu::deleteTextures()
 {

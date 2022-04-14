@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SceneManager.h"
+#include "statistics_manager.h"
 #include <raylib.h>
 
 class MainMenu : public Scene
@@ -12,6 +13,17 @@ class MainMenu : public Scene
     Texture2D graphsContainer_Texture;
     Texture2D graphsMenu_Texture;
     Texture2D themeButton_Texture;
+
+    int offset = 0;
+
+    struct graphsCard
+    {
+        std::string& name;
+        Vector2 pos;
+    };
+
+    std::vector<std::string> statisticNames;
+    std::vector<graphsCard> graphCards;
 
     bool graphsIsAnimatingIn = false;
     bool graphsIsAnimatingOut = false;
@@ -26,9 +38,12 @@ class MainMenu : public Scene
 
     void animateGraphsContainer();
 
+    void displayGraphCards();
+
     auto collisionCoordiantes();
 
     void loadTextures();
+
     void deleteTextures();
 
   public:
