@@ -1,6 +1,6 @@
 #include "mainMenu.h"
 
-MainMenu::MainMenu(std::string sceneName, SceneManager& sceneManager) : Scene(sceneName), m_sceneManager(sceneManager)
+MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager) : Scene(sceneName), m_sceneManager(sceneManager)
 {
 }
 
@@ -37,8 +37,10 @@ void MainMenu::onExit() // called once, at the end of the scene
 float MainMenu::calculateGraphsContainer()
 {
     float animationCalc = GetFrameTime() * drag;
-    if (graphsContainerPos >= -500 && graphsIsAnimatingIn) drag *= .8981F;
-    if (graphsContainerPos <= -400 && graphsIsAnimatingOut) drag *= .8981F;
+    if (graphsContainerPos >= -500 && graphsIsAnimatingIn)
+        drag *= .8981F;
+    if (graphsContainerPos <= -400 && graphsIsAnimatingOut)
+        drag *= .8981F;
     return animationCalc;
 }
 
@@ -66,17 +68,26 @@ void MainMenu::animateGraphsContainer()
         drag = 3000;
         graphsContainerPos = -887;
     }
-
 }
 
 void MainMenu::loadTextures()
 {
     font = LoadFontEx("../../assets/OpenSans.ttf", 96, 0, 0);
-    simulatorButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Simulator_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
-    logo_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Logo_Transparent.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
-    graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
-    graphsMenu_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
-    themeButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Theme_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    simulatorButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Simulator_Button.png",
+                                                      themePaths.at(static_cast<int>(MainMenu::currentTheme)))
+                                              .c_str());
+    logo_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Logo_Transparent.png",
+                                           themePaths.at(static_cast<int>(MainMenu::currentTheme)))
+                                   .c_str());
+    graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png",
+                                                      themePaths.at(static_cast<int>(MainMenu::currentTheme)))
+                                              .c_str());
+    graphsMenu_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Button.png",
+                                                 themePaths.at(static_cast<int>(MainMenu::currentTheme)))
+                                         .c_str());
+    themeButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Theme_Button.png",
+                                                  themePaths.at(static_cast<int>(MainMenu::currentTheme)))
+                                          .c_str());
 }
 
 void MainMenu::deleteTextures()

@@ -5,7 +5,7 @@
 
 class MainMenu : public Scene
 {
-private:
+  private:
     Vector2 mousePos;
     Texture2D simulatorButton_Texture;
     Texture2D logo_Texture;
@@ -30,8 +30,8 @@ private:
     void loadTextures();
     void deleteTextures();
 
-public:
-    MainMenu(std::string sceneName, SceneManager& sceneManager);
+  public:
+    MainMenu(std::string sceneName, SceneManager &sceneManager);
 
     void Start();
 
@@ -39,7 +39,7 @@ public:
 
     void onExit();
 
-    SceneManager& m_sceneManager;
+    SceneManager &m_sceneManager;
 
     Font font;
 };

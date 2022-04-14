@@ -23,9 +23,13 @@ class Simulation : public Scene
     void drawSetup();
     void drawSimulation();
 
-    enum class SimulatorState { Setup, Simulation } currentState = SimulatorState::Setup;
+    enum class SimulatorState
+    {
+        Setup,
+        Simulation
+    } currentState = SimulatorState::Setup;
 
-    //SimulatorState currentState = SimulatorState::Setup;
+    // SimulatorState currentState = SimulatorState::Setup;
 
     SceneManager &m_sceneManager;
 };
