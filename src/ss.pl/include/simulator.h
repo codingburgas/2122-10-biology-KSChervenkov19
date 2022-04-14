@@ -2,6 +2,7 @@
 
 #include "sceneManager.h"
 #include <raylib.h>
+#include <raygui.h>
 
 class Simulation : public Scene
 {
@@ -11,8 +12,13 @@ class Simulation : public Scene
     Texture2D setupContainer_Texture;
     Texture2D backArrow_Texture;
     Texture2D simulateButton_Texture;
+    Font fontInter;
 
-    float graphsContainerPos = 950;
+    float graphsContainerPos;
+    int cyclesCount;
+    int worldSize;
+    int entities;
+    int food;
 
     virtual void Start();
 
@@ -31,8 +37,6 @@ class Simulation : public Scene
         Setup,
         Simulation
     } currentState = SimulatorState::Setup;
-
-    // SimulatorState currentState = SimulatorState::Setup;
 
     SceneManager &m_sceneManager;
 };
