@@ -1,4 +1,3 @@
-// clang-format off
 #include "pch_unit_testing.h"
 #include "CppUnitTest.h"
 #include "simulation_data.h"
@@ -40,4 +39,3 @@ public:
 		Assert::IsTrue(expected == cycles, L"Equality != =");
 	}
 };
-// clang-format on
