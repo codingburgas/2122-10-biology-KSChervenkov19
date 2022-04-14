@@ -70,26 +70,6 @@ void MainMenu::animateGraphsContainer()
     }
 }
 
-void MainMenu::loadTextures()
-{
-    font = LoadFontEx("../../assets/OpenSans.ttf", 96, 0, 0);
-    simulatorButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Simulator_Button.png",
-                                                      themePaths.at(static_cast<int>(MainMenu::currentTheme)))
-                                              .c_str());
-    logo_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Logo_Transparent.png",
-                                           themePaths.at(static_cast<int>(MainMenu::currentTheme)))
-                                   .c_str());
-    graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png",
-                                                      themePaths.at(static_cast<int>(MainMenu::currentTheme)))
-                                              .c_str());
-    graphsMenu_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Button.png",
-                                                 themePaths.at(static_cast<int>(MainMenu::currentTheme)))
-                                         .c_str());
-    themeButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Theme_Button.png",
-                                                  themePaths.at(static_cast<int>(MainMenu::currentTheme)))
-                                          .c_str());
-}
-
 void MainMenu::deleteTextures()
 {
     UnloadFont(font);
@@ -100,6 +80,16 @@ void MainMenu::deleteTextures()
 }
 
 // clang-format off
+void MainMenu::loadTextures()
+{
+    font = LoadFontEx("../../assets/OpenSans.ttf", 96, 0, 0);
+    simulatorButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Simulator_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    logo_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Logo_Transparent.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    graphsMenu_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    themeButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Theme_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+}
+
 auto MainMenu::collisionCoordiantes()
 {
     return CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) })

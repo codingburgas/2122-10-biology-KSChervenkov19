@@ -16,6 +16,7 @@ class MainMenu : public Scene
     bool graphsIsAnimatingIn = false;
     bool graphsIsAnimatingOut = false;
     bool graphsIsOut = false;
+
     float graphsContainerPos = -887;
     float drag = 3000;
 

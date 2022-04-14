@@ -7,15 +7,7 @@ Simulation::Simulation(std::string sceneName, SceneManager &sceneManager)
 
 void Simulation::Start() // called once, at the start of the scene
 {
-    setupContainer_Texture = LoadTexture(std::format("../../assets/{}/simulator/Setup_Container.png",
-                                                     themePaths.at(static_cast<int>(Simulation::currentTheme)))
-                                             .c_str());
-    backArrow_Texture = LoadTexture(std::format("../../assets/{}/simulator/Back_Arrow.png",
-                                                themePaths.at(static_cast<int>(Simulation::currentTheme)))
-                                        .c_str());
-    simulateButton_Texture = LoadTexture(std::format("../../assets/{}/simulator/Simulate_Button.png",
-                                                     themePaths.at(static_cast<int>(Simulation::currentTheme)))
-                                             .c_str());
+    loadTextures();
 }
 
 void Simulation::Update() // called every frame
@@ -57,9 +49,7 @@ void Simulation::Update() // called every frame
 
 void Simulation::onExit() // called once, at the end of the scene
 {
-    UnloadTexture(setupContainer_Texture);
-    UnloadTexture(simulateButton_Texture);
-    UnloadTexture(backArrow_Texture);
+    deleteTextures();
 }
 
 void Simulation::drawSetup()
@@ -73,3 +63,18 @@ void Simulation::drawSimulation()
 {
     std::cout << "in simulating";
 }
+
+// clang-format off
+void Simulation::loadTextures()
+{
+    setupContainer_Texture = LoadTexture(std::format("../../assets/{}/simulator/Setup_Container.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
+    backArrow_Texture = LoadTexture(std::format("../../assets/{}/simulator/Back_Arrow.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
+    simulateButton_Texture = LoadTexture(std::format("../../assets/{}/simulator/Simulate_Button.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
+}
+void Simulation::deleteTextures()
+{
+    UnloadTexture(setupContainer_Texture);
+    UnloadTexture(simulateButton_Texture);
+    UnloadTexture(backArrow_Texture);
+}
+// clang-format on

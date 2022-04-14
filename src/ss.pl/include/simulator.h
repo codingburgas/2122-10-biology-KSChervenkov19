@@ -23,6 +23,9 @@ class Simulation : public Scene
     void drawSetup();
     void drawSimulation();
 
+    void loadTextures();
+    void deleteTextures();
+
     enum class SimulatorState
     {
         Setup,
