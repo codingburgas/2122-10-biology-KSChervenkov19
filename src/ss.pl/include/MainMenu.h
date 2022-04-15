@@ -19,7 +19,7 @@ class MainMenu : public Scene
 
     struct graphsCard
     {
-        std::string& name;
+        std::string &name;
         Vector2 pos;
     };
 

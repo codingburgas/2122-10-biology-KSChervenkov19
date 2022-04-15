@@ -15,10 +15,9 @@ void Simulation::Start() // called once, at the start of the scene
     food = 20;
     cycles = 5;
 
-    camera = Camera3D{ {10.0f, 10.0f, 10.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, 45.0f, CAMERA_PERSPECTIVE };
+    camera = Camera3D{{10.0f, 10.0f, 10.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, 45.0f, CAMERA_PERSPECTIVE};
 
     SetCameraMode(camera, CAMERA_FREE);
-
 }
 
 void Simulation::Update() // called every frame
@@ -33,8 +32,10 @@ void Simulation::Update() // called every frame
 
     Vector2 mousePos = GetMousePosition();
 
-    if (CheckCollisionPointRec(mousePos, {57, 53, static_cast<float>(backArrow_Texture.width), static_cast<float>(backArrow_Texture.height)}) 
-     || CheckCollisionPointRec(mousePos, { 1064, 820, static_cast<float>(simulateButton_Texture.width), static_cast<float>(simulateButton_Texture.height) }))
+    if (CheckCollisionPointRec(mousePos, {57, 53, static_cast<float>(backArrow_Texture.width),
+                                          static_cast<float>(backArrow_Texture.height)}) ||
+        CheckCollisionPointRec(mousePos, {1064, 820, static_cast<float>(simulateButton_Texture.width),
+                                          static_cast<float>(simulateButton_Texture.height)}))
     {
         SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
     }
@@ -69,18 +70,21 @@ void Simulation::drawSetup()
     DrawTexture(simulateButton_Texture, 1064, 820, WHITE);
     DrawTexture(backArrow_Texture, 57, 53, WHITE);
 
-    DrawTextEx(fontInter, "World Size:", { 1001 , 86 }, 32.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
-    DrawTextEx(fontInter, "Entities:", { 1001 , 236 }, 32.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
-    DrawTextEx(fontInter, "Food:", { 1001 , 386 }, 32.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
-    DrawTextEx(fontInter, "Cycles:", { 1028 , 730 }, 39.1F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
-    DrawTextEx(fontInter, TextFormat("%i", worldSize), { 1412 , 186 }, 25.5F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
-    DrawTextEx(fontInter, TextFormat("%i", entities), { 1412 , 336 }, 25.5F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
-    DrawTextEx(fontInter, TextFormat("%i", food), { 1412 , 490 }, 25.5F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, "World Size:", {1001, 86}, 32.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, "Entities:", {1001, 236}, 32.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, "Food:", {1001, 386}, 32.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, "Cycles:", {1028, 730}, 39.1F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, TextFormat("%i", worldSize), {1412, 186}, 25.5F, 0,
+               backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, TextFormat("%i", entities), {1412, 336}, 25.5F, 0,
+               backgroundColors.at(!(static_cast<int>(currentTheme))));
+    DrawTextEx(fontInter, TextFormat("%i", food), {1412, 490}, 25.5F, 0,
+               backgroundColors.at(!(static_cast<int>(currentTheme))));
 
-    worldSize = GuiSliderBar({ 1000, 132, 455, 53 }, nullptr, nullptr, worldSize, 50, 500);
-    entities = GuiSliderBar({ 1000, 282, 455, 53 }, nullptr, nullptr, entities, 1, 200);
-    food = GuiSliderBar({ 1000, 432, 455, 53 }, nullptr, nullptr, food, 1, 500);
-    GuiValueBox({ 1180, 730, 242, 51 }, nullptr, &cycles, 1, 200, true);
+    worldSize = GuiSliderBar({1000, 132, 455, 53}, nullptr, nullptr, worldSize, 50, 500);
+    entities = GuiSliderBar({1000, 282, 455, 53}, nullptr, nullptr, entities, 1, 200);
+    food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 1, 500);
+    GuiValueBox({1180, 730, 242, 51}, nullptr, &cycles, 1, 200, true);
 }
 
 void Simulation::drawSimulation()
@@ -88,7 +92,7 @@ void Simulation::drawSimulation()
     UpdateCamera(&camera);
 
     BeginMode3D(camera);
-        DrawPlane({ 0.0f, 0.0f, 0.0f }, { 15.0f, 15.0f }, RED);
+    DrawPlane({0.0f, 0.0f, 0.0f}, {15.0f, 15.0f}, RED);
     EndMode3D();
 }
 

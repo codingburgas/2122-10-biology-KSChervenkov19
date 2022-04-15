@@ -1,12 +1,12 @@
 #pragma once
 
 #include "sceneManager.h"
-#include <raylib.h>
 #include <raygui.h>
+#include <raylib.h>
 
 class Simulation : public Scene
 {
- public:
+  public:
     Simulation(std::string sceneName, SceneManager &sceneManager);
 
     Texture2D setupContainer_Texture;
@@ -14,7 +14,7 @@ class Simulation : public Scene
     Texture2D simulateButton_Texture;
     Font fontInter;
 
-    Camera3D camera{ 0 };
+    Camera3D camera{0};
 
     float graphsContainerPos;
     int cyclesCount;

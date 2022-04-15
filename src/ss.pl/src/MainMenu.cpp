@@ -7,9 +7,8 @@ MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager) : Scene(sc
 void MainMenu::Start() // called once, at the start of the scene
 {
     loadTextures();
-    currentGraphPos = { -834, 54 };
+    currentGraphPos = {-834, 54};
     statisticNames = ss::bll::statistics::StatisticsManager::getStatisticsNames();
-
 }
 
 void MainMenu::Update() // called every frame
@@ -27,11 +26,13 @@ void MainMenu::Update() // called every frame
     DrawTexture(themeButton_Texture, 1386, 41, WHITE);
 
     animateGraphsContainer();
-    if (graphsIsAnimatingIn || graphsIsOut) displayGraphCards();
+    if (graphsIsAnimatingIn || graphsIsOut)
+        displayGraphCards();
 
     EndDrawing();
-    
-    if(offset + GetMouseWheelMove() * 35 <= 0) offset += GetMouseWheelMove() * 35;
+
+    if (offset + GetMouseWheelMove() * 35 <= 0)
+        offset += GetMouseWheelMove() * 35;
 }
 
 void MainMenu::onExit() // called once, at the end of the scene
@@ -86,11 +87,10 @@ void MainMenu::displayGraphCards()
     for (auto statistics : statisticNames)
     {
         currentGraphPos.y -= GetMouseWheelMove();
-        DrawRectangleRounded({ currentGraphPos.x, currentGraphPos.y + offset , 781, 144 }, 0.54f, 20, RED);
+        DrawRectangleRounded({currentGraphPos.x, currentGraphPos.y + offset, 781, 144}, 0.54f, 20, RED);
         currentGraphPos.y += 189;
     }
 }
-
 
 void MainMenu::deleteTextures()
 {
