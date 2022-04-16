@@ -32,7 +32,7 @@ void Simulation::Update() // called every frame
 
     Vector2 mousePos = GetMousePosition();
 
-    if (CheckCollisionPointRec(mousePos, {57, 53, static_cast<float>(backArrow_Texture.width),
+    if (CheckCollisionPointRec(mousePos, {57, 90, static_cast<float>(backArrow_Texture.width),
                                           static_cast<float>(backArrow_Texture.height)}) ||
         CheckCollisionPointRec(mousePos, {1064, 820, static_cast<float>(simulateButton_Texture.width),
                                           static_cast<float>(simulateButton_Texture.height)}))
@@ -44,7 +44,7 @@ void Simulation::Update() // called every frame
         SetMouseCursor(MOUSE_CURSOR_DEFAULT);
     }
 
-    if (CheckCollisionPointRec(mousePos, {57, 53, static_cast<float>(backArrow_Texture.width),
+    if (CheckCollisionPointRec(mousePos, {57, 90, static_cast<float>(backArrow_Texture.width),
                                           static_cast<float>(backArrow_Texture.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
@@ -68,7 +68,7 @@ void Simulation::drawSetup()
 {
     DrawTexture(setupContainer_Texture, graphsContainerPos, 0, WHITE);
     DrawTexture(simulateButton_Texture, 1064, 820, WHITE);
-    DrawTexture(backArrow_Texture, 57, 53, WHITE);
+    DrawTexture(backArrow_Texture, 57, 90, WHITE);
 
     DrawTextEx(fontInter, "World Size:", {1001, 86}, 32.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
     DrawTextEx(fontInter, "Entities:", {1001, 236}, 32.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));

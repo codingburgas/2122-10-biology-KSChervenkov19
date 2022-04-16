@@ -22,7 +22,6 @@ void MainMenu::Start() // called once, at the start of the scene
 void MainMenu::Update() // called every frame
 {
     mousePos = GetMousePosition();
-    std::cout << GetFrameTime() << std::endl;
 
     checkCollision();
 
