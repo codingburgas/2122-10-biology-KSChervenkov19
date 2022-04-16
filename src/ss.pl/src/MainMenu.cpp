@@ -121,7 +121,7 @@ void MainMenu::displayGraphCards()
         for (auto graphContainer : graphCards)
         {
             DrawTexture(viewGraph_Texture, graphContainer.buttonPos.x, graphContainer.buttonPos.y + offset, WHITE);
-            DrawText(graphContainer.name.c_str(), graphContainer.namePos.x, graphContainer.namePos.y + offset, 40, BLACK);
+            DrawTextEx(font, graphContainer.name.c_str(), { graphContainer.namePos.x, graphContainer.namePos.y + offset }, 40, 1, BLACK);
         }
     }
 }
@@ -149,7 +149,7 @@ void MainMenu::deleteTextures()
 // clang-format off
 void MainMenu::loadTextures()
 {
-    font = LoadFontEx("../../assets/OpenSans.ttf", 96, 0, 0);
+    font = LoadFontEx("../../assets/fonts/Inter.ttf", 96, 0, 0);
     simulatorButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Simulator_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     logo_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Logo_Transparent.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
@@ -184,7 +184,7 @@ void MainMenu::checkCollision()
     }
 
     if (CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) })
-        && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !graphsIsAnimatingIn && !graphsIsAnimatingOut && !graphsIsOut)
     {
         m_sceneManager.setCurrentScene("Simulation");
     }
