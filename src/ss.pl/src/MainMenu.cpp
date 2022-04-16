@@ -26,8 +26,6 @@ void MainMenu::Update() // called every frame
 
     checkCollision();
 
-    checkGraphButtonCollisions();
-
     BeginDrawing();
 
     ClearBackground(MainMenu::backgroundColors.at(static_cast<int>(MainMenu::currentTheme)));
@@ -110,6 +108,7 @@ void MainMenu::animateGraphsContainer()
 
 void MainMenu::displayGraphCards()
 {
+    checkGraphButtonCollisions();
     currentGraphPos.y = 54;
 
     for (auto statistics : statisticNames)
