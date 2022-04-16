@@ -32,7 +32,7 @@ void Simulation::Update() // called every frame
 
     Vector2 mousePos = GetMousePosition();
 
-    if (CheckCollisionPointRec(mousePos, {57, 90, static_cast<float>(backArrow_Texture.width),
+    if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
                                           static_cast<float>(backArrow_Texture.height)}) ||
         CheckCollisionPointRec(mousePos, {1064, 820, static_cast<float>(simulateButton_Texture.width),
                                           static_cast<float>(simulateButton_Texture.height)}))
@@ -44,7 +44,7 @@ void Simulation::Update() // called every frame
         SetMouseCursor(MOUSE_CURSOR_DEFAULT);
     }
 
-    if (CheckCollisionPointRec(mousePos, {57, 90, static_cast<float>(backArrow_Texture.width),
+    if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
                                           static_cast<float>(backArrow_Texture.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {

@@ -13,7 +13,8 @@ namespace ss::pl::graph
     public:
         Graph(std::string sceneName, SceneManager& sceneManager);
 
-        const float maxSpeed;
+        float maxSpeed;
+        float maxSense;
 
         inline static std::string fileName;
 
@@ -26,6 +27,18 @@ namespace ss::pl::graph
         SceneManager& m_sceneManager;
 
     private:
+        Texture2D backArrow_Texture;
+        Texture2D graph_Container;
+        Vector2 mousePos;
+        Font font;
+
+        int leftLineY;
+        int leftTextY;
+        int bottomLineX;
+        int bottomTextX;
+        float currentSense;
+        float currentSpeed;
+
         std::vector <ss::types::Cycle> cycleInfo;
 
         float getHighestSense(const std::vector<ss::types::Cycle>& cycle);
@@ -35,5 +48,10 @@ namespace ss::pl::graph
         std::pair<float, float> getHighestSenseAndSpeed(const std::vector<ss::types::Cycle>& cycle);
 
         std::pair<int, int> getLastedAndDied(const ss::types::Cycle& cycle);
+
+        void loadAssets();
+        void deleteAssets();
+        void drawGraph();
+        void checkCollision();
     };
 }
