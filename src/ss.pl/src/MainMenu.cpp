@@ -10,9 +10,11 @@ void MainMenu::Start() // called once, at the start of the scene
     currentGraphPos = {-834, 54};
     statisticNames = ss::bll::statistics::StatisticsManager::getStatisticsNames();
     Vector2 graphButtonPos{ 525, 92 };
+    Vector2 graphNamePos{ 53, 102 };
     for(std::string statistic : statisticNames)
     {
-        graphCards.push_back(graphsCard{ statistic, graphButtonPos });
+        graphCards.push_back(graphsCard{ statistic, graphNamePos, graphButtonPos });
+        graphNamePos.y += 189;
         graphButtonPos.y += 189;
     }
 }
@@ -103,12 +105,13 @@ void MainMenu::displayGraphCards()
     for (auto statistics : statisticNames)
     {
         currentGraphPos.y -= GetMouseWheelMove();
-        DrawRectangleRounded({currentGraphPos.x, currentGraphPos.y + offset, 781, 144}, 0.54f, 20, RED);
+        DrawRectangleRounded({ currentGraphPos.x, currentGraphPos.y + offset, 781, 144 }, 0.54f, 20, {235, 239, 247, 255});
         currentGraphPos.y += 189;
 
-        for (auto graphButton : graphCards)
+        for (auto graphContainer : graphCards)
         {
-            DrawTexture(viewGraph_Texture, graphButton.buttonPos.x, graphButton.buttonPos.y + offset, WHITE);
+            DrawTexture(viewGraph_Texture, graphContainer.buttonPos.x, graphContainer.buttonPos.y + offset, WHITE);
+            DrawText(graphContainer.name.c_str(), graphContainer.namePos.x, graphContainer.namePos.y + offset, 40, BLACK);
         }
     }
 }

@@ -23,6 +23,7 @@ class MainMenu : public Scene
     struct graphsCard
     {
         std::string name;
+        Vector2 namePos;
         Vector2 buttonPos; //button position
     };
 
