@@ -22,6 +22,7 @@ void MainMenu::Start() // called once, at the start of the scene
 void MainMenu::Update() // called every frame
 {
     mousePos = GetMousePosition();
+    std::cout << GetFrameTime() << std::endl;
 
     checkCollision();
 
@@ -62,10 +63,9 @@ void MainMenu::onExit() // called once, at the end of the scene
 float MainMenu::calculateGraphsContainer()
 {
     float animationCalc = GetFrameTime() * drag;
-    if (graphsContainerPos >= -500 && graphsIsAnimatingIn)
-        drag *= .8983F;
-    if (graphsContainerPos <= -400 && graphsIsAnimatingOut)
-        drag *= .8983F;
+    if (graphsContainerPos >= -500 && graphsIsAnimatingIn) drag *= .8983F;
+    if (graphsContainerPos <= -500 && graphsIsAnimatingOut) drag *= .8983F;
+    if (drag < 30) drag = 30;
     return animationCalc;
 }
 
