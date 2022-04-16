@@ -1,4 +1,5 @@
 #include "mainMenu.h"
+#include "graph.h"
 
 MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager) : Scene(sceneName), m_sceneManager(sceneManager)
 {
@@ -131,7 +132,9 @@ void MainMenu::checkGraphButtonCollisions()
         {
             if (CheckCollisionPointRec(mousePos, Rectangle{ graphButton.buttonPos.x, graphButton.buttonPos.y + offset, static_cast<float>(this->viewGraph_Texture.width), static_cast<float>(this->viewGraph_Texture.height) }) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             {
-                std::cout << "Displaying graphs for " << graphButton.name << std::endl;
+                //std::cout << "Displaying graphs for " << graphButton.name << std::endl;
+                ss::pl::graph::Graph::fileName = graphButton.name;
+                m_sceneManager.setCurrentScene("Graph");
             }
         });
 }
@@ -204,7 +207,6 @@ void MainMenu::checkCollision()
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             graphsIsAnimatingOut = true;
-
         }
     }
 

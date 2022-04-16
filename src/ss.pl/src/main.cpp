@@ -1,6 +1,7 @@
 #include "mainMenu.h"
 #include "sceneManager.h"
 #include "simulator.h"
+#include "graph.h"
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -18,9 +19,11 @@ int main()
 
     MainMenu scene_MainMenu{"MainMenu", sceneManager};
     Simulation scene_Simulation{"Simulation", sceneManager};
+    ss::pl::graph::Graph scene_Graph{"Graph", sceneManager};
 
     sceneManager.addScene(&scene_MainMenu);
     sceneManager.addScene(&scene_Simulation);
+    sceneManager.addScene(&scene_Graph);
 
     sceneManager.setCurrentScene("MainMenu");
 
