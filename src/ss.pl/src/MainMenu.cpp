@@ -9,8 +9,8 @@ void MainMenu::Start() // called once, at the start of the scene
     loadTextures();
     currentGraphPos = {-834, 54};
     statisticNames = ss::bll::statistics::StatisticsManager::getStatisticsNames();
-    Vector2 graphButtonPos{ 525, 92 };
-    Vector2 graphNamePos{ 53, 102 };
+    graphButtonPos = { 525, 92 };
+    graphNamePos = { 53, 112 };
     for(std::string statistic : statisticNames)
     {
         graphCards.push_back(graphsCard{ statistic, graphNamePos, graphButtonPos });
@@ -76,11 +76,21 @@ void MainMenu::animateGraphsContainer()
     {
         graphsContainerPos += calculateGraphsContainer();
         currentGraphPos.x = graphsContainerPos + 53;
+        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard& graphCard) 
+        {
+                graphCard.buttonPos.x = graphsContainerPos + 525;
+                graphCard.namePos.x = graphsContainerPos + 92;
+        });
     }
     if (graphsIsAnimatingOut)
     {
         graphsContainerPos -= calculateGraphsContainer();
         currentGraphPos.x = graphsContainerPos - 53;
+        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard& graphCard)
+        {
+            graphCard.buttonPos.x = graphsContainerPos + 425;
+            graphCard.namePos.x = graphsContainerPos + 12;
+        });
     }
     if (graphsContainerPos >= 0)
     {

@@ -26,6 +26,8 @@ class MainMenu : public Scene
         Vector2 namePos;
         Vector2 buttonPos; //button position
     };
+    Vector2 graphNamePos;
+    Vector2 graphButtonPos;
 
     std::vector<std::string> statisticNames;
     std::vector<graphsCard> graphCards;
