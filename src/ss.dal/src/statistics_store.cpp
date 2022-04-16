@@ -1,7 +1,6 @@
 // clang-format off
 #include "pch_dal.h"
 #include "statistics_store.h"
-#include <iostream>
 // clang-format on
 
 void ss::types::to_json(json &j, const ss::types::Trait &trait)
@@ -37,7 +36,6 @@ std::vector<std::string> ss::dal::StatisticsStore::getStatisticsNames()
         {
             file = entry.path().filename().string();
             fileNames.push_back(file.substr(0, file.find(".json")));
-            std::cout << file;
         }
     }
 

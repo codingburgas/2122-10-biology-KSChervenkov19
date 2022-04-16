@@ -3,6 +3,8 @@
 #include "SceneManager.h"
 #include "statistics_manager.h"
 #include <raylib.h>
+#include <algorithm>
+#include <ranges>
 
 class MainMenu : public Scene
 {
@@ -14,13 +16,14 @@ class MainMenu : public Scene
     Texture2D graphsContainer_Texture;
     Texture2D graphsMenu_Texture;
     Texture2D themeButton_Texture;
+    Texture2D viewGraph_Texture;
 
     int offset = 0;
 
     struct graphsCard
     {
-        std::string &name;
-        Vector2 pos;
+        std::string name;
+        Vector2 buttonPos; //button position
     };
 
     std::vector<std::string> statisticNames;
@@ -42,6 +45,8 @@ class MainMenu : public Scene
     void displayGraphCards();
 
     auto collisionCoordiantes();
+
+    void checkGraphButtonCollisions();
 
     void loadTextures();
 

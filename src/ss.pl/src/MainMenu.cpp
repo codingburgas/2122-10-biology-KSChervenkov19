@@ -9,11 +9,21 @@ void MainMenu::Start() // called once, at the start of the scene
     loadTextures();
     currentGraphPos = {-834, 54};
     statisticNames = ss::bll::statistics::StatisticsManager::getStatisticsNames();
+    Vector2 graphButtonPos{ 525, 92 };
+    for(std::string statistic : statisticNames)
+    {
+        graphCards.push_back(graphsCard{ statistic, graphButtonPos });
+        graphButtonPos.y += 189;
+    }
 }
 
 void MainMenu::Update() // called every frame
 {
+    mousePos = GetMousePosition();
+
     checkCollision();
+
+    checkGraphButtonCollisions();
 
     BeginDrawing();
 
@@ -38,6 +48,7 @@ void MainMenu::Update() // called every frame
     {
         offset += GetMouseWheelMove() * 35;
     }
+
 }
 
 void MainMenu::onExit() // called once, at the end of the scene
@@ -94,7 +105,23 @@ void MainMenu::displayGraphCards()
         currentGraphPos.y -= GetMouseWheelMove();
         DrawRectangleRounded({currentGraphPos.x, currentGraphPos.y + offset, 781, 144}, 0.54f, 20, RED);
         currentGraphPos.y += 189;
+
+        for (auto graphButton : graphCards)
+        {
+            DrawTexture(viewGraph_Texture, graphButton.buttonPos.x, graphButton.buttonPos.y + offset, WHITE);
+        }
     }
+}
+
+void MainMenu::checkGraphButtonCollisions()
+{
+    std::ranges::for_each(graphCards, [this](const graphsCard& graphButton)
+        {
+            if (CheckCollisionPointRec(mousePos, Rectangle{ graphButton.buttonPos.x, graphButton.buttonPos.y + offset, static_cast<float>(this->viewGraph_Texture.width), static_cast<float>(this->viewGraph_Texture.height) }) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+            {
+                std::cout << "Displaying graphs for " << graphButton.name << std::endl;
+            }
+        });
 }
 
 void MainMenu::deleteTextures()
@@ -115,6 +142,8 @@ void MainMenu::loadTextures()
     graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     graphsMenu_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     themeButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Theme_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    viewGraph_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/View_Graph_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+
 }
 
 auto MainMenu::collisionCoordiantes()
@@ -126,8 +155,6 @@ auto MainMenu::collisionCoordiantes()
 
 void MainMenu::checkCollision()
 {
-    mousePos = GetMousePosition();
-
     if (collisionCoordiantes())
     {
         SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
