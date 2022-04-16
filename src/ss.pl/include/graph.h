@@ -8,22 +8,32 @@
 
 namespace ss::pl::graph
 {
-	class Graph : public Scene
-	{
-	public:
-		Graph(std::string sceneName, SceneManager& sceneManager);
+    class Graph : public Scene
+    {
+    public:
+        Graph(std::string sceneName, SceneManager& sceneManager);
 
-		inline static std::string fileName;
+        const float maxSpeed;
 
-		virtual void Start();
+        inline static std::string fileName;
 
-		virtual void Update();
+        virtual void Start();
 
-		virtual void onExit();
+        virtual void Update();
 
-		SceneManager& m_sceneManager;
+        virtual void onExit();
 
-	private:
-		std::vector <ss::types::Cycle> cycleInfo;
-	};
+        SceneManager& m_sceneManager;
+
+    private:
+        std::vector <ss::types::Cycle> cycleInfo;
+
+        float getHighestSense(const std::vector<ss::types::Cycle>& cycle);
+
+        float getHighestSpeed(const std::vector<ss::types::Cycle>& cycle);
+
+        std::pair<float, float> getHighestSenseAndSpeed(const std::vector<ss::types::Cycle>& cycle);
+
+        std::pair<int, int> getLastedAndDied(const ss::types::Cycle& cycle);
+    };
 }

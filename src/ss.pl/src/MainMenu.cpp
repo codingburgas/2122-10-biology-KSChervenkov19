@@ -131,7 +131,6 @@ void MainMenu::checkGraphButtonCollisions()
         {
             if (CheckCollisionPointRec(mousePos, Rectangle{ graphButton.buttonPos.x, graphButton.buttonPos.y + offset, static_cast<float>(this->viewGraph_Texture.width), static_cast<float>(this->viewGraph_Texture.height) }) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             {
-                //std::cout << "Displaying graphs for " << graphButton.name << std::endl;
                 ss::pl::graph::Graph::fileName = graphButton.name;
                 m_sceneManager.setCurrentScene("Graph");
             }
