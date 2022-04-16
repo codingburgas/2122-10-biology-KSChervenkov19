@@ -33,7 +33,8 @@ void MainMenu::Update() // called every frame
 
     EndDrawing();
 
-    if (offset + GetMouseWheelMove() * 35 <= 0 && std::abs(offset + GetMouseWheelMove() * 35) <= statisticNames.size() * 198 - 1000)
+    if (offset + GetMouseWheelMove() * 35 <= 0 &&
+        std::abs(offset + GetMouseWheelMove() * 35) <= statisticNames.size() * 198 - 1000)
     {
         offset += GetMouseWheelMove() * 35;
     }
