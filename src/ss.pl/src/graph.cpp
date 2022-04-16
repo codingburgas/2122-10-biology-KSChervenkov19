@@ -14,6 +14,8 @@ void ss::pl::graph::Graph::Start() // called once, at the start of the scene
     cycleInfo = ss::bll::statistics::StatisticsManager::getStatisticFrom(fileName);
     maxSense = getHighestSense(cycleInfo);
     maxSpeed = getHighestSpeed(cycleInfo);
+    totalDied = cycleInfo[0].lastedEntities - cycleInfo.back().lastedEntities; // This is not how you do it but im tired and can't think rn
+    totalLasted = cycleInfo.back().lastedEntities;
 }
 
 void ss::pl::graph::Graph::Update() // called every frame
@@ -105,6 +107,8 @@ void ss::pl::graph::Graph::drawGraph()
     DrawTextEx(font, TextFormat("%.1f", maxSense), { 124, 90 }, 39, 0, { 108, 108, 108, 255 });
     DrawTextEx(font, TextFormat("%.1f", maxSpeed), { 900, 826 }, 39, 0, { 108, 108, 108, 255 });
     DrawTextEx(font, "speed", { 478, 868 }, 39, 0, BLACK);
+    DrawTextEx(font, std::format("Lasted: {}", totalLasted).c_str(), {1055, 80}, 70, 0, BLACK);
+    DrawTextEx(font, std::format("Died: {}", totalDied).c_str(), {1055, 217}, 70, 0, BLACK);
     DrawTextPro(font, "sense", { 72, 537 }, { 0, 0 }, 270, 39, 0, BLACK);
     for (int i = 0; i < 8; i++)
     {

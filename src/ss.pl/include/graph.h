@@ -36,6 +36,8 @@ namespace ss::pl::graph
         int leftTextY;
         int bottomLineX;
         int bottomTextX;
+        int totalLasted;
+        int totalDied;
         float currentSense;
         float currentSpeed;
 
