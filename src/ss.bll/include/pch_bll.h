@@ -7,8 +7,11 @@
 #ifndef PCH_H_BLL
 #define PCH_H_BLL
 
+#define _USE_MATH_DEFINES
+
 // add headers that you want to pre-compile here
 #include <string>
 #include <vector>
+#include <cmath>
 
 #endif // PCH_H_BLL

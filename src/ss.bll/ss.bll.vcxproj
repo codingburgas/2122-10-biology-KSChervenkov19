@@ -170,6 +170,7 @@
     <ClInclude Include="include\pch_bll.h" />
     <ClInclude Include="include\simulation.h" />
     <ClInclude Include="include\statistics_manager.h" />
+    <ClInclude Include="include\utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pch_bll.cpp">
@@ -180,6 +181,7 @@
     </ClCompile>
     <ClCompile Include="src\simulation.cpp" />
     <ClCompile Include="src\statistics_manager.cpp" />
+    <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ss.dal\ss.dal.vcxproj">
