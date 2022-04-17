@@ -26,6 +26,8 @@ void Simulation::Update() // called every frame
 
     checkInput();
 
+    UpdateCamera(&camera);
+
     BeginDrawing();
 
     ClearBackground(backgroundColors.at(static_cast<int>(currentTheme)));
@@ -74,7 +76,6 @@ void Simulation::checkInput()
         camera.target = { 0.0f, 0.0f, 0.0f };
         camera.up = { 0.0f, 1.0f, 0.0f };
     }
-
 }
 
 void Simulation::drawSetup()
@@ -102,10 +103,8 @@ void Simulation::drawSetup()
 
 void Simulation::drawSimulation()
 {
-    UpdateCamera(&camera);
-
     BeginMode3D(camera);
-    DrawPlane({0.0f, 0.0f, 0.0f}, {15.0f, 15.0f}, RED);
+    DrawGrid(10, 1.0f); /*({ 0.0f, 0.0f, 0.0f }, { 15.0f, 15.0f }, RED);*/
     EndMode3D();
 }
 

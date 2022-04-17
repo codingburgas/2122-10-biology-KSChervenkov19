@@ -121,7 +121,7 @@ void ss::pl::graph::Graph::drawGraph()
 
 void ss::pl::graph::Graph::loadAssets()
 {
-    font = LoadFontEx("../../assets/fonts/Inter.ttf", 1000, 0, 0);
+    font = LoadFontEx("../../assets/fonts/Inter.ttf", 95, 0, 0);
     backArrow_Texture = LoadTexture(
         std::format("../../assets/{}/graph/Back_Arrow.png", themePaths.at(static_cast<int>(Graph::currentTheme)))
             .c_str());
@@ -134,6 +134,7 @@ void ss::pl::graph::Graph::deleteAssets()
 {
     UnloadTexture(backArrow_Texture);
     UnloadTexture(graph_Container);
+    UnloadFont(font);
 }
 
 void ss::pl::graph::Graph::checkCollision()
