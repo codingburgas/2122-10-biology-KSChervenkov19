@@ -35,6 +35,11 @@ void ss::pl::graph::Graph::onExit() // called once, at the end of the scene
     deleteAssets();
 }
 
+/// Getter highest sense function.
+/// 
+/// Function which gets the highest sense of a generation holding in a .json file.
+/// @param cycles Generation data.
+/// @return Highest sense as a float.
 float ss::pl::graph::Graph::getHighestSense(const std::vector<ss::types::Cycle> &cycles)
 {
     auto maxSenseFromCycle = [](const std::vector<ss::types::Trait> &traits) {
@@ -53,6 +58,11 @@ float ss::pl::graph::Graph::getHighestSense(const std::vector<ss::types::Cycle> 
     return *std::ranges::max_element(maxSenses);
 }
 
+/// Getter highest speed function.
+/// 
+/// Function which gets the highest speed of a generation holding in a .json file.
+/// @param cycles Generation data.
+/// @return Highest speed as a float.
 float ss::pl::graph::Graph::getHighestSpeed(const std::vector<ss::types::Cycle> &cycles)
 {
     auto maxSpeedFromCycle = [](const std::vector<ss::types::Trait> &traits) {
@@ -71,11 +81,22 @@ float ss::pl::graph::Graph::getHighestSpeed(const std::vector<ss::types::Cycle> 
     return *std::ranges::max_element(maxSpeeds);
 }
 
+
+/// Function returning the highest sense and speed.
+/// 
+/// Function returning the highest sense and speed as a pair of floats.
+/// @param cycles Generation data.
+/// @return A pair of floats holding sense and speed.
 std::pair<float, float> ss::pl::graph::Graph::getHighestSenseAndSpeed(const std::vector<ss::types::Cycle> &cycle)
 {
     return {getHighestSense(cycle), getHighestSpeed(cycle)};
 }
 
+/// Function returning lasted and died entities.
+/// 
+/// Function returning lasted and died entities of each cycle. The died entities are calculated using the previous cycle.
+/// @param cycle A cycle of a generation.
+/// @return A pair of ints holding lasted and died.
 std::pair<int, int> ss::pl::graph::Graph::getLastedAndDied(const ss::types::Cycle& cycle) // !WARNING! THE FUNCTION IS UNSAFE!
 {
     return { cycle.lastedEntities, (&cycle - sizeof(ss::types::Cycle))->lastedEntities - cycle.lastedEntities };
