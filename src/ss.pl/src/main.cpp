@@ -1,7 +1,7 @@
+#include "graph.h"
 #include "mainMenu.h"
 #include "sceneManager.h"
 #include "simulator.h"
-#include "graph.h"
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"

@@ -2,9 +2,9 @@
 
 #include "SceneManager.h"
 #include "statistics_manager.h"
-#include <raylib.h>
 #include <algorithm>
 #include <ranges>
+#include <raylib.h>
 
 class MainMenu : public Scene
 {
@@ -24,7 +24,7 @@ class MainMenu : public Scene
     {
         std::string name;
         Vector2 namePos;
-        Vector2 buttonPos; //button position
+        Vector2 buttonPos; // button position
     };
     Vector2 graphNamePos;
     Vector2 graphButtonPos;

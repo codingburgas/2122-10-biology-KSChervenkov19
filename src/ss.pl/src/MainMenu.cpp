@@ -10,11 +10,11 @@ void MainMenu::Start() // called once, at the start of the scene
     loadTextures();
     currentGraphPos = {-834, 54};
     statisticNames = ss::bll::statistics::StatisticsManager::getStatisticsNames();
-    graphButtonPos = { 525, 92 };
-    graphNamePos = { 53, 112 };
-    for(std::string statistic : statisticNames)
+    graphButtonPos = {525, 92};
+    graphNamePos = {53, 112};
+    for (std::string statistic : statisticNames)
     {
-        graphCards.push_back(graphsCard{ statistic, graphNamePos, graphButtonPos });
+        graphCards.push_back(graphsCard{statistic, graphNamePos, graphButtonPos});
         graphNamePos.y += 189;
         graphButtonPos.y += 189;
     }
@@ -49,7 +49,6 @@ void MainMenu::Update() // called every frame
     {
         offset += GetMouseWheelMove() * 35;
     }
-
 }
 
 void MainMenu::onExit() // called once, at the end of the scene
@@ -61,9 +60,12 @@ void MainMenu::onExit() // called once, at the end of the scene
 float MainMenu::calculateGraphsContainer()
 {
     float animationCalc = GetFrameTime() * drag;
-    if (graphsContainerPos >= -500 && graphsIsAnimatingIn) drag *= .8983F;
-    if (graphsContainerPos <= -500 && graphsIsAnimatingOut) drag *= .8983F;
-    if (drag < 30) drag = 30;
+    if (graphsContainerPos >= -500 && graphsIsAnimatingIn)
+        drag *= .8983F;
+    if (graphsContainerPos <= -500 && graphsIsAnimatingOut)
+        drag *= .8983F;
+    if (drag < 30)
+        drag = 30;
     return animationCalc;
 }
 
@@ -74,18 +76,16 @@ void MainMenu::animateGraphsContainer()
     {
         graphsContainerPos += calculateGraphsContainer();
         currentGraphPos.x = graphsContainerPos + 53;
-        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard& graphCard) 
-        {
-                graphCard.buttonPos.x = graphsContainerPos + 525;
-                graphCard.namePos.x = graphsContainerPos + 92;
+        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard) {
+            graphCard.buttonPos.x = graphsContainerPos + 525;
+            graphCard.namePos.x = graphsContainerPos + 92;
         });
     }
     if (graphsIsAnimatingOut)
     {
         graphsContainerPos -= calculateGraphsContainer();
         currentGraphPos.x = graphsContainerPos - 53;
-        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard& graphCard)
-        {
+        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard) {
             graphCard.buttonPos.x = graphsContainerPos + 425;
             graphCard.namePos.x = graphsContainerPos + 12;
         });
@@ -114,27 +114,31 @@ void MainMenu::displayGraphCards()
     for (auto statistics : statisticNames)
     {
         currentGraphPos.y -= GetMouseWheelMove();
-        DrawRectangleRounded({ currentGraphPos.x, currentGraphPos.y + offset, 781, 144 }, 0.54f, 20, {235, 239, 247, 255});
+        DrawRectangleRounded({currentGraphPos.x, currentGraphPos.y + offset, 781, 144}, 0.54f, 20,
+                             {235, 239, 247, 255});
         currentGraphPos.y += 189;
 
         for (auto graphContainer : graphCards)
         {
             DrawTexture(viewGraph_Texture, graphContainer.buttonPos.x, graphContainer.buttonPos.y + offset, WHITE);
-            DrawTextEx(font, graphContainer.name.c_str(), { graphContainer.namePos.x, graphContainer.namePos.y + offset }, 40, 1, BLACK);
+            DrawTextEx(font, graphContainer.name.c_str(), {graphContainer.namePos.x, graphContainer.namePos.y + offset},
+                       40, 1, BLACK);
         }
     }
 }
 
 void MainMenu::checkGraphButtonCollisions()
 {
-    std::ranges::for_each(graphCards, [this](const graphsCard& graphButton)
+    std::ranges::for_each(graphCards, [this](const graphsCard &graphButton) {
+        if (CheckCollisionPointRec(mousePos, Rectangle{graphButton.buttonPos.x, graphButton.buttonPos.y + offset,
+                                                       static_cast<float>(this->viewGraph_Texture.width),
+                                                       static_cast<float>(this->viewGraph_Texture.height)}) &&
+            IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
-            if (CheckCollisionPointRec(mousePos, Rectangle{ graphButton.buttonPos.x, graphButton.buttonPos.y + offset, static_cast<float>(this->viewGraph_Texture.width), static_cast<float>(this->viewGraph_Texture.height) }) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-            {
-                ss::pl::graph::Graph::fileName = graphButton.name;
-                m_sceneManager.setCurrentScene("Graph");
-            }
-        });
+            ss::pl::graph::Graph::fileName = graphButton.name;
+            m_sceneManager.setCurrentScene("Graph");
+        }
+    });
 }
 
 void MainMenu::deleteTextures()
