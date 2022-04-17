@@ -76,12 +76,10 @@ std::pair<float, float> ss::pl::graph::Graph::getHighestSenseAndSpeed(const std:
     return {getHighestSense(cycle), getHighestSpeed(cycle)};
 }
 
-/*
-std::pair<int, int> getLastedAndDied(const ss::types::Cycle& cycle)
+std::pair<int, int> getLastedAndDied(const ss::types::Cycle& cycle) // !WARNING! THE FUNCTION IS UNSAFE!
 {
-    //Use memory for deads
+    return { cycle.lastedEntities, (&cycle - sizeof(ss::types::Cycle))->lastedEntities - cycle.lastedEntities };
 }
-*/
 
 void ss::pl::graph::Graph::drawGraph()
 {
