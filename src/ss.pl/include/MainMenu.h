@@ -9,8 +9,15 @@
 class MainMenu : public Scene
 {
   private:
+    //instance of the scene manager
+    SceneManager& m_sceneManager;
+
+    //Vector2 variables
     Vector2 mousePos;
     Vector2 currentGraphPos;
+    int scrollOffset = 0;
+
+    //Textures
     Texture2D simulatorButton_Texture;
     Texture2D logo_Texture;
     Texture2D graphsContainer_Texture;
@@ -18,53 +25,55 @@ class MainMenu : public Scene
     Texture2D themeButton_Texture;
     Texture2D viewGraph_Texture;
 
-    int offset = 0;
+    //Custom font
+    Font font;
 
+    //Variables, regarding the graph containers
     struct graphsCard
     {
         std::string name;
         Vector2 namePos;
-        Vector2 buttonPos; // button position
+        Vector2 buttonPos;
     };
+
     Vector2 graphNamePos;
     Vector2 graphButtonPos;
 
     std::vector<std::string> statisticNames;
     std::vector<graphsCard> graphCards;
 
+    //Variables, used to handle the graph container animation
     bool graphsIsAnimatingIn = false;
     bool graphsIsAnimatingOut = false;
     bool graphsIsOut = false;
 
     float graphsContainerPos = -887;
-    float drag = 3000;
+    float graphContainerAnimationEase = 3000;
 
-    float calculateGraphsContainer();
+    //Methods, handling different things
+    void handleScroll();
+    bool handleMouseCursor();
 
+    //Methods, checking mouse collisions
     void checkCollision();
-
-    void animateGraphsContainer();
-
-    void displayGraphCards();
-
-    auto collisionCoordiantes();
-
     void checkGraphButtonCollisions();
 
-    void loadTextures();
+    //Methods, used to handle the graphs container
+    float calculateGraphsContainer();
+    void animateGraphsContainer();
+    void displayGraphCards();
 
+    //Methods for setup and cleanup of variables
+    void loadTextures();
     void deleteTextures();
 
   public:
     MainMenu(std::string sceneName, SceneManager &sceneManager);
 
-    void Start();
+    //Derived methods from class Scene
+    virtual void Start();
 
-    void Update();
+    virtual void Update();
 
-    void onExit();
-
-    SceneManager &m_sceneManager;
-
-    Font font;
+    virtual void onExit();
 };
