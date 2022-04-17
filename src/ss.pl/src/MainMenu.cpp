@@ -153,7 +153,7 @@ void MainMenu::deleteTextures()
 // clang-format off
 void MainMenu::loadTextures()
 {
-    font = LoadFontEx("../../assets/fonts/Inter.ttf", 96, 0, 0);
+    font = LoadFontEx("../../assets/fonts/Inter.ttf", 1000, 0, 0);
     simulatorButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Simulator_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     logo_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Logo_Transparent.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
