@@ -195,9 +195,12 @@ void ss::pl::graph::Graph::checkCollision()
         totalAlive = cycleInfo[currentCycle - 1].lastedEntities;
         if (currentCycle != 1)
         {
+            float testing = std::abs(static_cast<float> ((cycleInfo[currentCycle - 1].lastedEntities - cycleInfo[currentCycle - 2].lastedEntities)) / cycleInfo[currentCycle - 2].lastedEntities) * 100;
+            float testing2 = std::abs(static_cast<float> ((cycleInfo[currentCycle - 2].lastedEntities - cycleInfo[currentCycle - 1].lastedEntities)) / cycleInfo[currentCycle - 2].lastedEntities) * 100;
+
             populationChange = (cycleInfo[currentCycle - 1].lastedEntities > cycleInfo[currentCycle - 2].lastedEntities) ?
-                std::format("Growth with: {}", cycleInfo[currentCycle - 1].lastedEntities - cycleInfo[currentCycle - 2].lastedEntities).c_str() :
-                std::format("Decrease with: {}", cycleInfo[currentCycle - 2].lastedEntities - cycleInfo[currentCycle - 1].lastedEntities).c_str();
+                std::format("Growth with: {} %", std::round(testing)):
+                std::format("Decrease with: {} %", std::round(testing2));
         }
         else
         {
@@ -214,9 +217,12 @@ void ss::pl::graph::Graph::checkCollision()
         totalAlive = cycleInfo[currentCycle - 1].lastedEntities;
         if (currentCycle != 1)
         {
+            float testing = std::abs(static_cast<float> ((cycleInfo[currentCycle - 1].lastedEntities - cycleInfo[currentCycle - 2].lastedEntities)) / cycleInfo[currentCycle - 2].lastedEntities) * 100;
+            float testing2 = std::abs(static_cast<float> ((cycleInfo[currentCycle - 2].lastedEntities - cycleInfo[currentCycle - 1].lastedEntities)) / cycleInfo[currentCycle - 2].lastedEntities) * 100;
+
             populationChange = (cycleInfo[currentCycle - 1].lastedEntities > cycleInfo[currentCycle - 2].lastedEntities) ?
-                std::format("Growth with: {}", cycleInfo[currentCycle - 1].lastedEntities - cycleInfo[currentCycle - 2].lastedEntities):
-                std::format("Decrease with: {}", cycleInfo[currentCycle - 2].lastedEntities - cycleInfo[currentCycle - 1].lastedEntities);
+                std::format("Growth with: {} %", std::round(testing)):
+                std::format("Decrease with: {} %", std::round(testing2));
         }
         else
         {
