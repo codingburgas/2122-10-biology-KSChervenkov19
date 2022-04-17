@@ -3,8 +3,6 @@
 #include "pch_types.h"
 // clang-format on
 
-// TODO: Change name to simulation_data;
-
 namespace ss::types
 {
 struct SimulationInfo

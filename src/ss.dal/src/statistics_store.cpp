@@ -25,6 +25,10 @@ void ss::types::from_json(const json &j, ss::types::Cycle &cycle)
     j.at("Traits").get_to(cycle.traitsInfo);
 }
 
+/// Getter files names' function.
+/// 
+/// The function searches for a file with a .json extension and gets its name.
+/// @return An array of names
 std::vector<std::string> ss::dal::StatisticsStore::getStatisticsNames()
 {
     std::vector<std::string> fileNames;
@@ -42,6 +46,11 @@ std::vector<std::string> ss::dal::StatisticsStore::getStatisticsNames()
     return fileNames;
 }
 
+/// Save generation data into a .json file.
+/// 
+/// The functions saves a generation data into a .json file using a user chosen name as a name of the file.
+/// @param fileName A file name which the data will be saved into.
+/// @param cycles A generation data.
 void ss::dal::StatisticsStore::saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles)
 {
     std::ofstream out(fileName + ".json");
@@ -55,7 +64,10 @@ void ss::dal::StatisticsStore::saveStatisticTo(const std::string &fileName, cons
     out.close();
 }
 
-// Uses current time as a timestamp
+/// Save generation data into a .json file.
+/// 
+/// The functions saves a generation data into a .json file using a timestamp as a name of the file.
+/// @param cycles A generation data.
 void ss::dal::StatisticsStore::saveStatisticTo(const std::vector<ss::types::Cycle> &cycles)
 {
     time_t currentTimeStamp = std::time(0);
@@ -63,6 +75,11 @@ void ss::dal::StatisticsStore::saveStatisticTo(const std::vector<ss::types::Cycl
     saveStatisticTo(std::to_string(currentTimeStamp), cycles);
 }
 
+/// Getter a statistic data function.
+/// 
+/// The function gets the generation data from saved in the .json file.
+/// @param fileName The file which holds needed generation data.
+/// @return An array of cycles which is a generation.
 std::vector<ss::types::Cycle> ss::dal::StatisticsStore::getStatisticFrom(const std::string &fileName)
 {
     std::ifstream in("../../statistics/" + fileName + ".json");
