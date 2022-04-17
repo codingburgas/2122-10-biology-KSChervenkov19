@@ -88,7 +88,7 @@ void ss::pl::graph::Graph::drawGraph()
     bottomLineX = 219;
     bottomTextX = 834;
     currentSense = maxSenseAndSpeed.first - maxSenseAndSpeed.second / 9;
-    currentSense = maxSenseAndSpeed.second - maxSenseAndSpeed.second / 9;
+    currentSpeed = maxSenseAndSpeed.second - maxSenseAndSpeed.second / 9;
 
     DrawTexture(backArrow_Texture, 50, 90, WHITE);
     DrawTexture(graph_Container, 1020, 0, WHITE);
@@ -121,7 +121,7 @@ void ss::pl::graph::Graph::drawGraph()
 
 void ss::pl::graph::Graph::loadAssets()
 {
-    font = LoadFontEx("../../assets/fonts/Inter.ttf", 96, 0, 0);
+    font = LoadFontEx("../../assets/fonts/Inter.ttf", 1000, 0, 0);
     backArrow_Texture = LoadTexture(
         std::format("../../assets/{}/graph/Back_Arrow.png", themePaths.at(static_cast<int>(Graph::currentTheme)))
             .c_str());
