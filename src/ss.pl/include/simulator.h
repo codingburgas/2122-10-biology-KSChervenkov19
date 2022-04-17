@@ -13,6 +13,8 @@ class Simulation : public Scene
     Texture2D backArrow_Texture;
     Texture2D simulateButton_Texture;
     Font fontInter;
+    
+    Vector2 mousePos;
 
     Camera3D camera{0};
 
@@ -31,6 +33,8 @@ class Simulation : public Scene
 
     void drawSetup();
     void drawSimulation();
+
+    void checkInput();
 
     void loadAssets();
     void deleteTextures();
