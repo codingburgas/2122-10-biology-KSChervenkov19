@@ -22,6 +22,12 @@ void Simulation::Start() // called once, at the start of the scene
 
 void Simulation::Update() // called every frame
 {
+    mousePos = GetMousePosition();
+
+    checkInput();
+
+    UpdateCamera(&camera);
+
     BeginDrawing();
 
     ClearBackground(backgroundColors.at(static_cast<int>(currentTheme)));
@@ -29,13 +35,19 @@ void Simulation::Update() // called every frame
     (currentState == SimulatorState::Setup) ? drawSetup() : drawSimulation();
 
     EndDrawing();
+}
 
-    Vector2 mousePos = GetMousePosition();
+void Simulation::onExit() // called once, at the end of the scene
+{
+    deleteTextures();
+}
 
-    if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
-                                          static_cast<float>(backArrow_Texture.height)}) ||
-        CheckCollisionPointRec(mousePos, {1064, 820, static_cast<float>(simulateButton_Texture.width),
-                                          static_cast<float>(simulateButton_Texture.height)}))
+void Simulation::checkInput()
+{
+    if (CheckCollisionPointRec(mousePos, { 50, 90, static_cast<float>(backArrow_Texture.width),
+                                          static_cast<float>(backArrow_Texture.height) }) ||
+        CheckCollisionPointRec(mousePos, { 1064, 820, static_cast<float>(simulateButton_Texture.width),
+                                          static_cast<float>(simulateButton_Texture.height) }))
     {
         SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
     }
@@ -44,24 +56,26 @@ void Simulation::Update() // called every frame
         SetMouseCursor(MOUSE_CURSOR_DEFAULT);
     }
 
-    if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
-                                          static_cast<float>(backArrow_Texture.height)}) &&
+    if (CheckCollisionPointRec(mousePos, { 50, 90, static_cast<float>(backArrow_Texture.width),
+                                          static_cast<float>(backArrow_Texture.height) }) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         m_sceneManager.setCurrentScene("MainMenu");
     }
 
-    if (CheckCollisionPointRec(mousePos, {1064, 820, static_cast<float>(simulateButton_Texture.width),
-                                          static_cast<float>(simulateButton_Texture.height)}) &&
+    if (CheckCollisionPointRec(mousePos, { 1064, 820, static_cast<float>(simulateButton_Texture.width),
+                                          static_cast<float>(simulateButton_Texture.height) }) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         Simulation::currentState = SimulatorState::Simulation;
     }
-}
 
-void Simulation::onExit() // called once, at the end of the scene
-{
-    deleteTextures();
+    if (IsKeyPressed(KEY_R))
+    {
+        camera.position = { 10.0f, 10.0f, 10.0f };
+        camera.target = { 0.0f, 0.0f, 0.0f };
+        camera.up = { 0.0f, 1.0f, 0.0f };
+    }
 }
 
 void Simulation::drawSetup()
@@ -89,10 +103,8 @@ void Simulation::drawSetup()
 
 void Simulation::drawSimulation()
 {
-    UpdateCamera(&camera);
-
     BeginMode3D(camera);
-    DrawPlane({0.0f, 0.0f, 0.0f}, {15.0f, 15.0f}, RED);
+    DrawGrid(10, 1.0f); /*({ 0.0f, 0.0f, 0.0f }, { 15.0f, 15.0f }, RED);*/
     EndMode3D();
 }
 
