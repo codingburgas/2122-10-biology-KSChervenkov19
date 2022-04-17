@@ -10,7 +10,7 @@ void Simulation::Start() // called once, at the start of the scene
     loadAssets();
     graphsContainerPos = 950;
     cyclesCount = 1;
-    worldSize = 100;
+    worldSize = 10;
     entities = 10;
     food = 20;
     cycles = 5;
@@ -80,6 +80,10 @@ void Simulation::checkInput()
 
 void Simulation::drawSetup()
 {
+    BeginMode3D(camera);
+        DrawGrid(worldSize, 1.0f);
+    EndMode3D();
+
     DrawTexture(setupContainer_Texture, graphsContainerPos, 0, WHITE);
     DrawTexture(simulateButton_Texture, 1064, 820, WHITE);
     DrawTexture(backArrow_Texture, 57, 90, WHITE);
@@ -95,16 +99,19 @@ void Simulation::drawSetup()
     DrawTextEx(fontInter, TextFormat("%i", food), {1412, 490}, 25.5F, 0,
                backgroundColors.at(!(static_cast<int>(currentTheme))));
 
-    worldSize = GuiSliderBar({1000, 132, 455, 53}, nullptr, nullptr, worldSize, 50, 500);
+    worldSize = GuiSliderBar({1000, 132, 455, 53}, nullptr, nullptr, worldSize, 1, 50);
     entities = GuiSliderBar({1000, 282, 455, 53}, nullptr, nullptr, entities, 1, 200);
     food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 1, 500);
     GuiValueBox({1180, 730, 242, 51}, nullptr, &cycles, 1, 200, true);
+
+
+
 }
 
 void Simulation::drawSimulation()
 {
     BeginMode3D(camera);
-    DrawGrid(10, 1.0f); /*({ 0.0f, 0.0f, 0.0f }, { 15.0f, 15.0f }, RED);*/
+        DrawGrid(worldSize, 1.0f);
     EndMode3D();
 }
 
