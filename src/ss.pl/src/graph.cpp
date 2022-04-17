@@ -11,8 +11,7 @@ void ss::pl::graph::Graph::Start() // called once, at the start of the scene
 {
     loadAssets();
     cycleInfo = ss::bll::statistics::StatisticsManager::getStatisticFrom(fileName);
-    maxSense = getHighestSense(cycleInfo);
-    maxSpeed = getHighestSpeed(cycleInfo);
+    std::tie(maxSense, maxSpeed) = getHighestSenseAndSpeed(cycleInfo);
     totalDied = cycleInfo[0].lastedEntities -
                 cycleInfo.back().lastedEntities; // This is not how you do it but im tired and can't think rn
     totalLasted = cycleInfo.back().lastedEntities;
