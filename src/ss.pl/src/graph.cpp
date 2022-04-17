@@ -11,7 +11,7 @@ void ss::pl::graph::Graph::Start() // called once, at the start of the scene
 {
     loadAssets();
     cycleInfo = ss::bll::statistics::StatisticsManager::getStatisticFrom(fileName);
-    std::tie(maxSense, maxSpeed) = getHighestSenseAndSpeed(cycleInfo);
+    maxSenseAndSpeed = getHighestSenseAndSpeed(cycleInfo);
     totalDied = cycleInfo[0].lastedEntities -
                 cycleInfo.back().lastedEntities; // This is not how you do it but im tired and can't think rn
     totalLasted = cycleInfo.back().lastedEntities;
@@ -87,16 +87,16 @@ void ss::pl::graph::Graph::drawGraph()
     leftTextY = 155;
     bottomLineX = 219;
     bottomTextX = 834;
-    currentSense = maxSense - maxSense / 9;
-    currentSpeed = maxSpeed - maxSpeed / 9;
+    currentSense = maxSenseAndSpeed.first - maxSenseAndSpeed.second / 9;
+    currentSense = maxSenseAndSpeed.second - maxSenseAndSpeed.second / 9;
 
     DrawTexture(backArrow_Texture, 50, 90, WHITE);
     DrawTexture(graph_Container, 1020, 0, WHITE);
     DrawRectangle(198, 118, 9, 691, {196, 196, 196, 255});
     DrawRectangle(198, 809, 727, 9, {196, 196, 196, 255});
     DrawTextEx(font, "0", {165, 826}, 39, 0, {108, 108, 108, 255});
-    DrawTextEx(font, TextFormat("%.1f", maxSense), {124, 90}, 39, 0, {108, 108, 108, 255});
-    DrawTextEx(font, TextFormat("%.1f", maxSpeed), {900, 826}, 39, 0, {108, 108, 108, 255});
+    DrawTextEx(font, TextFormat("%.1f", maxSenseAndSpeed.first), {124, 90}, 39, 0, {108, 108, 108, 255});
+    DrawTextEx(font, TextFormat("%.1f", maxSenseAndSpeed.second), {900, 826}, 39, 0, {108, 108, 108, 255});
     DrawTextEx(font, "speed", {478, 868}, 39, 0, BLACK);
     DrawTextEx(font, std::format("Lasted: {}", totalLasted).c_str(), {1055, 80}, 70, 0, BLACK);
     DrawTextEx(font, std::format("Died: {}", totalDied).c_str(), {1055, 217}, 70, 0, BLACK);
@@ -114,8 +114,8 @@ void ss::pl::graph::Graph::drawGraph()
         bottomLineX += 90;
         bottomTextX -= 90;
 
-        currentSense = currentSense - maxSense / 8;
-        currentSpeed = currentSpeed - maxSpeed / 8;
+        currentSense = currentSense - maxSenseAndSpeed.first / 8;
+        currentSpeed = currentSpeed - maxSenseAndSpeed.second / 8;
     }
 }
 

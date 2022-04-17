@@ -13,8 +13,7 @@ class Graph : public Scene
   public:
     Graph(std::string sceneName, SceneManager &sceneManager);
 
-    float maxSpeed;
-    float maxSense;
+    std::pair < float, float> maxSenseAndSpeed;
 
     inline static std::string fileName;
 
