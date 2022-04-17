@@ -28,6 +28,8 @@ class Graph : public Scene
   private:
     Texture2D backArrow_Texture;
     Texture2D graph_Container;
+    Texture2D cycle_Next;
+    Texture2D cycle_Prev;
     Vector2 mousePos;
     Font font;
 
@@ -35,10 +37,11 @@ class Graph : public Scene
     int leftTextY;
     int bottomLineX;
     int bottomTextX;
-    int totalLasted;
-    int totalDied;
+    int totalAlive;
+    size_t currentCycle;
     float currentSense;
     float currentSpeed;
+    std::string populationChange;
 
     std::vector<ss::types::Cycle> cycleInfo;
 
@@ -53,6 +56,7 @@ class Graph : public Scene
     void loadAssets();
     void deleteAssets();
     void drawGraph();
+    void drawMenu();
     void checkCollision();
 };
 } // namespace ss::pl::graph
