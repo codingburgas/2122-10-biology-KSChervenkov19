@@ -26,8 +26,6 @@ void Simulation::Update() // called every frame
 
     checkInput();
 
-    UpdateCamera(&camera);
-
     BeginDrawing();
 
     ClearBackground(backgroundColors.at(static_cast<int>(currentTheme)));
@@ -104,12 +102,17 @@ void Simulation::drawSetup()
     food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 1, 500);
     GuiValueBox({1180, 730, 242, 51}, nullptr, &cycles, 1, 200, true);
 
-
+    if (!CheckCollisionPointRec(mousePos, { graphsContainerPos, 0, (float)setupContainer_Texture.width, (float)setupContainer_Texture.height }))
+    {
+        UpdateCamera(&camera);
+    }
 
 }
 
 void Simulation::drawSimulation()
 {
+    UpdateCamera(&camera);
+
     BeginMode3D(camera);
         DrawGrid(worldSize, 1.0f);
     EndMode3D();

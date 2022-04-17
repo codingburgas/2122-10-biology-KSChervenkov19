@@ -302,6 +302,7 @@ typedef struct Camera3D {
     Vector3 up;             // Camera up vector (rotation over its axis)
     float fovy;             // Camera field-of-view apperture in Y (degrees) in perspective, used as near plane width in orthographic
     int projection;         // Camera projection: CAMERA_PERSPECTIVE or CAMERA_ORTHOGRAPHIC
+    bool canRotate;
 } Camera3D;
 
 typedef Camera3D Camera;    // Camera type fallback, defaults to Camera3D
