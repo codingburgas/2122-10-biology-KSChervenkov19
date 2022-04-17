@@ -16,8 +16,12 @@ void Simulation::Start() // called once, at the start of the scene
     cycles = 5;
 
     camera = Camera3D{{10.0f, 10.0f, 10.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, 45.0f, CAMERA_PERSPECTIVE};
+    camera.canRotate = false;
 
     SetCameraMode(camera, CAMERA_FREE);
+
+    planePos = { 0.0f, 0.0f };
+
 }
 
 void Simulation::Update() // called every frame
@@ -66,20 +70,27 @@ void Simulation::checkInput()
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         Simulation::currentState = SimulatorState::Simulation;
+        camera.canRotate = true;
+        resetCamera();
     }
 
     if (IsKeyPressed(KEY_R))
     {
-        camera.position = { 10.0f, 10.0f, 10.0f };
-        camera.target = { 0.0f, 0.0f, 0.0f };
-        camera.up = { 0.0f, 1.0f, 0.0f };
+        resetCamera();
     }
+}
+
+void Simulation::resetCamera()
+{
+    camera.position = { 10.0f, 10.0f, 10.0f };
+    camera.target = { 0.0f, 0.0f, 0.0f };
+    camera.up = { 0.0f, 1.0f, 0.0f };
 }
 
 void Simulation::drawSetup()
 {
     BeginMode3D(camera);
-        DrawGrid(worldSize, 1.0f);
+        DrawPlane({ planePos.x-8.0f, planePos.y-5.0f, 0.0f }, { (float)worldSize, (float)worldSize }, WHITE);
     EndMode3D();
 
     DrawTexture(setupContainer_Texture, graphsContainerPos, 0, WHITE);
@@ -102,11 +113,10 @@ void Simulation::drawSetup()
     food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 1, 500);
     GuiValueBox({1180, 730, 242, 51}, nullptr, &cycles, 1, 200, true);
 
-    if (!CheckCollisionPointRec(mousePos, { graphsContainerPos, 0, (float)setupContainer_Texture.width, (float)setupContainer_Texture.height }))
+    if (!CheckCollisionPointRec(mousePos, { 950, 0, (float)graphsContainerPos, (float)graphsContainerPos }))
     {
         UpdateCamera(&camera);
     }
-
 }
 
 void Simulation::drawSimulation()
@@ -115,6 +125,7 @@ void Simulation::drawSimulation()
 
     BeginMode3D(camera);
         DrawGrid(worldSize, 1.0f);
+        DrawPlane({ 0.0f, 0.0f, 0.0f }, { (float)worldSize, (float)worldSize }, WHITE);
     EndMode3D();
 }
 

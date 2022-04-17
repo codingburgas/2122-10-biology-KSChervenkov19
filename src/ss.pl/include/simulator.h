@@ -15,6 +15,7 @@ class Simulation : public Scene
     Font fontInter;
     
     Vector2 mousePos;
+    Vector2 planePos;
 
     Camera3D camera{0};
 
@@ -35,6 +36,7 @@ class Simulation : public Scene
     void drawSimulation();
 
     void checkInput();
+    void resetCamera();
 
     void loadAssets();
     void deleteTextures();
