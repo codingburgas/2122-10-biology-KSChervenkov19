@@ -8,6 +8,7 @@ Simulation::Simulation(std::string sceneName, SceneManager &sceneManager)
 void Simulation::Start() // called once, at the start of the scene
 {
     loadAssets();
+
     graphsContainerPos = 950;
     cyclesCount = 1;
     worldSize = 10;
@@ -17,7 +18,6 @@ void Simulation::Start() // called once, at the start of the scene
 
     camera = Camera3D{{10.0f, 10.0f, 10.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, 45.0f, CAMERA_PERSPECTIVE};
     camera.canRotate = false;
-
     SetCameraMode(camera, CAMERA_FREE);
 
     planePos = { 0.0f, 0.0f };
@@ -32,9 +32,9 @@ void Simulation::Update() // called every frame
 
     BeginDrawing();
 
-    ClearBackground(backgroundColors.at(static_cast<int>(currentTheme)));
+        ClearBackground(backgroundColors.at(static_cast<int>(currentTheme)));
 
-    (currentState == SimulatorState::Setup) ? drawSetup() : drawSimulation();
+        (currentState == SimulatorState::Setup) ? drawSetup() : drawSimulation();
 
     EndDrawing();
 }
