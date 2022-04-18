@@ -6,13 +6,16 @@
 
 namespace ss::bll::simulation
 {
-enum class DirectionsDeg
-{
-    LEFT = 0,
-    UP = 90,
-    RIGHT = 180,
-    DOWN = 270,
-};
+	///
+	/// @brief An enumeration type describing the directions of the board.
+	///
+	enum class DirectionsDeg
+    {
+        LEFT = 0,
+        UP = 90,
+        RIGHT = 180,
+        DOWN = 270,
+    };
 
 class Entity
 {
