@@ -13,8 +13,6 @@ class Graph : public Scene
   public:
     Graph(std::string sceneName, SceneManager &sceneManager);
 
-    std::pair<float, float> maxSenseAndSpeed;
-
     inline static std::string fileName;
 
     virtual void Start();
@@ -31,27 +29,25 @@ class Graph : public Scene
     Texture2D cycle_Next;
     Texture2D cycle_Prev;
     Vector2 mousePos;
-    Font font;
+    Vector2 graphLine;
+    Vector2 graphText;
+    Font fontInter;
 
-    int leftLineY;
-    int leftTextY;
-    int bottomLineX;
-    int bottomTextX;
-    int totalAlive;
     size_t currentCycle;
+    unsigned int totalAlive;
     float currentSense;
     float currentSpeed;
+
     std::string populationChange;
 
     std::vector<ss::types::Cycle> cycleInfo;
 
+    std::pair<float, float> getHighestSenseAndSpeed(const std::vector<ss::types::Cycle>& cycle);
+    std::pair<float, float> maxSenseAndSpeed;
+
     float getHighestSense(const std::vector<ss::types::Cycle> &cycle);
 
     float getHighestSpeed(const std::vector<ss::types::Cycle> &cycle);
-
-    std::pair<float, float> getHighestSenseAndSpeed(const std::vector<ss::types::Cycle> &cycle);
-
-    std::pair<int, int> getLastedAndDied(const ss::types::Cycle &cycle);
 
     void loadAssets();
     void deleteAssets();

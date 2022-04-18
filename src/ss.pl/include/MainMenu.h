@@ -26,7 +26,7 @@ class MainMenu : public Scene
     Texture2D viewGraph_Texture;
 
     // Custom font
-    Font font;
+    Font fontInter;
 
     // Variables, regarding the graph containers
     struct graphsCard
@@ -66,6 +66,9 @@ class MainMenu : public Scene
     // Methods for setup and cleanup of variables
     void loadTextures();
     void deleteTextures();
+
+    // Method for drawing textures
+    void drawTextures();
 
   public:
     MainMenu(std::string sceneName, SceneManager &sceneManager);

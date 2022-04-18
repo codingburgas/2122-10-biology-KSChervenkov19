@@ -132,9 +132,11 @@ void Simulation::drawSimulation()
 void Simulation::loadAssets()
 {
     fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 96, 0, 0);
+
     setupContainer_Texture = LoadTexture(std::format("../../assets/{}/simulator/Setup_Container.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
     backArrow_Texture = LoadTexture(std::format("../../assets/{}/simulator/Back_Arrow.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
     simulateButton_Texture = LoadTexture(std::format("../../assets/{}/simulator/Simulate_Button.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
+
     GuiLoadStyle((currentTheme == ThemeTypes::LightTheme) ? "../../assets/bluish.txt.rgs" : "../../assets/lavanda.txt.rgs");
 }
 void Simulation::deleteTextures()
@@ -142,5 +144,7 @@ void Simulation::deleteTextures()
     UnloadTexture(setupContainer_Texture);
     UnloadTexture(simulateButton_Texture);
     UnloadTexture(backArrow_Texture);
+
+    UnloadFont(fontInter);
 }
 // clang-format on

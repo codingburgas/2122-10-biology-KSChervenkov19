@@ -8,10 +8,12 @@ MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager) : Scene(sc
 void MainMenu::Start() // called once, at the start of the scene
 {
     loadTextures();
+
     currentGraphPos = {-834, 54};
     statisticNames = ss::bll::statistics::StatisticsManager::getStatisticsNames();
     graphButtonPos = {525, 92};
     graphNamePos = {53, 112};
+    graphCards.clear();
 
     for (std::string statistic : statisticNames)
     {
@@ -31,13 +33,10 @@ void MainMenu::Update() // called every frame
 
     ClearBackground(MainMenu::backgroundColors.at(static_cast<int>(MainMenu::currentTheme)));
 
-    DrawTexture(simulatorButton_Texture, 525, 736, WHITE);
-    DrawTexture(logo_Texture, 310, 219, WHITE);
-    DrawTexture(graphsMenu_Texture, 57, 53, WHITE);
-    DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
-    DrawTexture(themeButton_Texture, 1386, 41, WHITE);
+    drawTextures();
 
     animateGraphsContainer();
+
     if (graphsIsAnimatingIn || graphsIsOut)
     {
         displayGraphCards();
@@ -50,19 +49,19 @@ void MainMenu::Update() // called every frame
 
 void MainMenu::onExit() // called once, at the end of the scene
 {
-    isSetUp = false;
     deleteTextures();
+
+    isSetUp = false;
 }
 
 float MainMenu::calculateGraphsContainer()
 {
     float animationCalc = GetFrameTime() * graphContainerAnimationEase;
-    if (graphsContainerPos >= -500 && graphsIsAnimatingIn)
-        graphContainerAnimationEase *= .8983F;
-    if (graphsContainerPos <= -500 && graphsIsAnimatingOut)
-        graphContainerAnimationEase *= .8983F;
-    if (graphContainerAnimationEase < 30)
-        graphContainerAnimationEase = 30;
+
+    if (graphsContainerPos >= -500 && graphsIsAnimatingIn) graphContainerAnimationEase *= .8983F;
+    if (graphsContainerPos <= -500 && graphsIsAnimatingOut) graphContainerAnimationEase *= .8983F;
+    if (graphContainerAnimationEase < 30) graphContainerAnimationEase = 30;
+
     return animationCalc;
 }
 
@@ -77,25 +76,30 @@ void MainMenu::handleScroll()
 
 void MainMenu::animateGraphsContainer()
 {
-
     if (graphsIsAnimatingIn)
     {
         graphsContainerPos += calculateGraphsContainer();
         currentGraphPos.x = graphsContainerPos + 53;
-        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard) {
+
+        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard)
+        {
             graphCard.buttonPos.x = graphsContainerPos + 525;
             graphCard.namePos.x = graphsContainerPos + 92;
         });
     }
+
     if (graphsIsAnimatingOut)
     {
         graphsContainerPos -= calculateGraphsContainer();
         currentGraphPos.x = graphsContainerPos - 53;
-        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard) {
+
+        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard)
+        {
             graphCard.buttonPos.x = graphsContainerPos + 425;
             graphCard.namePos.x = graphsContainerPos + 12;
         });
     }
+
     if (graphsContainerPos >= 0)
     {
         graphsIsAnimatingIn = false;
@@ -103,6 +107,7 @@ void MainMenu::animateGraphsContainer()
         graphsContainerPos = 0;
         graphsIsOut = true;
     }
+
     if (graphsContainerPos <= -887)
     {
         graphsIsAnimatingOut = false;
@@ -128,7 +133,7 @@ void MainMenu::displayGraphCards()
         {
             DrawTexture(viewGraph_Texture, graphContainer.buttonPos.x, graphContainer.buttonPos.y + scrollOffset,
                         WHITE);
-            DrawTextEx(font, graphContainer.name.c_str(),
+            DrawTextEx(fontInter, graphContainer.name.c_str(),
                        {graphContainer.namePos.x, graphContainer.namePos.y + scrollOffset}, 40, 1, BLACK);
         }
     }
@@ -136,31 +141,36 @@ void MainMenu::displayGraphCards()
 
 void MainMenu::checkGraphButtonCollisions()
 {
-    std::ranges::for_each(graphCards, [this](const graphsCard &graphButton) {
+    std::ranges::for_each(graphCards, [this](const graphsCard &graphButton)
+    {
         if (CheckCollisionPointRec(mousePos, Rectangle{graphButton.buttonPos.x, graphButton.buttonPos.y + scrollOffset,
-                                                       static_cast<float>(this->viewGraph_Texture.width),
-                                                       static_cast<float>(this->viewGraph_Texture.height)}) &&
+            static_cast<float>(this->viewGraph_Texture.width), static_cast<float>(this->viewGraph_Texture.height)}) &&
             IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             ss::pl::graph::Graph::fileName = graphButton.name;
             m_sceneManager.setCurrentScene("Graph");
+            graphsIsAnimatingIn = true;
         }
     });
 }
 
 void MainMenu::deleteTextures()
 {
-    UnloadFont(font);
+    UnloadFont(fontInter);
+
     UnloadTexture(simulatorButton_Texture);
     UnloadTexture(logo_Texture);
     UnloadTexture(graphsMenu_Texture);
     UnloadTexture(graphsContainer_Texture);
+    UnloadTexture(themeButton_Texture);
+    UnloadTexture(viewGraph_Texture);
 }
 
 // clang-format off
 void MainMenu::loadTextures()
 {
-    font = LoadFontEx("../../assets/fonts/Inter.ttf", 90, 0, 0);
+    fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 90, 0, 0);
+
     simulatorButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Simulator_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     logo_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Logo_Transparent.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
@@ -168,6 +178,15 @@ void MainMenu::loadTextures()
     themeButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Theme_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     viewGraph_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/View_Graph_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
 
+}
+
+void MainMenu::drawTextures()
+{
+    DrawTexture(simulatorButton_Texture, 525, 736, WHITE);
+    DrawTexture(logo_Texture, 310, 219, WHITE);
+    DrawTexture(graphsMenu_Texture, 57, 53, WHITE);
+    DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
+    DrawTexture(themeButton_Texture, 1386, 41, WHITE);
 }
 
 bool MainMenu::handleMouseCursor()
@@ -201,7 +220,6 @@ void MainMenu::checkCollision()
         MainMenu::deleteTextures();
         MainMenu::loadTextures();
     }
-
 
     if (!CheckCollisionPointRec(mousePos, { 0, 0, static_cast<float>(graphsContainer_Texture.width), static_cast<float>(graphsContainer_Texture.height) })
         && !CheckCollisionPointRec(mousePos, { 1386, 41, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) })
