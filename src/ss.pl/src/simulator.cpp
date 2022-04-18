@@ -20,8 +20,7 @@ void Simulation::Start() // called once, at the start of the scene
     camera.canRotate = false;
     SetCameraMode(camera, CAMERA_FREE);
 
-    planePos = { 0.0f, 0.0f };
-
+    planePos = {0.0f, 0.0f};
 }
 
 void Simulation::Update() // called every frame
@@ -32,9 +31,9 @@ void Simulation::Update() // called every frame
 
     BeginDrawing();
 
-        ClearBackground(backgroundColors.at(static_cast<int>(currentTheme)));
+    ClearBackground(backgroundColors.at(static_cast<int>(currentTheme)));
 
-        (currentState == SimulatorState::Setup) ? drawSetup() : drawSimulation();
+    (currentState == SimulatorState::Setup) ? drawSetup() : drawSimulation();
 
     EndDrawing();
 }
@@ -46,10 +45,10 @@ void Simulation::onExit() // called once, at the end of the scene
 
 void Simulation::checkInput()
 {
-    if (CheckCollisionPointRec(mousePos, { 50, 90, static_cast<float>(backArrow_Texture.width),
-                                          static_cast<float>(backArrow_Texture.height) }) ||
-        CheckCollisionPointRec(mousePos, { 1064, 820, static_cast<float>(simulateButton_Texture.width),
-                                          static_cast<float>(simulateButton_Texture.height) }))
+    if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
+                                          static_cast<float>(backArrow_Texture.height)}) ||
+        CheckCollisionPointRec(mousePos, {1064, 820, static_cast<float>(simulateButton_Texture.width),
+                                          static_cast<float>(simulateButton_Texture.height)}))
     {
         SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
     }
@@ -58,15 +57,15 @@ void Simulation::checkInput()
         SetMouseCursor(MOUSE_CURSOR_DEFAULT);
     }
 
-    if (CheckCollisionPointRec(mousePos, { 50, 90, static_cast<float>(backArrow_Texture.width),
-                                          static_cast<float>(backArrow_Texture.height) }) &&
+    if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
+                                          static_cast<float>(backArrow_Texture.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         m_sceneManager.setCurrentScene("MainMenu");
     }
 
-    if (CheckCollisionPointRec(mousePos, { 1064, 820, static_cast<float>(simulateButton_Texture.width),
-                                          static_cast<float>(simulateButton_Texture.height) }) &&
+    if (CheckCollisionPointRec(mousePos, {1064, 820, static_cast<float>(simulateButton_Texture.width),
+                                          static_cast<float>(simulateButton_Texture.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         Simulation::currentState = SimulatorState::Simulation;
@@ -82,15 +81,15 @@ void Simulation::checkInput()
 
 void Simulation::resetCamera()
 {
-    camera.position = { 10.0f, 10.0f, 10.0f };
-    camera.target = { 0.0f, 0.0f, 0.0f };
-    camera.up = { 0.0f, 1.0f, 0.0f };
+    camera.position = {10.0f, 10.0f, 10.0f};
+    camera.target = {0.0f, 0.0f, 0.0f};
+    camera.up = {0.0f, 1.0f, 0.0f};
 }
 
 void Simulation::drawSetup()
 {
     BeginMode3D(camera);
-        DrawPlane({ planePos.x-8.0f, planePos.y-5.0f, 0.0f }, { (float)worldSize, (float)worldSize }, WHITE);
+    DrawPlane({planePos.x - 8.0f, planePos.y - 5.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
     EndMode3D();
 
     DrawTexture(setupContainer_Texture, graphsContainerPos, 0, WHITE);
@@ -113,7 +112,7 @@ void Simulation::drawSetup()
     food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 1, 500);
     GuiValueBox({1180, 730, 242, 51}, nullptr, &cycles, 1, 200, true);
 
-    if (!CheckCollisionPointRec(mousePos, { 950, 0, (float)graphsContainerPos, (float)graphsContainerPos }))
+    if (!CheckCollisionPointRec(mousePos, {950, 0, (float)graphsContainerPos, (float)graphsContainerPos}))
     {
         UpdateCamera(&camera);
     }
@@ -124,8 +123,8 @@ void Simulation::drawSimulation()
     UpdateCamera(&camera);
 
     BeginMode3D(camera);
-        DrawGrid(worldSize, 1.0f);
-        DrawPlane({ 0.0f, 0.0f, 0.0f }, { (float)worldSize, (float)worldSize }, WHITE);
+    DrawGrid(worldSize, 1.0f);
+    DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
     EndMode3D();
 }
 

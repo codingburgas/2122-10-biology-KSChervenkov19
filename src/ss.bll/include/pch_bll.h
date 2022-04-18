@@ -10,8 +10,8 @@
 #define _USE_MATH_DEFINES
 
 // add headers that you want to pre-compile here
+#include <cmath>
 #include <string>
 #include <vector>
-#include <cmath>
 
 #endif // PCH_H_BLL

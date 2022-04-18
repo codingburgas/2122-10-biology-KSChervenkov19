@@ -7,4 +7,4 @@ namespace ss::bll::utils
 {
 double toRadian(double degrees);
 double toDegree(double radians);
-}
+} // namespace ss::bll::utils

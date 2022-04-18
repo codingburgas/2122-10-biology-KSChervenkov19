@@ -46,7 +46,6 @@ void MainMenu::Update() // called every frame
     EndDrawing();
 
     handleScroll();
-
 }
 
 void MainMenu::onExit() // called once, at the end of the scene
@@ -75,8 +74,6 @@ void MainMenu::handleScroll()
         scrollOffset += GetMouseWheelMove() * 35;
     }
 }
-
-
 
 void MainMenu::animateGraphsContainer()
 {
@@ -129,9 +126,10 @@ void MainMenu::displayGraphCards()
 
         for (auto graphContainer : graphCards)
         {
-            DrawTexture(viewGraph_Texture, graphContainer.buttonPos.x, graphContainer.buttonPos.y + scrollOffset, WHITE);
-            DrawTextEx(font, graphContainer.name.c_str(), {graphContainer.namePos.x, graphContainer.namePos.y + scrollOffset },
-                       40, 1, BLACK);
+            DrawTexture(viewGraph_Texture, graphContainer.buttonPos.x, graphContainer.buttonPos.y + scrollOffset,
+                        WHITE);
+            DrawTextEx(font, graphContainer.name.c_str(),
+                       {graphContainer.namePos.x, graphContainer.namePos.y + scrollOffset}, 40, 1, BLACK);
         }
     }
 }
