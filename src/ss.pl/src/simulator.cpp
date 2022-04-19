@@ -1,10 +1,15 @@
 #include "simulator.h"
 
+/// Constructor for the Simulation class.
+/// 
+/// @param sceneName The name of the current scene. Which here is "Simulation".
+/// @param sceneManager A reference to already existing SceneManager object to control the program flow.
 ss::pl::simulator::Simulation::Simulation(std::string sceneName, SceneManager &sceneManager)
     : Scene(sceneName), m_sceneManager(sceneManager)
 {
 }
 
+/// Method which is called in the start of the Simulation page.
 void ss::pl::simulator::Simulation::Start() // called once, at the start of the scene
 {
     loadAssets();
@@ -23,6 +28,9 @@ void ss::pl::simulator::Simulation::Start() // called once, at the start of the 
     planePos = {0.0f, 0.0f};
 }
 
+/// Method which is called every frame.
+///
+/// It updates the current scene every frame.
 void ss::pl::simulator::Simulation::Update() // called every frame
 {
     mousePos = GetMousePosition();
@@ -38,11 +46,15 @@ void ss::pl::simulator::Simulation::Update() // called every frame
     EndDrawing();
 }
 
+/// Method which is called when we exit the program or the Simulation page.
+/// 
+/// It deallocates every dynamically created object in the class' instance.
 void ss::pl::simulator::Simulation::onExit() // called once, at the end of the scene
 {
     deleteAssets();
 }
 
+/// This method creates checks for the mouse input during the actual simulation.
 void ss::pl::simulator::Simulation::checkInput()
 {
     if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
@@ -79,6 +91,7 @@ void ss::pl::simulator::Simulation::checkInput()
     }
 }
 
+/// This method resets the camera to its initial position.
 void ss::pl::simulator::Simulation::resetCamera()
 {
     camera.position = {10.0f, 10.0f, 10.0f};
@@ -86,6 +99,7 @@ void ss::pl::simulator::Simulation::resetCamera()
     camera.up = {0.0f, 1.0f, 0.0f};
 }
 
+/// This method draws the setUp page before the actual simulation.
 void ss::pl::simulator::Simulation::drawSetup()
 {
     BeginMode3D(camera);
@@ -118,6 +132,7 @@ void ss::pl::simulator::Simulation::drawSetup()
     }
 }
 
+/// This method draws the actual simulation.
 void ss::pl::simulator::Simulation::drawSimulation()
 {
     UpdateCamera(&camera);
@@ -129,6 +144,8 @@ void ss::pl::simulator::Simulation::drawSimulation()
 }
 
 // clang-format off
+
+/// Method for loading all the needed assets in the Simulation page.
 void ss::pl::simulator::Simulation::loadAssets()
 {
     fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 96, 0, 0);
@@ -139,6 +156,8 @@ void ss::pl::simulator::Simulation::loadAssets()
 
     GuiLoadStyle((currentTheme == ThemeTypes::LightTheme) ? "../../assets/bluish.txt.rgs" : "../../assets/lavanda.txt.rgs");
 }
+
+/// Method for deallocating the dynamically created assets.
 void ss::pl::simulator::Simulation::deleteAssets()
 {
     UnloadTexture(setupContainer_Texture);

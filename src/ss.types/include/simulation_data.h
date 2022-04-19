@@ -5,6 +5,7 @@
 
 namespace ss::types
 {
+/// A struct holding the data for a simulation.
 struct SimulationInfo
 {
     int width;
@@ -15,7 +16,7 @@ struct SimulationInfo
     float initialSpeed;
     float initialSense;
 };
-
+/// A struct holding the data for a trait.
 struct Trait
 {
     float sense;
@@ -23,7 +24,7 @@ struct Trait
 
     auto operator<=>(const Trait &) const = default;
 };
-
+/// A struct holding the data for a cycle.
 struct Cycle
 {
     int lastedEntities;

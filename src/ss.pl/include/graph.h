@@ -46,15 +46,6 @@ class Graph : public Scene
    
     std::pair<float, float> maxSenseAndSpeed;
 
-    // Methods, used to calculate cycle data
-    float getHighestSense(const std::vector<ss::types::Cycle> &cycle);
-
-    float getHighestSpeed(const std::vector<ss::types::Cycle> &cycle);
-
-    inline float getGrowthPercentage(int lastedBef, int lastedCur);
-
-    inline float getDecreasedPercentage(int lastedBef, int lastedCur);
-
     // Methods for drawing textures
     void drawGraph();
     void drawMenu();
@@ -80,5 +71,14 @@ class Graph : public Scene
     virtual void deleteAssets();
 
     SceneManager& m_sceneManager;
+
+    // Methods, used to calculate cycle data
+    static float getHighestSense(const std::vector<ss::types::Cycle>& cycle);
+
+    static float getHighestSpeed(const std::vector<ss::types::Cycle>& cycle);
+
+    static inline float getGrowthPercentage(int lastedBef, int lastedCur);
+
+    static inline float getDecreasedPercentage(int lastedBef, int lastedCur);
 };
 } // namespace ss::pl::graph
