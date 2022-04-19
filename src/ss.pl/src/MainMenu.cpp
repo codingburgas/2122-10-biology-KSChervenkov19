@@ -92,33 +92,24 @@ void MainMenu::handleScroll()
     }
 }
 
+/// This method positions the graph container through the animation.
+void MainMenu::positionGraphsContainer()
+{
+     currentGraphPos.x = (graphsIsAnimatingOut)? graphsContainerPos - 53 : graphsContainerPos + 53;
+
+    std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard& graphCard)
+    {
+        graphCard.buttonPos.x = (graphsIsAnimatingOut)? graphsContainerPos + 425 : graphsContainerPos + 525;
+        graphCard.namePos.x = (graphsIsAnimatingOut)? graphsContainerPos + 12 : graphsContainerPos + 92;
+    });
+}
+
 /// This method slows down the showing of the graph container.
 void MainMenu::animateGraphsContainer()
 {
-    if (graphsIsAnimatingIn)
-    {
-        graphsContainerPos += calculateGraphsContainer();
-        currentGraphPos.x = graphsContainerPos + 53;
-
-        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard) {
-            graphCard.buttonPos.x = graphsContainerPos + 525;
-            graphCard.namePos.x = graphsContainerPos + 92;
-        });
-    }
-
-    if (graphsIsAnimatingOut)
-    {
-        graphsContainerPos -= calculateGraphsContainer();
-        currentGraphPos.x = graphsContainerPos - 53;
-
-        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard) {
-            graphCard.buttonPos.x = graphsContainerPos + 425;
-            graphCard.namePos.x = graphsContainerPos + 12;
-        });
-    }
-
     if (graphsContainerPos >= 0)
     {
+        positionGraphsContainer();
         graphsIsAnimatingIn = false;
         graphContainerAnimationEase = 3000;
         graphsContainerPos = 0;
@@ -131,6 +122,18 @@ void MainMenu::animateGraphsContainer()
         graphContainerAnimationEase = 3000;
         graphsContainerPos = -887;
         graphsIsOut = false;
+    }
+
+    if (graphsIsAnimatingIn)
+    {
+        graphsContainerPos += calculateGraphsContainer();
+        positionGraphsContainer();
+    }
+
+    if (graphsIsAnimatingOut)
+    {
+        graphsContainerPos -= calculateGraphsContainer();
+        positionGraphsContainer();
     }
 }
 

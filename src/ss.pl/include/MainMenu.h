@@ -61,6 +61,7 @@ class MainMenu : public Scene
     // Methods, used to handle the graphs container
     float calculateGraphsContainer();
     void animateGraphsContainer();
+    void positionGraphsContainer();
     void displayGraphCards();
 
     // Methods for setup and cleanup of variables
