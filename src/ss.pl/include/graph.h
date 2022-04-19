@@ -17,6 +17,9 @@ class Graph : public Scene
     Texture2D graph_Container;
     Texture2D cycle_Next;
     Texture2D cycle_Prev;
+    Texture2D slider_Box;
+    Texture2D auto_Button;
+    Texture2D data_Container;
 
     // Vector2 variables
     Vector2 mousePos;
@@ -31,6 +34,8 @@ class Graph : public Scene
     unsigned int totalAlive;
     float currentSense;
     float currentSpeed;
+    bool autoCycle;
+    int cycleSpeed;
 
     std::string populationChange;
 

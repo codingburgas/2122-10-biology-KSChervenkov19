@@ -20,6 +20,8 @@ void ss::pl::graph::Graph::Start() // called once, at the start of the scene
 	maxSenseAndSpeed = getHighestSenseAndSpeed(cycleInfo);
 	currentCycle = 1;
 	totalAlive = cycleInfo[0].lastedEntities;
+
+	autoCycle = false;
 }
 
 /// Method which is called every frame.
@@ -146,6 +148,8 @@ void ss::pl::graph::Graph::drawGraph()
 
 	DrawTexture(backArrow_Texture, 50, 90, WHITE);
 	DrawTexture(graph_Container, 1020, 0, WHITE);
+	DrawTexture(data_Container, 1025, 47, WHITE);
+	if(!populationChange.empty()) DrawTexture(data_Container, 1025, 197, WHITE);
 
 	DrawRectangle(198, 118, 9, 691, { 196, 196, 196, 255 });
 	DrawRectangle(198, 809, 727, 9, { 196, 196, 196, 255 });
@@ -154,10 +158,10 @@ void ss::pl::graph::Graph::drawGraph()
 	DrawTextEx(fontInter, TextFormat("%.1f", maxSenseAndSpeed.first), { 124, 90 }, 39, 0, { 108, 108, 108, 255 });
 	DrawTextEx(fontInter, TextFormat("%.1f", maxSenseAndSpeed.second), { 900, 826 }, 39, 0, { 108, 108, 108, 255 });
 	DrawTextEx(fontInter, "speed", { 478, 868 }, 39, 0, BLACK);
-	DrawTextEx(fontInter, std::format("Alive: {}", totalAlive).c_str(), { 1055, 80 }, 70, 0, BLACK);
+	DrawTextEx(fontInter, std::format("Alive: {}", totalAlive).c_str(), { 1060, 88 }, 50, 0, BLACK);
 
 	// if it ain't broke, don't touch it
-	DrawTextEx(fontInter, populationChange.c_str(), { 1055, 217 }, 50, 0, BLACK);
+	DrawTextEx(fontInter, populationChange.c_str(), { 1060, 237 }, 50, 0, BLACK);
 	DrawTextPro(fontInter, "sense", { 72, 537 }, { 0, 0 }, 270, 39, 0, BLACK);
 
 	for (int i = 0; i < 8; i++)
@@ -183,10 +187,17 @@ void ss::pl::graph::Graph::drawGraph()
 /// Method for drawing the menu in the graph page.
 void ss::pl::graph::Graph::drawMenu()
 {
-	DrawTexture(cycle_Next, 1350, 774, WHITE);
-	DrawTexture(cycle_Prev, 1087, 774, WHITE);
+	DrawTexture(cycle_Next, 1398, 836, WHITE);
+	DrawTexture(cycle_Prev, 1045, 836, WHITE);
+	DrawTexture(slider_Box, 1365, 747, WHITE);
+	DrawTexture(auto_Button, 1161, 611, WHITE);
 
-	DrawTextEx(fontInter, TextFormat("%i", (currentCycle)), { 1238, 788 }, 49, 0, BLACK);
+	DrawTextEx(fontInter, TextFormat("%i", (currentCycle)), { 1238, 851 }, 49, 0, BLACK);
+	DrawTextEx(fontInter, "Auto", { 1049, 617 }, 39, 0, BLACK);
+	DrawTextEx(fontInter, "Seconds:", { 1049, 696 }, 39, 0, BLACK);
+	DrawTextEx(fontInter, TextFormat("%i", (cycleSpeed)), { 1405, 757 }, 33, 0, BLACK);
+	
+	cycleSpeed = GuiSliderBar({ 1046, 747, 320, 53 }, nullptr, nullptr, cycleSpeed, 1, 21);
 }
 
 /// Method for loading all the needed assets in the graph page.
@@ -206,6 +217,17 @@ void ss::pl::graph::Graph::loadAssets()
 	cycle_Prev = LoadTexture(
 		std::format("../../assets/{}/graph/Cycle_Prev.png", themePaths.at(static_cast<int>(Graph::currentTheme)))
 		.c_str());
+	slider_Box = LoadTexture(
+		std::format("../../assets/{}/graph/Slider_Box.png", themePaths.at(static_cast<int>(Graph::currentTheme)))
+		.c_str());
+	auto_Button = LoadTexture(
+		std::format("../../assets/{}/graph/Auto_Button_Unchecked.png", themePaths.at(static_cast<int>(Graph::currentTheme)))
+		.c_str());
+	data_Container = LoadTexture(
+		std::format("../../assets/{}/graph/Data_Container.png", themePaths.at(static_cast<int>(Graph::currentTheme)))
+		.c_str());
+
+	GuiLoadStyle((currentTheme == ThemeTypes::LightTheme) ? "../../assets/bluish.txt.rgs" : "../../assets/lavanda.txt.rgs");
 }
 
 /// Method for deallocating the dynamically created assets.
@@ -215,6 +237,9 @@ void ss::pl::graph::Graph::deleteAssets()
 	UnloadTexture(graph_Container);
 	UnloadTexture(cycle_Next);
 	UnloadTexture(cycle_Prev);
+	UnloadTexture(slider_Box);
+	UnloadTexture(auto_Button);
+	UnloadTexture(data_Container);
 
 	UnloadFont(fontInter);
 }
@@ -242,7 +267,7 @@ void ss::pl::graph::Graph::checkCollision()
 	}
 
 	if (CheckCollisionPointRec(
-		mousePos, { 1350, 774, static_cast<float>(cycle_Next.width), static_cast<float>(cycle_Next.height) }) &&
+		mousePos, { 1398, 836, static_cast<float>(cycle_Next.width), static_cast<float>(cycle_Next.height) }) &&
 		IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 	{
 		if (currentCycle != cycleInfo.size())
@@ -252,9 +277,9 @@ void ss::pl::graph::Graph::checkCollision()
 		if (currentCycle != 1)
 		{
 			populationChange = (cycleInfo[currentCycle - 1].lastedEntities > cycleInfo[currentCycle - 2].lastedEntities)
-				? std::format("Growth with: {} %", std::round(
+				? std::format("Growth with: {}%", std::round(
 					getGrowthPercentage(cycleInfo[currentCycle - 2].lastedEntities, cycleInfo[currentCycle - 1].lastedEntities)))
-				: std::format("Decrease with: {} %", std::round(
+				: std::format("Decrease with: {}%", std::round(
 					getDecreasedPercentage(cycleInfo[currentCycle - 2].lastedEntities, cycleInfo[currentCycle - 1].lastedEntities)));
 		}
 		else
@@ -264,7 +289,7 @@ void ss::pl::graph::Graph::checkCollision()
 	}
 
 	if (CheckCollisionPointRec(
-		mousePos, { 1087, 774, static_cast<float>(cycle_Prev.width), static_cast<float>(cycle_Prev.height) }) &&
+		mousePos, { 1045, 836, static_cast<float>(cycle_Prev.width), static_cast<float>(cycle_Prev.height) }) &&
 		IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 	{
 		if (currentCycle - 1 != 0)
@@ -274,9 +299,9 @@ void ss::pl::graph::Graph::checkCollision()
 		if (currentCycle != 1)
 		{
 			populationChange = (cycleInfo[currentCycle - 1].lastedEntities > cycleInfo[currentCycle - 2].lastedEntities)
-				? std::format("Growth with: {} %", std::round(
+				? std::format("Growth with: {}%", std::round(
 					getGrowthPercentage(cycleInfo[currentCycle-2].lastedEntities, cycleInfo[currentCycle - 1].lastedEntities)))
-				: std::format("Decrease with: {} %", std::round(
+				: std::format("Decrease with: {}%", std::round(
 					getDecreasedPercentage(cycleInfo[currentCycle - 2].lastedEntities, cycleInfo[currentCycle - 1].lastedEntities)));
 		}
 		else
