@@ -36,6 +36,7 @@ class Graph : public Scene
     float currentSpeed;
     bool autoCycle;
     int cycleSpeed;
+    float fElapsedTime;
 
     std::string populationChange;
 
@@ -52,6 +53,17 @@ class Graph : public Scene
 
     // Methods, checking mouse collisions
     void checkCollision();
+
+    // Mathods, automating cycle
+    void automateCycle();
+
+    enum class AutoState
+    {
+        AutoOn,
+        AutoOff
+    } currentAutoState = AutoState::AutoOff;
+
+    const std::array<std::string, 2> autoPaths = {"Auto_Button_Checked", "Auto_Button_Unchecked"};
 
   public:
     Graph(std::string sceneName, SceneManager& sceneManager);

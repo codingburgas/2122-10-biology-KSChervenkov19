@@ -39,6 +39,7 @@ void ss::pl::graph::Graph::Update() // called every frame
 	EndDrawing();
 
 	checkCollision();
+	if (currentAutoState == AutoState::AutoOn) automateCycle();
 }
 
 /// Method which is called when we exit the program or the Graph page.
@@ -221,7 +222,7 @@ void ss::pl::graph::Graph::loadAssets()
 		std::format("../../assets/{}/graph/Slider_Box.png", themePaths.at(static_cast<int>(Graph::currentTheme)))
 		.c_str());
 	auto_Button = LoadTexture(
-		std::format("../../assets/{}/graph/Auto_Button_Unchecked.png", themePaths.at(static_cast<int>(Graph::currentTheme)))
+		std::format("../../assets/{}/graph/{}.png", themePaths.at(static_cast<int>(Graph::currentTheme)), autoPaths.at(static_cast<int>(Graph::currentAutoState)))
 		.c_str());
 	data_Container = LoadTexture(
 		std::format("../../assets/{}/graph/Data_Container.png", themePaths.at(static_cast<int>(Graph::currentTheme)))
@@ -301,6 +302,43 @@ void ss::pl::graph::Graph::checkCollision()
 			populationChange = (cycleInfo[currentCycle - 1].lastedEntities > cycleInfo[currentCycle - 2].lastedEntities)
 				? std::format("Growth with: {}%", std::round(
 					getGrowthPercentage(cycleInfo[currentCycle-2].lastedEntities, cycleInfo[currentCycle - 1].lastedEntities)))
+				: std::format("Decrease with: {}%", std::round(
+					getDecreasedPercentage(cycleInfo[currentCycle - 2].lastedEntities, cycleInfo[currentCycle - 1].lastedEntities)));
+		}
+		else
+		{
+			populationChange = "";
+		}
+	}
+
+	if (CheckCollisionPointRec(
+		mousePos, { 1161, 611, static_cast<float>(auto_Button.width), static_cast<float>(auto_Button.height) }) &&
+		IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+	{
+		currentAutoState == AutoState::AutoOff? currentAutoState = AutoState::AutoOn : currentAutoState = AutoState::AutoOff;
+		deleteAssets();
+		loadAssets();
+
+	}
+}
+
+void ss::pl::graph::Graph::automateCycle()
+{
+	fElapsedTime += GetFrameTime();
+
+	if (fElapsedTime >= cycleSpeed && currentCycle != cycleInfo.size())
+	{
+		currentCycle++;
+
+		fElapsedTime = 0;
+
+		totalAlive = cycleInfo[currentCycle - 1].lastedEntities;
+
+		if (currentCycle != 1)
+		{
+			populationChange = (cycleInfo[currentCycle - 1].lastedEntities > cycleInfo[currentCycle - 2].lastedEntities)
+				? std::format("Growth with: {}%", std::round(
+					getGrowthPercentage(cycleInfo[currentCycle - 2].lastedEntities, cycleInfo[currentCycle - 1].lastedEntities)))
 				: std::format("Decrease with: {}%", std::round(
 					getDecreasedPercentage(cycleInfo[currentCycle - 2].lastedEntities, cycleInfo[currentCycle - 1].lastedEntities)));
 		}
