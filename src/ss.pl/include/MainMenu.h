@@ -83,4 +83,4 @@ namespace ss::pl::mainMenu
 
         virtual void deleteAssets();
     };
-}
+} // namespace ss::pl::mainMenu

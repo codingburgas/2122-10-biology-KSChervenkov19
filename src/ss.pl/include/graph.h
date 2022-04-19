@@ -10,11 +10,60 @@ namespace ss::pl::graph
 {
 class Graph : public Scene
 {
-  public:
-    Graph(std::string sceneName, SceneManager &sceneManager);
+  private:
 
+    // Textures
+    Texture2D backArrow_Texture;
+    Texture2D graph_Container;
+    Texture2D cycle_Next;
+    Texture2D cycle_Prev;
+
+    // Vector2 variables
+    Vector2 mousePos;
+    Vector2 graphLine;
+    Vector2 graphText;
+
+    // Custom font
+    Font fontInter;
+
+    // Variables, regarding each cycle and it's data
+    size_t currentCycle;
+    unsigned int totalAlive;
+    float currentSense;
+    float currentSpeed;
+
+    std::string populationChange;
+
+    std::vector<ss::types::Cycle> cycleInfo;
+
+    // Pairs, used to pair cycle data
+    std::pair<float, float> getHighestSenseAndSpeed(const std::vector<ss::types::Cycle> &cycle);
+   
+    std::pair<float, float> maxSenseAndSpeed;
+
+    // Methods, used to calculate cycle data
+    float getHighestSense(const std::vector<ss::types::Cycle> &cycle);
+
+    float getHighestSpeed(const std::vector<ss::types::Cycle> &cycle);
+
+    inline float getGrowthPercentage(int lastedBef, int lastedCur);
+
+    inline float getDecreasedPercentage(int lastedBef, int lastedCur);
+
+    // Methods for drawing textures
+    void drawGraph();
+    void drawMenu();
+
+    // Methods, checking mouse collisions
+    void checkCollision();
+
+  public:
+    Graph(std::string sceneName, SceneManager& sceneManager);
+
+    // Inline static variable, used to save opened graph file
     inline static std::string fileName;
 
+    // Derived methods from class Scene
     virtual void Start();
 
     virtual void Update();
@@ -25,41 +74,6 @@ class Graph : public Scene
 
     virtual void deleteAssets();
 
-    SceneManager &m_sceneManager;
-
-  private:
-    Texture2D backArrow_Texture;
-    Texture2D graph_Container;
-    Texture2D cycle_Next;
-    Texture2D cycle_Prev;
-    Vector2 mousePos;
-    Vector2 graphLine;
-    Vector2 graphText;
-    Font fontInter;
-
-    size_t currentCycle;
-    unsigned int totalAlive;
-    float currentSense;
-    float currentSpeed;
-
-    std::string populationChange;
-
-    std::vector<ss::types::Cycle> cycleInfo;
-
-    std::pair<float, float> getHighestSenseAndSpeed(const std::vector<ss::types::Cycle> &cycle);
-   
-    std::pair<float, float> maxSenseAndSpeed;
-
-    float getHighestSense(const std::vector<ss::types::Cycle> &cycle);
-
-    float getHighestSpeed(const std::vector<ss::types::Cycle> &cycle);
-
-    inline float getGrowthPercentage(int lastedBef, int lastedCur);
-
-    inline float getDecreasedPercentage(int lastedBef, int lastedCur);
-
-    void drawGraph();
-    void drawMenu();
-    void checkCollision();
+    SceneManager& m_sceneManager;
 };
 } // namespace ss::pl::graph

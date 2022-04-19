@@ -65,4 +65,4 @@ namespace ss::pl::simulator
 
         virtual void deleteAssets();
     };
-}
+} // namespace ss::pl::simulator
