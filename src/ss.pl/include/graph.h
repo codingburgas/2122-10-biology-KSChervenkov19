@@ -21,6 +21,10 @@ class Graph : public Scene
 
     virtual void onExit();
 
+    virtual void loadAssets();
+
+    virtual void deleteAssets();
+
     SceneManager &m_sceneManager;
 
   private:
@@ -54,8 +58,6 @@ class Graph : public Scene
 
     inline float getDecreasedPercentage(int lastedBef, int lastedCur);
 
-    void loadAssets();
-    void deleteAssets();
     void drawGraph();
     void drawMenu();
     void checkCollision();

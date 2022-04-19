@@ -1,11 +1,11 @@
 #include "simulator.h"
 
-Simulation::Simulation(std::string sceneName, SceneManager &sceneManager)
+ss::pl::simulator::Simulation::Simulation(std::string sceneName, SceneManager &sceneManager)
     : Scene(sceneName), m_sceneManager(sceneManager)
 {
 }
 
-void Simulation::Start() // called once, at the start of the scene
+void ss::pl::simulator::Simulation::Start() // called once, at the start of the scene
 {
     loadAssets();
 
@@ -23,7 +23,7 @@ void Simulation::Start() // called once, at the start of the scene
     planePos = {0.0f, 0.0f};
 }
 
-void Simulation::Update() // called every frame
+void ss::pl::simulator::Simulation::Update() // called every frame
 {
     mousePos = GetMousePosition();
 
@@ -38,12 +38,12 @@ void Simulation::Update() // called every frame
     EndDrawing();
 }
 
-void Simulation::onExit() // called once, at the end of the scene
+void ss::pl::simulator::Simulation::onExit() // called once, at the end of the scene
 {
-    deleteTextures();
+    deleteAssets();
 }
 
-void Simulation::checkInput()
+void ss::pl::simulator::Simulation::checkInput()
 {
     if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
                                           static_cast<float>(backArrow_Texture.height)}) ||
@@ -79,14 +79,14 @@ void Simulation::checkInput()
     }
 }
 
-void Simulation::resetCamera()
+void ss::pl::simulator::Simulation::resetCamera()
 {
     camera.position = {10.0f, 10.0f, 10.0f};
     camera.target = {0.0f, 0.0f, 0.0f};
     camera.up = {0.0f, 1.0f, 0.0f};
 }
 
-void Simulation::drawSetup()
+void ss::pl::simulator::Simulation::drawSetup()
 {
     BeginMode3D(camera);
     DrawPlane({planePos.x - 8.0f, planePos.y - 5.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
@@ -118,7 +118,7 @@ void Simulation::drawSetup()
     }
 }
 
-void Simulation::drawSimulation()
+void ss::pl::simulator::Simulation::drawSimulation()
 {
     UpdateCamera(&camera);
 
@@ -129,7 +129,7 @@ void Simulation::drawSimulation()
 }
 
 // clang-format off
-void Simulation::loadAssets()
+void ss::pl::simulator::Simulation::loadAssets()
 {
     fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 96, 0, 0);
 
@@ -139,7 +139,7 @@ void Simulation::loadAssets()
 
     GuiLoadStyle((currentTheme == ThemeTypes::LightTheme) ? "../../assets/bluish.txt.rgs" : "../../assets/lavanda.txt.rgs");
 }
-void Simulation::deleteTextures()
+void ss::pl::simulator::Simulation::deleteAssets()
 {
     UnloadTexture(setupContainer_Texture);
     UnloadTexture(simulateButton_Texture);

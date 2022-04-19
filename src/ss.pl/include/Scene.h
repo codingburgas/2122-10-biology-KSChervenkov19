@@ -29,4 +29,8 @@ class Scene
     virtual void Update() = 0;
 
     virtual void onExit() = 0;
+
+    virtual void loadAssets() = 0;
+
+    virtual void deleteAssets() = 0;
 };
