@@ -43,11 +43,16 @@ class Graph : public Scene
     std::vector<ss::types::Cycle> cycleInfo;
 
     std::pair<float, float> getHighestSenseAndSpeed(const std::vector<ss::types::Cycle> &cycle);
+   
     std::pair<float, float> maxSenseAndSpeed;
 
     float getHighestSense(const std::vector<ss::types::Cycle> &cycle);
 
     float getHighestSpeed(const std::vector<ss::types::Cycle> &cycle);
+
+    inline float getGrowthPercentage(int lastedBef, int lastedCur);
+
+    inline float getDecreasedPercentage(int lastedBef, int lastedCur);
 
     void loadAssets();
     void deleteAssets();

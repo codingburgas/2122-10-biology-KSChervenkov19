@@ -99,6 +99,16 @@ std::pair<float, float> ss::pl::graph::Graph::getHighestSenseAndSpeed(const std:
 	return { getHighestSense(cycle), getHighestSpeed(cycle) };
 }
 
+inline float ss::pl::graph::Graph::getGrowthPercentage(int lastedBef, int lastedCur)
+{
+	return std::abs(static_cast<float>(lastedCur - lastedBef) / lastedBef * 100);
+}
+
+inline float ss::pl::graph::Graph::getDecreasedPercentage(int lastedBef, int lastedCur)
+{
+	return std::abs(static_cast<float>(lastedBef - lastedCur) / lastedBef * 100);
+}
+
 void ss::pl::graph::Graph::drawGraph()
 {
 	graphLine.y = 159;
@@ -214,15 +224,9 @@ void ss::pl::graph::Graph::checkCollision()
 		{
 			populationChange = (cycleInfo[currentCycle - 1].lastedEntities > cycleInfo[currentCycle - 2].lastedEntities)
 				? std::format("Growth with: {} %", std::round(
-					std::abs(static_cast<float>((cycleInfo[currentCycle - 1].lastedEntities -
-						cycleInfo[currentCycle - 2].lastedEntities)) /
-						cycleInfo[currentCycle - 2].lastedEntities) *
-					100))
+					getGrowthPercentage(cycleInfo[currentCycle - 2].lastedEntities, cycleInfo[currentCycle - 1].lastedEntities)))
 				: std::format("Decrease with: {} %", std::round(
-					std::abs(static_cast<float>((cycleInfo[currentCycle - 2].lastedEntities -
-						cycleInfo[currentCycle - 1].lastedEntities)) /
-						cycleInfo[currentCycle - 2].lastedEntities) *
-					100));
+					getDecreasedPercentage(cycleInfo[currentCycle - 2].lastedEntities, cycleInfo[currentCycle - 1].lastedEntities)));
 		}
 		else
 		{
@@ -242,15 +246,9 @@ void ss::pl::graph::Graph::checkCollision()
 		{
 			populationChange = (cycleInfo[currentCycle - 1].lastedEntities > cycleInfo[currentCycle - 2].lastedEntities)
 				? std::format("Growth with: {} %", std::round(
-					std::abs(static_cast<float>((cycleInfo[currentCycle - 1].lastedEntities -
-						cycleInfo[currentCycle - 2].lastedEntities)) /
-						cycleInfo[currentCycle - 2].lastedEntities) *
-					100))
+					getGrowthPercentage(cycleInfo[currentCycle-2].lastedEntities, cycleInfo[currentCycle - 1].lastedEntities)))
 				: std::format("Decrease with: {} %", std::round(
-					std::abs(static_cast<float>((cycleInfo[currentCycle - 2].lastedEntities -
-						cycleInfo[currentCycle - 1].lastedEntities)) /
-						cycleInfo[currentCycle - 2].lastedEntities) *
-					100));
+					getDecreasedPercentage(cycleInfo[currentCycle - 2].lastedEntities, cycleInfo[currentCycle - 1].lastedEntities)));
 		}
 		else
 		{
