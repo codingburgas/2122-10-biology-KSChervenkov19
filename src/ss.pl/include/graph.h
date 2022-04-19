@@ -42,7 +42,7 @@ class Graph : public Scene
 
     std::vector<ss::types::Cycle> cycleInfo;
 
-    std::pair<float, float> getHighestSenseAndSpeed(const std::vector<ss::types::Cycle>& cycle);
+    std::pair<float, float> getHighestSenseAndSpeed(const std::vector<ss::types::Cycle> &cycle);
     std::pair<float, float> maxSenseAndSpeed;
 
     float getHighestSense(const std::vector<ss::types::Cycle> &cycle);

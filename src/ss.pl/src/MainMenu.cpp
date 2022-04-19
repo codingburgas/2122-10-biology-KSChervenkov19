@@ -58,9 +58,12 @@ float MainMenu::calculateGraphsContainer()
 {
     float animationCalc = GetFrameTime() * graphContainerAnimationEase;
 
-    if (graphsContainerPos >= -500 && graphsIsAnimatingIn) graphContainerAnimationEase *= .8983F;
-    if (graphsContainerPos <= -500 && graphsIsAnimatingOut) graphContainerAnimationEase *= .8983F;
-    if (graphContainerAnimationEase < 30) graphContainerAnimationEase = 30;
+    if (graphsContainerPos >= -500 && graphsIsAnimatingIn)
+        graphContainerAnimationEase *= .8983F;
+    if (graphsContainerPos <= -500 && graphsIsAnimatingOut)
+        graphContainerAnimationEase *= .8983F;
+    if (graphContainerAnimationEase < 30)
+        graphContainerAnimationEase = 30;
 
     return animationCalc;
 }
@@ -81,8 +84,7 @@ void MainMenu::animateGraphsContainer()
         graphsContainerPos += calculateGraphsContainer();
         currentGraphPos.x = graphsContainerPos + 53;
 
-        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard)
-        {
+        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard) {
             graphCard.buttonPos.x = graphsContainerPos + 525;
             graphCard.namePos.x = graphsContainerPos + 92;
         });
@@ -93,8 +95,7 @@ void MainMenu::animateGraphsContainer()
         graphsContainerPos -= calculateGraphsContainer();
         currentGraphPos.x = graphsContainerPos - 53;
 
-        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard)
-        {
+        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard) {
             graphCard.buttonPos.x = graphsContainerPos + 425;
             graphCard.namePos.x = graphsContainerPos + 12;
         });
@@ -141,10 +142,10 @@ void MainMenu::displayGraphCards()
 
 void MainMenu::checkGraphButtonCollisions()
 {
-    std::ranges::for_each(graphCards, [this](const graphsCard &graphButton)
-    {
+    std::ranges::for_each(graphCards, [this](const graphsCard &graphButton) {
         if (CheckCollisionPointRec(mousePos, Rectangle{graphButton.buttonPos.x, graphButton.buttonPos.y + scrollOffset,
-            static_cast<float>(this->viewGraph_Texture.width), static_cast<float>(this->viewGraph_Texture.height)}) &&
+                                                       static_cast<float>(this->viewGraph_Texture.width),
+                                                       static_cast<float>(this->viewGraph_Texture.height)}) &&
             IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             ss::pl::graph::Graph::fileName = graphButton.name;
