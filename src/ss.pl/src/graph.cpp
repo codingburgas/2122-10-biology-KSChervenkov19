@@ -2,11 +2,16 @@
 #include "statistics_manager.h"
 #include <algorithm>
 
+/// Constructor for the Graph class.
+/// 
+/// @param sceneName The name of the current scene. Which here is "Graph".
+/// @param sceneManager A reference to already existing SceneManager object to control the program flow.
 ss::pl::graph::Graph::Graph(std::string sceneName, SceneManager& sceneManager)
 	: Scene(sceneName), m_sceneManager(sceneManager)
 {
 }
 
+/// Method which is called in the start of the Graph page.
 void ss::pl::graph::Graph::Start() // called once, at the start of the scene
 {
 	loadAssets();
@@ -16,6 +21,10 @@ void ss::pl::graph::Graph::Start() // called once, at the start of the scene
 	currentCycle = 1;
 	totalAlive = cycleInfo[0].lastedEntities;
 }
+
+/// Method which is called every frame.
+///
+/// It updates the current scene every frame.
 void ss::pl::graph::Graph::Update() // called every frame
 {
 	BeginDrawing();
@@ -30,6 +39,9 @@ void ss::pl::graph::Graph::Update() // called every frame
 	checkCollision();
 }
 
+/// Method which is called when we exit the program or the Graph page.
+/// 
+/// It deallocates every dynamically created object in the class' instance.
 void ss::pl::graph::Graph::onExit() // called once, at the end of the scene
 {
 	deleteAssets();
@@ -99,16 +111,29 @@ std::pair<float, float> ss::pl::graph::Graph::getHighestSenseAndSpeed(const std:
 	return { getHighestSense(cycle), getHighestSpeed(cycle) };
 }
 
+/// Method for getting the Growth percentage.
+/// 
+/// It returns the absolute value of the percentage when the current cycle' lasted entities had growth.
+/// @param lastedBef It holds the lasted entities in the previous cycle.
+/// @param lastedCur it holds the lasted entities in the current cycle.
+/// @return The percentage when it's growing.
 inline float ss::pl::graph::Graph::getGrowthPercentage(int lastedBef, int lastedCur)
 {
 	return std::abs(static_cast<float>(lastedCur - lastedBef) / lastedBef * 100);
 }
 
+/// Method for getting the Decreased percentage.
+/// 
+/// It returns the absolute value of the percentage when the current cycle' lasted entities had growth.
+/// @param lastedBef It holds the lasted entities in the previous cycle.
+/// @param lastedCur it holds the lasted entities in the current cycle.
+/// @return The percentage when it's decreasing.
 inline float ss::pl::graph::Graph::getDecreasedPercentage(int lastedBef, int lastedCur)
 {
 	return std::abs(static_cast<float>(lastedBef - lastedCur) / lastedBef * 100);
 }
 
+/// Method for drawing the Graph body.
 void ss::pl::graph::Graph::drawGraph()
 {
 	graphLine.y = 159;
@@ -155,6 +180,7 @@ void ss::pl::graph::Graph::drawGraph()
 	}
 }
 
+/// Method for drawing the menu in the graph page.
 void ss::pl::graph::Graph::drawMenu()
 {
 	DrawTexture(cycle_Next, 1350, 774, WHITE);
@@ -163,6 +189,7 @@ void ss::pl::graph::Graph::drawMenu()
 	DrawTextEx(fontInter, TextFormat("%i", (currentCycle)), { 1238, 788 }, 49, 0, BLACK);
 }
 
+/// Method for loading all the needed assets in the graph page.
 void ss::pl::graph::Graph::loadAssets()
 {
 	fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 95, 0, 0);
@@ -181,6 +208,7 @@ void ss::pl::graph::Graph::loadAssets()
 		.c_str());
 }
 
+/// Method for deallocating the dynamically created assets.
 void ss::pl::graph::Graph::deleteAssets()
 {
 	UnloadTexture(backArrow_Texture);
@@ -191,6 +219,7 @@ void ss::pl::graph::Graph::deleteAssets()
 	UnloadFont(fontInter);
 }
 
+/// Method for checking the collision on click.
 void ss::pl::graph::Graph::checkCollision()
 {
 	mousePos = GetMousePosition();
