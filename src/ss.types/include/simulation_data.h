@@ -5,10 +5,15 @@
 
 namespace ss::types
 {
+struct fVec2
+{
+    float x;
+    float y;
+};
+
 struct SimulationInfo
 {
-    int width;
-    int height;
+    int worldSize;
     int cyclesCount;
     int foodCount;
     int startingEntityCount;

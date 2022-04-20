@@ -17,19 +17,40 @@ namespace ss::bll::simulation
         DOWN = 270,
     };
 
+	enum class EntityFoodStage
+	{
+		ZERO_FOOD, // Entity has not found food yet. Seeking for food.
+        ONE_FOOD, // Entity has found 1 piece of food. Going home. Could take more food on the way.
+        TWO_FOOD // Entity has found 2 pieces of food. Going home. No more detours for food.
+	};
+
 class Entity
 {
   private:
-    const ss::types::SimulationInfo &m_simInfo;
-    float x, y;
+    const int &m_worldSize;
+
+    types::fVec2 pos;
+    const float m_turnRate = 1.0f;
     float m_facingAngle;
-    float energy = 500;
+    float m_turningAngle = 0.0f;
+    float timeSinceLastTurn = 0.0f;
+
+    const float m_energyMax = 500;
+    float m_currentEnergy = m_energyMax;
+
+
+    bool m_isAlive = true;
+    bool m_isDoneWithCycle = false;
+
+    EntityFoodStage m_foodStage = EntityFoodStage::ZERO_FOOD;
 
   public:
-    Entity(const ss::types::SimulationInfo &t_simInfo, ss::bll::simulation::DirectionsDeg startingAngle)
-        : m_simInfo(t_simInfo), m_facingAngle(static_cast<float>(startingAngle))
-    {
-    }
+      Entity(const int& t_worldSize, DirectionsDeg startingAngle);
+
+      void update(const float elapsedTime);
+
+  private:
+      void walk(const float elapsedTime);
 };
 
 class Cycle
@@ -38,6 +59,7 @@ class Cycle
   public:
     Cycle()
     {
+
     }
 };
 
