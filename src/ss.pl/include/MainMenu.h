@@ -6,6 +6,8 @@
 #include <ranges>
 #include <raylib.h>
 
+namespace ss::pl::mainMenu
+{
 class MainMenu : public Scene
 {
   private:
@@ -26,7 +28,7 @@ class MainMenu : public Scene
     Texture2D viewGraph_Texture;
 
     // Custom font
-    Font font;
+    Font fontInter;
 
     // Variables, regarding the graph containers
     struct graphsCard
@@ -61,11 +63,11 @@ class MainMenu : public Scene
     // Methods, used to handle the graphs container
     float calculateGraphsContainer();
     void animateGraphsContainer();
+    void positionGraphsContainer();
     void displayGraphCards();
 
-    // Methods for setup and cleanup of variables
-    void loadTextures();
-    void deleteTextures();
+    // Method for drawing textures
+    void drawTextures();
 
   public:
     MainMenu(std::string sceneName, SceneManager &sceneManager);
@@ -76,4 +78,9 @@ class MainMenu : public Scene
     virtual void Update();
 
     virtual void onExit();
+
+    virtual void loadAssets();
+
+    virtual void deleteAssets();
 };
+} // namespace ss::pl::mainMenu

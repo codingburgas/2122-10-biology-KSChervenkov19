@@ -4,6 +4,8 @@
 #include <raygui.h>
 #include <raylib.h>
 
+namespace ss::pl::simulator
+{
 class Simulation : public Scene
 {
   private:
@@ -50,10 +52,6 @@ class Simulation : public Scene
     // Method that resets the camera position, rotation, look
     void resetCamera();
 
-    // Methods, used to load/unload assets or textures
-    void loadAssets();
-    void deleteTextures();
-
   public:
     Simulation(std::string sceneName, SceneManager &sceneManager);
 
@@ -62,4 +60,9 @@ class Simulation : public Scene
     virtual void Update();
 
     virtual void onExit();
+
+    virtual void loadAssets();
+
+    virtual void deleteAssets();
 };
+} // namespace ss::pl::simulator

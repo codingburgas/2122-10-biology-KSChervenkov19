@@ -11,6 +11,7 @@ struct fVec2
     float y;
 };
 
+/// A struct holding the data for a simulation.
 struct SimulationInfo
 {
     int worldSize;
@@ -20,7 +21,7 @@ struct SimulationInfo
     float initialSpeed;
     float initialSense;
 };
-
+/// A struct holding the data for a trait.
 struct Trait
 {
     float sense;
@@ -28,7 +29,7 @@ struct Trait
 
     auto operator<=>(const Trait &) const = default;
 };
-
+/// A struct holding the data for a cycle.
 struct Cycle
 {
     int lastedEntities;

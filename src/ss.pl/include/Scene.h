@@ -16,7 +16,11 @@ class Scene
 
     std::string m_sceneName;
 
-    inline static enum class ThemeTypes { LightTheme, DarkTheme };
+    enum class ThemeTypes
+    {
+        LightTheme,
+        DarkTheme
+    };
 
     inline static ThemeTypes currentTheme = ThemeTypes::LightTheme;
 
@@ -29,4 +33,8 @@ class Scene
     virtual void Update() = 0;
 
     virtual void onExit() = 0;
+
+    virtual void loadAssets() = 0;
+
+    virtual void deleteAssets() = 0;
 };

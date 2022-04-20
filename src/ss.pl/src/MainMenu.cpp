@@ -1,17 +1,25 @@
 #include "mainMenu.h"
 #include "graph.h"
 
-MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager) : Scene(sceneName), m_sceneManager(sceneManager)
+/// Constructor for the MainMenu class.
+///
+/// @param sceneName The name of the current scene. Which here is "MainMenu".
+/// @param sceneManager A reference to already existing SceneManager object to control the program flow.
+ss::pl::mainMenu::MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager)
+    : Scene(sceneName), m_sceneManager(sceneManager)
 {
 }
 
-void MainMenu::Start() // called once, at the start of the scene
+/// Method which is called in the start of the MainMenu page.
+void ss::pl::mainMenu::MainMenu::Start() // called once, at the start of the scene
 {
-    loadTextures();
+    loadAssets();
+
     currentGraphPos = {-834, 54};
     statisticNames = ss::bll::statistics::StatisticsManager::getStatisticsNames();
     graphButtonPos = {525, 92};
     graphNamePos = {53, 112};
+    graphCards.clear();
 
     for (std::string statistic : statisticNames)
     {
@@ -21,7 +29,10 @@ void MainMenu::Start() // called once, at the start of the scene
     }
 }
 
-void MainMenu::Update() // called every frame
+/// Method which is called every frame.
+///
+/// It updates the current scene every frame.
+void ss::pl::mainMenu::MainMenu::Update() // called every frame
 {
     mousePos = GetMousePosition();
 
@@ -31,13 +42,10 @@ void MainMenu::Update() // called every frame
 
     ClearBackground(MainMenu::backgroundColors.at(static_cast<int>(MainMenu::currentTheme)));
 
-    DrawTexture(simulatorButton_Texture, 525, 736, WHITE);
-    DrawTexture(logo_Texture, 310, 219, WHITE);
-    DrawTexture(graphsMenu_Texture, 57, 53, WHITE);
-    DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
-    DrawTexture(themeButton_Texture, 1386, 41, WHITE);
+    drawTextures();
 
     animateGraphsContainer();
+
     if (graphsIsAnimatingIn || graphsIsOut)
     {
         displayGraphCards();
@@ -48,25 +56,35 @@ void MainMenu::Update() // called every frame
     handleScroll();
 }
 
-void MainMenu::onExit() // called once, at the end of the scene
+/// Method which is called when we exit the program or the MainMenu page.
+///
+/// It deallocates every dynamically created object in the class' instance.
+void ss::pl::mainMenu::MainMenu::onExit() // called once, at the end of the scene
 {
+    deleteAssets();
+
     isSetUp = false;
-    deleteTextures();
 }
 
-float MainMenu::calculateGraphsContainer()
+/// This method calculates the Graph container's place.
+///
+/// @return The possition in float.
+float ss::pl::mainMenu::MainMenu::calculateGraphsContainer()
 {
     float animationCalc = GetFrameTime() * graphContainerAnimationEase;
+
     if (graphsContainerPos >= -500 && graphsIsAnimatingIn)
         graphContainerAnimationEase *= .8983F;
     if (graphsContainerPos <= -500 && graphsIsAnimatingOut)
         graphContainerAnimationEase *= .8983F;
     if (graphContainerAnimationEase < 30)
         graphContainerAnimationEase = 30;
+
     return animationCalc;
 }
 
-void MainMenu::handleScroll()
+/// Handling the scroll button.
+void ss::pl::mainMenu::MainMenu::handleScroll()
 {
     if (scrollOffset + GetMouseWheelMove() * 35 <= 0 &&
         std::abs(scrollOffset + GetMouseWheelMove() * 35) <= statisticNames.size() * 198 - 1000)
@@ -75,34 +93,29 @@ void MainMenu::handleScroll()
     }
 }
 
-void MainMenu::animateGraphsContainer()
+/// This method positions the graph container through the animation.
+void ss::pl::mainMenu::MainMenu::positionGraphsContainer()
 {
+    currentGraphPos.x = (graphsIsAnimatingOut) ? graphsContainerPos - 53 : graphsContainerPos + 53;
 
-    if (graphsIsAnimatingIn)
-    {
-        graphsContainerPos += calculateGraphsContainer();
-        currentGraphPos.x = graphsContainerPos + 53;
-        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard) {
-            graphCard.buttonPos.x = graphsContainerPos + 525;
-            graphCard.namePos.x = graphsContainerPos + 92;
-        });
-    }
-    if (graphsIsAnimatingOut)
-    {
-        graphsContainerPos -= calculateGraphsContainer();
-        currentGraphPos.x = graphsContainerPos - 53;
-        std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard) {
-            graphCard.buttonPos.x = graphsContainerPos + 425;
-            graphCard.namePos.x = graphsContainerPos + 12;
-        });
-    }
+    std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard) {
+        graphCard.buttonPos.x = (graphsIsAnimatingOut) ? graphsContainerPos + 425 : graphsContainerPos + 525;
+        graphCard.namePos.x = (graphsIsAnimatingOut) ? graphsContainerPos + 12 : graphsContainerPos + 92;
+    });
+}
+
+/// This method slows down the showing of the graph container.
+void ss::pl::mainMenu::MainMenu::animateGraphsContainer()
+{
     if (graphsContainerPos >= 0)
     {
+        positionGraphsContainer();
         graphsIsAnimatingIn = false;
         graphContainerAnimationEase = 3000;
         graphsContainerPos = 0;
         graphsIsOut = true;
     }
+
     if (graphsContainerPos <= -887)
     {
         graphsIsAnimatingOut = false;
@@ -110,9 +123,22 @@ void MainMenu::animateGraphsContainer()
         graphsContainerPos = -887;
         graphsIsOut = false;
     }
+
+    if (graphsIsAnimatingIn)
+    {
+        graphsContainerPos += calculateGraphsContainer();
+        positionGraphsContainer();
+    }
+
+    if (graphsIsAnimatingOut)
+    {
+        graphsContainerPos -= calculateGraphsContainer();
+        positionGraphsContainer();
+    }
 }
 
-void MainMenu::displayGraphCards()
+/// This method display the graph cards on click on the menu.
+void ss::pl::mainMenu::MainMenu::displayGraphCards()
 {
     checkGraphButtonCollisions();
     currentGraphPos.y = 54;
@@ -128,13 +154,14 @@ void MainMenu::displayGraphCards()
         {
             DrawTexture(viewGraph_Texture, graphContainer.buttonPos.x, graphContainer.buttonPos.y + scrollOffset,
                         WHITE);
-            DrawTextEx(font, graphContainer.name.c_str(),
+            DrawTextEx(fontInter, graphContainer.name.c_str(),
                        {graphContainer.namePos.x, graphContainer.namePos.y + scrollOffset}, 40, 1, BLACK);
         }
     }
 }
 
-void MainMenu::checkGraphButtonCollisions()
+/// This method checks which of the graph buttons is clicked.
+void ss::pl::mainMenu::MainMenu::checkGraphButtonCollisions()
 {
     std::ranges::for_each(graphCards, [this](const graphsCard &graphButton) {
         if (CheckCollisionPointRec(mousePos, Rectangle{graphButton.buttonPos.x, graphButton.buttonPos.y + scrollOffset,
@@ -144,23 +171,31 @@ void MainMenu::checkGraphButtonCollisions()
         {
             ss::pl::graph::Graph::fileName = graphButton.name;
             m_sceneManager.setCurrentScene("Graph");
+            graphsIsAnimatingIn = true;
         }
     });
 }
 
-void MainMenu::deleteTextures()
+/// Method for deallocating the dynamically created assets.
+void ss::pl::mainMenu::MainMenu::deleteAssets()
 {
-    UnloadFont(font);
+    UnloadFont(fontInter);
+
     UnloadTexture(simulatorButton_Texture);
     UnloadTexture(logo_Texture);
     UnloadTexture(graphsMenu_Texture);
     UnloadTexture(graphsContainer_Texture);
+    UnloadTexture(themeButton_Texture);
+    UnloadTexture(viewGraph_Texture);
 }
 
 // clang-format off
-void MainMenu::loadTextures()
+
+/// Method for loading all the needed assets in the graph page.
+void ss::pl::mainMenu::MainMenu::loadAssets()
 {
-    font = LoadFontEx("../../assets/fonts/Inter.ttf", 90, 0, 0);
+    fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 90, 0, 0);
+
     simulatorButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Simulator_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     logo_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Logo_Transparent.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
@@ -170,19 +205,32 @@ void MainMenu::loadTextures()
 
 }
 
-bool MainMenu::handleMouseCursor()
+/// This method draws all the needed assets in the MainMenu page.
+void ss::pl::mainMenu::MainMenu::drawTextures()
 {
-    return CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) })
-        || CheckCollisionPointRec(mousePos, { 57, 53, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) })
-        || CheckCollisionPointRec(mousePos, { 1386, 41, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) });
+    DrawTexture(simulatorButton_Texture, 525, 736, WHITE);
+    DrawTexture(logo_Texture, 310, 219, WHITE);
+    DrawTexture(graphsMenu_Texture, 56, 29, WHITE);
+    DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
+    DrawTexture(themeButton_Texture, 1371, 26, WHITE);
 }
 
-void MainMenu::checkCollision()
+/// This method handles when the mouse cursor is on click.
+/// @return bool.
+bool ss::pl::mainMenu::MainMenu::handleMouseCursor()
+{
+    return CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) })
+        || CheckCollisionPointRec(mousePos, { 56, 29, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) })
+        || CheckCollisionPointRec(mousePos, { 1371, 26, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) });
+}
+
+/// This method checks for collision on every possible button.
+void ss::pl::mainMenu::MainMenu::checkCollision()
 {
 
     SetMouseCursor(handleMouseCursor() ? MOUSE_CURSOR_POINTING_HAND : MOUSE_CURSOR_DEFAULT);
 
-    if (CheckCollisionPointRec(mousePos, { 57, 53, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) })
+    if (CheckCollisionPointRec(mousePos, { 56, 29, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) })
         && !graphsIsAnimatingIn && !graphsIsAnimatingOut && !graphsIsOut && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         graphsIsAnimatingIn = true;
@@ -194,14 +242,13 @@ void MainMenu::checkCollision()
         m_sceneManager.setCurrentScene("Simulation");
     }
 
-    if (CheckCollisionPointRec(mousePos, { 1386, 41, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) })
+    if (CheckCollisionPointRec(mousePos, { 1371, 26, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) })
         && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         MainMenu::currentTheme = (MainMenu::currentTheme == ThemeTypes::LightTheme) ? ThemeTypes::DarkTheme : ThemeTypes::LightTheme;
-        MainMenu::deleteTextures();
-        MainMenu::loadTextures();
+        MainMenu::deleteAssets();
+        MainMenu::loadAssets();
     }
-
 
     if (!CheckCollisionPointRec(mousePos, { 0, 0, static_cast<float>(graphsContainer_Texture.width), static_cast<float>(graphsContainer_Texture.height) })
         && !CheckCollisionPointRec(mousePos, { 1386, 41, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) })

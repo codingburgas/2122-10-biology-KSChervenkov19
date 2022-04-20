@@ -39,6 +39,9 @@
     <ClCompile Include="src\ss.bll.unit_testing\get_statistics_method_2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ss.pl.unit_testing\get_highest_sense.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\pch_unit_testing.h">

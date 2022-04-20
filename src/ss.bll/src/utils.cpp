@@ -4,9 +4,9 @@
 // clang-format on
 
 /// Converts degrees to radians.
-/// 
+///
 /// @param degrees The angle to be converted from.
-/// 
+///
 /// @return Angle in radians.
 double ss::bll::utils::toRadian(double degrees)
 {
@@ -14,9 +14,9 @@ double ss::bll::utils::toRadian(double degrees)
 }
 
 /// Converts radians to degrees.
-/// 
+///
 /// @param radians The radian to be converted from.
-/// 
+///
 /// @return Angle in degrees.
 double ss::bll::utils::toDegree(double radians)
 {
