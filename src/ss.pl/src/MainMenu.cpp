@@ -2,10 +2,11 @@
 #include "graph.h"
 
 /// Constructor for the MainMenu class.
-/// 
+///
 /// @param sceneName The name of the current scene. Which here is "MainMenu".
 /// @param sceneManager A reference to already existing SceneManager object to control the program flow.
-ss::pl::mainMenu::MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager) : Scene(sceneName), m_sceneManager(sceneManager)
+ss::pl::mainMenu::MainMenu::MainMenu(std::string sceneName, SceneManager &sceneManager)
+    : Scene(sceneName), m_sceneManager(sceneManager)
 {
 }
 
@@ -56,7 +57,7 @@ void ss::pl::mainMenu::MainMenu::Update() // called every frame
 }
 
 /// Method which is called when we exit the program or the MainMenu page.
-/// 
+///
 /// It deallocates every dynamically created object in the class' instance.
 void ss::pl::mainMenu::MainMenu::onExit() // called once, at the end of the scene
 {
@@ -95,12 +96,11 @@ void ss::pl::mainMenu::MainMenu::handleScroll()
 /// This method positions the graph container through the animation.
 void ss::pl::mainMenu::MainMenu::positionGraphsContainer()
 {
-     currentGraphPos.x = (graphsIsAnimatingOut)? graphsContainerPos - 53 : graphsContainerPos + 53;
+    currentGraphPos.x = (graphsIsAnimatingOut) ? graphsContainerPos - 53 : graphsContainerPos + 53;
 
-    std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard& graphCard)
-    {
-        graphCard.buttonPos.x = (graphsIsAnimatingOut)? graphsContainerPos + 425 : graphsContainerPos + 525;
-        graphCard.namePos.x = (graphsIsAnimatingOut)? graphsContainerPos + 12 : graphsContainerPos + 92;
+    std::for_each(graphCards.begin(), graphCards.end(), [&](graphsCard &graphCard) {
+        graphCard.buttonPos.x = (graphsIsAnimatingOut) ? graphsContainerPos + 425 : graphsContainerPos + 525;
+        graphCard.namePos.x = (graphsIsAnimatingOut) ? graphsContainerPos + 12 : graphsContainerPos + 92;
     });
 }
 

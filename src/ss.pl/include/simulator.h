@@ -6,63 +6,63 @@
 
 namespace ss::pl::simulator
 {
-    class Simulation : public Scene
+class Simulation : public Scene
+{
+  private:
+    // Instance of scene manager class, used to change scenes
+    SceneManager &m_sceneManager;
+
+    // 2D variables
+    Vector2 mousePos;
+    Vector2 planePos;
+
+    // Textures
+    Texture2D setupContainer_Texture;
+    Texture2D backArrow_Texture;
+    Texture2D simulateButton_Texture;
+
+    // Camera
+    Camera3D camera{0};
+
+    // Font
+    Font fontInter;
+
+    // Variables, used for initializing the simulation
+    float graphsContainerPos;
+    int cyclesCount;
+    int worldSize;
+    int entities;
+    int food;
+    int cycles;
+
+    // Variable, stores the current scene state
+    enum class SimulatorState
     {
-    private:
-        // Instance of scene manager class, used to change scenes
-        SceneManager& m_sceneManager;
+        Setup,
+        Simulation
+    } currentState = SimulatorState::Setup;
 
-        // 2D variables
-        Vector2 mousePos;
-        Vector2 planePos;
+    // Methods, used to draw scenes
+    void drawSetup();
+    void drawSimulation();
 
-        // Textures
-        Texture2D setupContainer_Texture;
-        Texture2D backArrow_Texture;
-        Texture2D simulateButton_Texture;
+    // Method which checks the mouse/keyboard input
+    void checkInput();
 
-        // Camera
-        Camera3D camera{ 0 };
+    // Method that resets the camera position, rotation, look
+    void resetCamera();
 
-        // Font
-        Font fontInter;
+  public:
+    Simulation(std::string sceneName, SceneManager &sceneManager);
 
-        // Variables, used for initializing the simulation
-        float graphsContainerPos;
-        int cyclesCount;
-        int worldSize;
-        int entities;
-        int food;
-        int cycles;
+    virtual void Start();
 
-        // Variable, stores the current scene state
-        enum class SimulatorState
-        {
-            Setup,
-            Simulation
-        } currentState = SimulatorState::Setup;
+    virtual void Update();
 
-        // Methods, used to draw scenes
-        void drawSetup();
-        void drawSimulation();
+    virtual void onExit();
 
-        // Method which checks the mouse/keyboard input
-        void checkInput();
+    virtual void loadAssets();
 
-        // Method that resets the camera position, rotation, look
-        void resetCamera();
-
-    public:
-        Simulation(std::string sceneName, SceneManager& sceneManager);
-
-        virtual void Start();
-
-        virtual void Update();
-
-        virtual void onExit();
-
-        virtual void loadAssets();
-
-        virtual void deleteAssets();
-    };
+    virtual void deleteAssets();
+};
 } // namespace ss::pl::simulator

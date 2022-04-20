@@ -18,7 +18,7 @@ void SceneManager::updateScene()
 }
 
 /// This method pushes a scene.
-/// 
+///
 /// @param *scene A pointer to a new scene.
 void SceneManager::addScene(Scene *scene)
 {

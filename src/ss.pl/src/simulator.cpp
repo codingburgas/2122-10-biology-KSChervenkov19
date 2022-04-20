@@ -1,7 +1,7 @@
 #include "simulator.h"
 
 /// Constructor for the Simulation class.
-/// 
+///
 /// @param sceneName The name of the current scene. Which here is "Simulation".
 /// @param sceneManager A reference to already existing SceneManager object to control the program flow.
 ss::pl::simulator::Simulation::Simulation(std::string sceneName, SceneManager &sceneManager)
@@ -47,7 +47,7 @@ void ss::pl::simulator::Simulation::Update() // called every frame
 }
 
 /// Method which is called when we exit the program or the Simulation page.
-/// 
+///
 /// It deallocates every dynamically created object in the class' instance.
 void ss::pl::simulator::Simulation::onExit() // called once, at the end of the scene
 {

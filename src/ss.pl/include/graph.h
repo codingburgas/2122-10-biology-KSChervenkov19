@@ -11,7 +11,6 @@ namespace ss::pl::graph
 class Graph : public Scene
 {
   private:
-
     // Textures
     Texture2D backArrow_Texture;
     Texture2D graph_Container;
@@ -44,7 +43,7 @@ class Graph : public Scene
 
     // Pairs, used to pair cycle data
     std::pair<float, float> getHighestSenseAndSpeed(const std::vector<ss::types::Cycle> &cycle);
-   
+
     std::pair<float, float> maxSenseAndSpeed;
 
     // Methods for drawing textures
@@ -66,7 +65,7 @@ class Graph : public Scene
     const std::array<std::string, 2> autoPaths = {"Auto_Button_Checked", "Auto_Button_Unchecked"};
 
   public:
-    Graph(std::string sceneName, SceneManager& sceneManager);
+    Graph(std::string sceneName, SceneManager &sceneManager);
 
     // Inline static variable, used to save opened graph file
     inline static std::string fileName;
@@ -82,12 +81,12 @@ class Graph : public Scene
 
     virtual void deleteAssets();
 
-    SceneManager& m_sceneManager;
+    SceneManager &m_sceneManager;
 
     // Methods, used to calculate cycle data
-    static float getHighestSense(const std::vector<ss::types::Cycle>& cycle);
+    static float getHighestSense(const std::vector<ss::types::Cycle> &cycle);
 
-    static float getHighestSpeed(const std::vector<ss::types::Cycle>& cycle);
+    static float getHighestSpeed(const std::vector<ss::types::Cycle> &cycle);
 
     static inline float getGrowthPercentage(int lastedBef, int lastedCur);
 
