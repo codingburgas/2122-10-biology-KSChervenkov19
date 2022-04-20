@@ -69,6 +69,7 @@ class Graph : public Scene
 
     void getTraitData(size_t cycle);
     void drawTrait();
+    Vector2 calculateTraitPosition(float sence, float speed);
 
   public:
     Graph(std::string sceneName, SceneManager &sceneManager);

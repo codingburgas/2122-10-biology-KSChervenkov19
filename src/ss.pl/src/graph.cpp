@@ -149,8 +149,15 @@ void ss::pl::graph::Graph::drawTrait()
 {
     for (auto trait : traitData)
     {
-        DrawCircleV({trait.sense, trait.speed}, 10, BLACK);
+        DrawCircleV({calculateTraitPosition(trait.sense, trait.speed)}, 10, BLACK);
     }
+}
+
+Vector2 ss::pl::graph::Graph::calculateTraitPosition(float sence, float speed)
+{
+    speed = ((727 / maxSenseAndSpeed.second) * speed) + 198;
+    sence = ((691 / maxSenseAndSpeed.first) * (maxSenseAndSpeed.first - sence)) + 118;
+    return { speed, sence };
 }
 
 /// Method for drawing the Graph body.
