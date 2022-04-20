@@ -149,7 +149,7 @@ void ss::pl::graph::Graph::drawTrait()
 {
     for (auto trait : traitData)
     {
-        DrawCircleV({calculateTraitPosition(trait.sense, trait.speed)}, 10, BLACK);
+        DrawCircleV({ calculateTraitPosition(trait.sense, trait.speed) }, 10, {117, 105, 255, 255});
     }
 }
 
