@@ -21,6 +21,8 @@ void ss::pl::graph::Graph::Start() // called once, at the start of the scene
     currentCycle = 1;
     totalAlive = cycleInfo[0].lastedEntities;
 
+    getTraitData(currentCycle);
+
     autoCycle = false;
 }
 
@@ -35,6 +37,7 @@ void ss::pl::graph::Graph::Update() // called every frame
 
     drawGraph();
     drawMenu();
+    drawTrait();
 
     EndDrawing();
 
@@ -135,6 +138,19 @@ inline float ss::pl::graph::Graph::getGrowthPercentage(int lastedBef, int lasted
 inline float ss::pl::graph::Graph::getDecreasedPercentage(int lastedBef, int lastedCur)
 {
     return std::abs(static_cast<float>(lastedBef - lastedCur) / lastedBef * 100);
+}
+
+void ss::pl::graph::Graph::getTraitData(size_t cycle)
+{
+    traitData = cycleInfo[cycle - 1].traitsInfo;
+}
+
+void ss::pl::graph::Graph::drawTrait()
+{
+    for (auto trait : traitData)
+    {
+        DrawCircleV({trait.sense, trait.speed}, 10, BLACK);
+    }
 }
 
 /// Method for drawing the Graph body.
@@ -275,8 +291,9 @@ void ss::pl::graph::Graph::checkCollision()
             mousePos, {1398, 836, static_cast<float>(cycle_Next.width), static_cast<float>(cycle_Next.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        if (currentCycle != cycleInfo.size())
-            currentCycle++;
+        if (currentCycle != cycleInfo.size()) currentCycle++;
+
+        getTraitData(currentCycle);
 
         totalAlive = cycleInfo[currentCycle - 1].lastedEntities;
         if (currentCycle != 1)
@@ -300,8 +317,9 @@ void ss::pl::graph::Graph::checkCollision()
             mousePos, {1045, 836, static_cast<float>(cycle_Prev.width), static_cast<float>(cycle_Prev.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        if (currentCycle - 1 != 0)
-            currentCycle--;
+        if (currentCycle - 1 != 0) currentCycle--;
+
+        getTraitData(currentCycle);
 
         totalAlive = cycleInfo[currentCycle - 1].lastedEntities;
         if (currentCycle != 1)
@@ -339,6 +357,8 @@ void ss::pl::graph::Graph::automateCycle()
     if (fElapsedTime >= cycleSpeed && currentCycle != cycleInfo.size())
     {
         currentCycle++;
+
+        getTraitData(currentCycle);
 
         fElapsedTime = 0;
 

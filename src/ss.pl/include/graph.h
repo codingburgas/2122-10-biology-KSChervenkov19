@@ -64,6 +64,12 @@ class Graph : public Scene
 
     const std::array<std::string, 2> autoPaths = {"Auto_Button_Checked", "Auto_Button_Unchecked"};
 
+    // Mathods, drawing and calculating graph info
+    std::vector <ss::types::Trait> traitData;
+
+    void getTraitData(size_t cycle);
+    void drawTrait();
+
   public:
     Graph(std::string sceneName, SceneManager &sceneManager);
 
