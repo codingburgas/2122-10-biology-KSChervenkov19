@@ -140,11 +140,18 @@ inline float ss::pl::graph::Graph::getDecreasedPercentage(int lastedBef, int las
     return std::abs(static_cast<float>(lastedBef - lastedCur) / lastedBef * 100);
 }
 
+/// Method for loading trait data.
+///
+/// It fills traitData vector with data from cycleInfo.traitsInfo.
+/// @param cycle it holds a iterator to the current cycle.
 void ss::pl::graph::Graph::getTraitData(size_t cycle)
 {
     traitData = cycleInfo[cycle - 1].traitsInfo;
 }
 
+/// Method for drawing trait data into the graph.
+///
+/// It uses DrawCircleV function to draw each trait's sense and speed into the graph.
 void ss::pl::graph::Graph::drawTrait()
 {
     for (auto trait : traitData)
@@ -153,6 +160,12 @@ void ss::pl::graph::Graph::drawTrait()
     }
 }
 
+/// Method for calculating trait data position.
+///
+/// It returns the position in coordinates (x, y) for each trait according the the graph.
+/// @param sence It holds the current trait's sence.
+/// @param speed It holds the current trait's speed.
+/// @return Vector2 of X and Y positions.
 Vector2 ss::pl::graph::Graph::calculateTraitPosition(float sence, float speed)
 {
     speed = ((727 / maxSenseAndSpeed.second) * speed) + 198;
