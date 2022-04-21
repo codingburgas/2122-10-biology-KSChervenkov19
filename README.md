@@ -27,7 +27,7 @@ ___
 
 ___
 ## 📄 Documentation
-  - [Doxygen](https://codingburgas.github.io/2122-10-biology-KSChervenkov19)
+  - [Doxygen](https://mcberberov19.github.io/Nano-Documentation/)
   - [Documentation](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
   ___
