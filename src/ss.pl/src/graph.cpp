@@ -149,7 +149,7 @@ void ss::pl::graph::Graph::drawTrait()
 {
     for (auto trait : traitData)
     {
-        DrawCircleV({ calculateTraitPosition(trait.sense, trait.speed) }, 10, {117, 105, 255, 255});
+        DrawCircleV({calculateTraitPosition(trait.sense, trait.speed)}, 10, {117, 105, 255, 255});
     }
 }
 
@@ -157,7 +157,7 @@ Vector2 ss::pl::graph::Graph::calculateTraitPosition(float sence, float speed)
 {
     speed = ((727 / maxSenseAndSpeed.second) * speed) + 198;
     sence = ((691 / maxSenseAndSpeed.first) * (maxSenseAndSpeed.first - sence)) + 118;
-    return { speed, sence };
+    return {speed, sence};
 }
 
 /// Method for drawing the Graph body.
@@ -298,7 +298,8 @@ void ss::pl::graph::Graph::checkCollision()
             mousePos, {1398, 836, static_cast<float>(cycle_Next.width), static_cast<float>(cycle_Next.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        if (currentCycle != cycleInfo.size()) currentCycle++;
+        if (currentCycle != cycleInfo.size())
+            currentCycle++;
 
         getTraitData(currentCycle);
 
@@ -324,7 +325,8 @@ void ss::pl::graph::Graph::checkCollision()
             mousePos, {1045, 836, static_cast<float>(cycle_Prev.width), static_cast<float>(cycle_Prev.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        if (currentCycle - 1 != 0) currentCycle--;
+        if (currentCycle - 1 != 0)
+            currentCycle--;
 
         getTraitData(currentCycle);
 
