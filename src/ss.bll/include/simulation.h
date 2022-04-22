@@ -23,6 +23,9 @@ enum class DirectionsDeg
     DOWN = 270,
 };
 
+///
+/// @brief An enumeration type describing the three states of an Entity.
+///
 enum class EntityFoodStage
 {
     ZERO_FOOD, // Entity has not found food yet. Seeking for food.
@@ -32,10 +35,9 @@ enum class EntityFoodStage
 
 class Entity
 {
-  private:
     const int &m_worldSize;
 
-    types::fVec2 pos = { 0.0f, 0.0f };
+    types::fVec2 m_pos = { 0.0f, 0.0f };
     const float m_turnRate = 1.0f;
     float m_facingAngle;
     float m_turningAngle = 0.0f;
@@ -49,32 +51,44 @@ class Entity
 
     EntityFoodStage m_foodStage = EntityFoodStage::ZERO_FOOD;
 
-  public:
     Entity(const int &t_worldSize, DirectionsDeg startingAngle);
 
     void update(const float elapsedTime);
 
-  private:
     void walk(const float elapsedTime);
+
+public:
+	[[nodiscard]] const types::fVec2& getPos() const;
+    [[nodiscard]] float getFacingAngle() const;
+
+    friend class Cycle;
+    friend class Simulation;
 };
 
 class Cycle
 {
-  private:
-  public:
-    Cycle()
-    {
-    }
+      Cycle();
+
+public:
+    friend class Simulation;
 };
 
 class Simulation
 {
   private:
     const ss::types::SimulationInfo m_simInfo;
-    std::vector<ss::bll::simulation::Entity> m_entities;
+
+    std::vector<Entity> m_entities;
+    std::vector<Entity>::const_iterator m_entitiesEndIt;
+
     size_t m_currentCycle = 0;
+
+    // Make sure that all the active entities are included. (especially the last active one)
+    [[nodiscard]] std::span<Entity> getActiveEntities() const;
 
   public:
     Simulation(const ss::types::SimulationInfo &t_simInfo);
+
+    friend class Cycle;
 };
 } // namespace ss::bll::simulation

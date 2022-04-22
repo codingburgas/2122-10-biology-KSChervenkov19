@@ -13,5 +13,6 @@
 #include <cmath>
 #include <string>
 #include <vector>
+#include <span>
 
 #endif // PCH_H_BLL

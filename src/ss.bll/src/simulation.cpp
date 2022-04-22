@@ -63,10 +63,28 @@ void ss::bll::simulation::Entity::walk(const float elapsedTime)
     // timeSinceLastTurn += elapsedTime
 }
 
+const ss::types::fVec2& ss::bll::simulation::Entity::getPos() const
+{
+    return m_pos;
+}
+
+float ss::bll::simulation::Entity::getFacingAngle() const
+{
+    return m_facingAngle;
+}
+
+std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiveEntities() const
+{
+	return std::span(m_entities.data(), 
+        std::distance(m_entities.cbegin(), m_entitiesEndIt));
+}
+
 /// Constructor for the Simulation class.
 ///
 /// Constructs the Simulation class with approriate ss::types::SimulationInfo.
 /// @param t_simInfo object of user defined type ss::types::SimulationInfo holding the data.
 ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo &t_simInfo) : m_simInfo(t_simInfo)
 {
+    m_entities = std::vector<Entity>(m_simInfo.startingEntityCount);
+    m_entitiesEndIt = m_entities.cend();
 }
