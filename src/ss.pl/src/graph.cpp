@@ -193,15 +193,15 @@ void ss::pl::graph::Graph::drawGraph()
     DrawRectangle(198, 118, 9, 691, {196, 196, 196, 255});
     DrawRectangle(198, 809, 727, 9, {196, 196, 196, 255});
 
-    DrawTextEx(fontInter, "0", {165, 826}, 39, 0, {108, 108, 108, 255});
-    DrawTextEx(fontInter, TextFormat("%.1f", maxSenseAndSpeed.first), {124, 90}, 39, 0, {108, 108, 108, 255});
-    DrawTextEx(fontInter, TextFormat("%.1f", maxSenseAndSpeed.second), {900, 826}, 39, 0, {108, 108, 108, 255});
-    DrawTextEx(fontInter, "speed", {478, 868}, 39, 0, BLACK);
+    DrawTextEx(fontInter, "0", {165, 826}, 39, 0, Graph::graphColors.at(!static_cast<int>(Graph::currentTheme)));
+    DrawTextEx(fontInter, TextFormat("%.1f", maxSenseAndSpeed.first), {124, 90}, 39, 0, Graph::graphColors.at(!static_cast<int>(Graph::currentTheme)));
+    DrawTextEx(fontInter, TextFormat("%.1f", maxSenseAndSpeed.second), {900, 826}, 39, 0, Graph::graphColors.at(!static_cast<int>(Graph::currentTheme)));
+    DrawTextEx(fontInter, "speed", {478, 868}, 39, 0, Graph::backgroundColors.at(!static_cast<int>(Graph::currentTheme)));
     DrawTextEx(fontInter, std::format("Alive: {}", totalAlive).c_str(), {1060, 88}, 50, 0, BLACK);
 
     // if it ain't broke, don't touch it
     DrawTextEx(fontInter, populationChange.c_str(), {1060, 237}, 50, 0, BLACK);
-    DrawTextPro(fontInter, "sense", {72, 537}, {0, 0}, 270, 39, 0, BLACK);
+    DrawTextPro(fontInter, "sense", {72, 537}, {0, 0}, 270, 39, 0, Graph::backgroundColors.at(!static_cast<int>(Graph::currentTheme)));
 
     for (int i = 0; i < 8; i++)
     {
@@ -209,9 +209,9 @@ void ss::pl::graph::Graph::drawGraph()
         DrawRectangle(graphLine.x, 800, 9, 26, {196, 196, 196, 255});
 
         DrawTextEx(fontInter, TextFormat("%.1f", (currentSense)), {140, static_cast<float>(graphText.y)}, 19, 0,
-                   {108, 108, 108, 255});
+                   Graph::graphColors.at(!static_cast<int>(Graph::currentTheme)));
         DrawTextEx(fontInter, TextFormat("%.1f", (currentSpeed)), {static_cast<float>(graphText.x), 844}, 19, 0,
-                   {108, 108, 108, 255});
+                   Graph::graphColors.at(!static_cast<int>(Graph::currentTheme)));
 
         graphLine.y += 90;
         graphLine.x += 90;
@@ -231,9 +231,9 @@ void ss::pl::graph::Graph::drawMenu()
     DrawTexture(slider_Box, 1365, 747, WHITE);
     DrawTexture(auto_Button, 1161, 611, WHITE);
 
-    DrawTextEx(fontInter, TextFormat("%i", (currentCycle)), {1238, 851}, 49, 0, BLACK);
-    DrawTextEx(fontInter, "Auto", {1049, 617}, 39, 0, BLACK);
-    DrawTextEx(fontInter, "Seconds:", {1049, 696}, 39, 0, BLACK);
+    DrawTextEx(fontInter, TextFormat("%i", (currentCycle)), {1238, 851}, 49, 0, Graph::backgroundColors.at(!static_cast<int>(Graph::currentTheme)));
+    DrawTextEx(fontInter, "Auto", {1049, 617}, 39, 0, Graph::backgroundColors.at(!static_cast<int>(Graph::currentTheme)));
+    DrawTextEx(fontInter, "Seconds:", {1049, 696}, 39, 0, Graph::backgroundColors.at(!static_cast<int>(Graph::currentTheme)));
     DrawTextEx(fontInter, TextFormat("%i", (cycleSpeed)), {1405, 757}, 33, 0, BLACK);
 
     cycleSpeed = GuiSliderBar({1046, 747, 320, 53}, nullptr, nullptr, cycleSpeed, 1, 21);

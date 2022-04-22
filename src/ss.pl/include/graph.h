@@ -66,6 +66,7 @@ class Graph : public Scene
 
     // Mathods, drawing and calculating graph info
     std::vector<ss::types::Trait> traitData;
+    const std::array<Color, 2> graphColors{{{246, 245, 250, 255}, {108, 108, 108, 255}}};
 
     void getTraitData(size_t cycle);
     void drawTrait();
