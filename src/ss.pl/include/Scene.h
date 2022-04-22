@@ -26,7 +26,7 @@ class Scene
 
     inline static const std::array<std::string, 2> themePaths = {"lightTheme", "darkTheme"};
 
-    inline static const std::array<Color, 2> backgroundColors{{{235, 239, 247, 255}, {4, 12, 32, 255}}};
+    inline static const std::array<Color, 2> backgroundColors{{{246, 245, 250, 255}, {4, 12, 32, 255}}};
 
     virtual void Start() = 0;
 

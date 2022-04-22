@@ -26,6 +26,7 @@ class MainMenu : public Scene
     Texture2D graphsMenu_Texture;
     Texture2D themeButton_Texture;
     Texture2D viewGraph_Texture;
+    Texture2D background_Lines;
 
     // Custom font
     Font fontInter;
