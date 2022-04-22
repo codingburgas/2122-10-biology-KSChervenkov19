@@ -6,6 +6,12 @@
 
 namespace ss::bll::simulation
 {
+struct Food
+{
+    types::fVec2 pos = { 0, 0 };
+    bool isEaten = false;
+};
+
 ///
 /// @brief An enumeration type describing the directions of the board.
 ///
@@ -29,7 +35,7 @@ class Entity
   private:
     const int &m_worldSize;
 
-    types::fVec2 pos;
+    types::fVec2 pos = { 0.0f, 0.0f };
     const float m_turnRate = 1.0f;
     float m_facingAngle;
     float m_turningAngle = 0.0f;
