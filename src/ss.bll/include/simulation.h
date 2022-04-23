@@ -8,7 +8,7 @@ namespace ss::bll::simulation
 {
 struct Food
 {
-    types::fVec2 pos = { 0, 0 };
+    types::fVec2 pos = {0, 0};
     bool isEaten = false;
 };
 
@@ -37,7 +37,7 @@ class Entity
 {
     const int &m_worldSize;
 
-    types::fVec2 m_pos = { 0.0f, 0.0f };
+    types::fVec2 m_pos = {0.0f, 0.0f};
     const float m_turnRate = 1.0f;
     float m_facingAngle;
     float m_turningAngle = 0.0f;
@@ -57,8 +57,8 @@ class Entity
 
     void walk(const float elapsedTime);
 
-public:
-	[[nodiscard]] const types::fVec2& getPos() const;
+  public:
+    [[nodiscard]] const types::fVec2 &getPos() const;
     [[nodiscard]] float getFacingAngle() const;
 
     friend class Cycle;
@@ -67,9 +67,9 @@ public:
 
 class Cycle
 {
-      Cycle();
+    Cycle();
 
-public:
+  public:
     friend class Simulation;
 };
 

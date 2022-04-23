@@ -11,8 +11,8 @@
 
 // add headers that you want to pre-compile here
 #include <cmath>
+#include <span>
 #include <string>
 #include <vector>
-#include <span>
 
 #endif // PCH_H_BLL
