@@ -73,7 +73,7 @@ float ss::bll::simulation::Entity::getFacingAngle() const
     return m_facingAngle;
 }
 
-std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiveEntities() const
+std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiveEntities()
 {
     return std::span(m_entities.data(), std::distance(m_entities.cbegin(), m_entitiesEndIt));
 }
@@ -85,5 +85,5 @@ std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiv
 ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo &t_simInfo) : m_simInfo(t_simInfo)
 {
     m_entities = std::vector<Entity>(m_simInfo.startingEntityCount);
-    m_entitiesEndIt = m_entities.cend();
+    m_entitiesEndIt = m_entities.end();
 }

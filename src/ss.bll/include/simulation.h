@@ -69,6 +69,9 @@ class Cycle
 {
     Cycle();
 
+    static void reproduceEntities(std::vector<Entity>& entities, std::vector<Entity>::iterator entitiesEndIt);
+    static void distributeEntities(std::span<Entity> entities);
+
   public:
     friend class Simulation;
 };
@@ -84,7 +87,7 @@ class Simulation
     size_t m_currentCycle = 0;
 
     // Make sure that all the active entities are included. (especially the last active one)
-    [[nodiscard]] std::span<Entity> getActiveEntities() const;
+    [[nodiscard]] std::span<Entity> getActiveEntities();
 
   public:
     Simulation(const ss::types::SimulationInfo &t_simInfo);
