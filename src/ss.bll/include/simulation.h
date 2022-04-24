@@ -69,7 +69,7 @@ class Cycle
 {
     Cycle();
 
-    static void reproduceEntities(std::vector<Entity>& entities, std::vector<Entity>::iterator entitiesEndIt);
+    static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator entitiesEndIt);
     static void distributeEntities(std::span<Entity> entities);
 
   public:
