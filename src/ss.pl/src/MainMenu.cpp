@@ -146,8 +146,9 @@ void ss::pl::mainMenu::MainMenu::displayGraphCards()
     for (auto statistics : statisticNames)
     {
         currentGraphPos.y -= GetMouseWheelMove();
-        DrawRectangleRounded({currentGraphPos.x, currentGraphPos.y + scrollOffset, 781, 144}, 0.54f, 20,
-                             {235, 239, 247, 255});
+        DrawTexture(statisticCard_Texture, currentGraphPos.x, currentGraphPos.y + scrollOffset, WHITE);
+        /*DrawRectangleRounded({currentGraphPos.x, currentGraphPos.y + scrollOffset, 781, 144}, 0.54f, 20,
+                             {235, 239, 247, 255});*/
         currentGraphPos.y += 189;
 
         for (auto graphContainer : graphCards)
@@ -155,7 +156,7 @@ void ss::pl::mainMenu::MainMenu::displayGraphCards()
             DrawTexture(viewGraph_Texture, graphContainer.buttonPos.x, graphContainer.buttonPos.y + scrollOffset,
                         WHITE);
             DrawTextEx(fontInter, graphContainer.name.c_str(),
-                       {graphContainer.namePos.x, graphContainer.namePos.y + scrollOffset}, 40, 1, BLACK);
+                { graphContainer.namePos.x, graphContainer.namePos.y + scrollOffset }, 40, 1, currentTheme == ThemeTypes::LightTheme ? WHITE : Color{23, 0, 71, 255});
         }
     }
 }
@@ -185,6 +186,7 @@ void ss::pl::mainMenu::MainMenu::deleteAssets()
     UnloadTexture(logo_Texture);
     UnloadTexture(graphsMenu_Texture);
     UnloadTexture(graphsContainer_Texture);
+    UnloadTexture(statisticCard_Texture);
     UnloadTexture(themeButton_Texture);
     UnloadTexture(viewGraph_Texture);
 }
@@ -199,6 +201,7 @@ void ss::pl::mainMenu::MainMenu::loadAssets()
     simulatorButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Simulator_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     logo_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Logo_Transparent.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     graphsContainer_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Container.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    statisticCard_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Statistics_Card.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     graphsMenu_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Graphs_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     themeButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Theme_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     viewGraph_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/View_Graph_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());

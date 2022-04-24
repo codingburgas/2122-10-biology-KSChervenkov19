@@ -23,6 +23,7 @@ class MainMenu : public Scene
     Texture2D simulatorButton_Texture;
     Texture2D logo_Texture;
     Texture2D graphsContainer_Texture;
+    Texture2D statisticCard_Texture;
     Texture2D graphsMenu_Texture;
     Texture2D themeButton_Texture;
     Texture2D viewGraph_Texture;
