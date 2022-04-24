@@ -80,7 +80,7 @@ class Cycle
     Cycle();
 
     static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator entitiesEndIt);
-    static void distributeEntities(std::span<Entity> entities);
+    static void distributeEntities(std::span<Entity> entities, size_t wallSize);
 
   public:
     friend class Simulation;

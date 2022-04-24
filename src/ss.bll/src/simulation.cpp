@@ -97,9 +97,48 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity>& entities
     Simulation::repositionEntitiesIter(entities, entitiesEndIt);
 }
 
-void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities)
+void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, size_t wallSize)
 {
+    const size_t spacing = wallSize / (entities.size() / 4);
+    size_t coordinate = 0;
+    auto currentDirection = DirectionsDeg::LEFT;
 
+    for (auto entity : entities)
+    {
+	    switch (currentDirection)
+	    {
+	    case DirectionsDeg::LEFT:
+            // { wallSize, coordinate }
+            entity.m_pos = { static_cast<float>(wallSize),
+	    					   static_cast<float>(coordinate) };
+            break;
+	    case DirectionsDeg::UP:
+            // { coordinate, wallSize }
+            entity.m_pos = { static_cast<float>(coordinate),
+                               static_cast<float>(wallSize) };
+            break;
+	    case DirectionsDeg::RIGHT:
+            // { 0, coordinate }
+            entity.m_pos = { 0.0f,
+                               static_cast<float>(coordinate) };
+            break;
+	    case DirectionsDeg::DOWN:
+            // { coordinate, 0 }
+            entity.m_pos = { static_cast<float>(coordinate),
+                               0.0f };
+            break;
+	    }
+
+        if (currentDirection == DirectionsDeg::DOWN)
+        {
+            currentDirection = DirectionsDeg::LEFT;
+			coordinate += spacing;
+        }
+        else
+        {
+            currentDirection = static_cast<DirectionsDeg>(static_cast<size_t>(currentDirection) + 90);
+        }
+    }
 }
 
 std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiveEntities(std::vector<Entity>& entities, std::vector<Entity>::iterator& iter)
