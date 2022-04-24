@@ -59,7 +59,7 @@ class Entity
     EntityFoodStage m_foodStage = EntityFoodStage::ZERO_FOOD;
 
 public:
-    Entity(const int t_worldSize, DirectionsDeg startingAngle);
+    Entity(const int t_worldSize);
     // Entity& operator=(const Entity&) = default;
     
 private:
@@ -77,12 +77,27 @@ private:
 
 class Cycle
 {
-    Cycle();
+    std::vector<Entity>* m_entities;
+    std::vector<Entity>::iterator* m_entitiesEndIter;
+    std::span<Entity> activeEntities;
 
-    static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator entitiesEndIt);
+    size_t m_worldSize;
+
+	bool m_isCycleDone = false;
+
+public:
+    Cycle(std::vector<Entity>* t_entities, 
+		  std::vector<Entity>::iterator* t_entitiesEndIter, size_t t_worldSize);
+
+    void CycleEnd();
+    // ~Cycle();
+
+    static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator& entitiesEndIt);
     static void distributeEntities(std::span<Entity> entities, size_t wallSize);
 
   public:
+      void update(float elapsedTime);
+
     friend class Simulation;
 };
 
@@ -94,15 +109,20 @@ class Simulation
     std::vector<Entity> m_entities;
     std::vector<Entity>::iterator m_entitiesEndIt;
 
-    size_t m_currentCycle = 0;
+    size_t m_currentCycle_n = 1;
+    Cycle m_currentCycle;
 
+public:
+    bool isSimulationDone = false;
+
+private:
     // Make sure that all the active entities are included. (especially the last active one)
     [[nodiscard]] static std::span<Entity> getActiveEntities(std::vector<Entity>& entities, std::vector<Entity>::iterator& iter);
     static void repositionEntitiesIter(std::vector<Entity>& entities, std::vector<Entity>::iterator& iter);
     
   public:
     Simulation(const ss::types::SimulationInfo &t_simInfo);
-
+    void update(float elapsedTime);
     friend class Cycle;
 };
 } // namespace ss::bll::simulation
