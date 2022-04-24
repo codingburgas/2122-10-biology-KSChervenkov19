@@ -9,15 +9,17 @@ struct fVec2
 {
     float x;
     float y;
+
+    auto operator<=>(const fVec2&) const = default;
 };
 
 /// A struct holding the data for a simulation.
 struct SimulationInfo
 {
-    int worldSize;
-    int cyclesCount;
-    int foodCount;
-    int startingEntityCount;
+    size_t worldSize;
+    size_t cyclesCount;
+    size_t foodCount;
+    size_t startingEntityCount;
     float initialSpeed;
     float initialSense;
 };

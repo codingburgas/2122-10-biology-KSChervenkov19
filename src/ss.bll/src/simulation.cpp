@@ -3,7 +3,12 @@
 #include "simulation.h"
 // clang-format on
 
-ss::bll::simulation::Entity::Entity(const int &t_worldSize, DirectionsDeg startingAngle)
+#include "random.hpp"
+
+using Random = effolkronium::random_static;
+
+
+ss::bll::simulation::Entity::Entity(const int t_worldSize, DirectionsDeg startingAngle = DirectionsDeg::DOWN)
     : m_worldSize(t_worldSize), m_facingAngle(static_cast<float>(startingAngle))
 {
 }
@@ -73,9 +78,43 @@ float ss::bll::simulation::Entity::getFacingAngle() const
     return m_facingAngle;
 }
 
-std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiveEntities()
+void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity>& entities,
+	std::vector<Entity>::iterator entitiesEndIt)
 {
-    return std::span(m_entities.data(), std::distance(m_entities.cbegin(), m_entitiesEndIt));
+    for (auto entity : Simulation::getActiveEntities(entities, entitiesEndIt))
+    {
+	    if (entity.m_shouldReproduce)
+	    {
+            Entity newEntity(entity.m_worldSize);
+            newEntity.traits.sense = entity.traits.sense + Random::get(-Entity::traitPadding, Entity::traitPadding);
+            newEntity.traits.speed = entity.traits.speed + Random::get(-Entity::traitPadding, Entity::traitPadding);
+            entities.insert(entitiesEndIt, newEntity);
+
+            entity.m_shouldReproduce = false;
+	    }
+    }
+
+    Simulation::repositionEntitiesIter(entities, entitiesEndIt);
+}
+
+void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities)
+{
+
+}
+
+std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiveEntities(std::vector<Entity>& entities, std::vector<Entity>::iterator& iter)
+{
+    return std::span(entities.data(), std::distance(entities.begin(), iter));
+}
+
+void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity>& entities, std::vector<Entity>::iterator& iter)
+{
+    auto current = entities.begin();
+    while (current != entities.end() && current->m_isAlive)
+    {
+        ++current;
+    }
+    iter = current;
 }
 
 /// Constructor for the Simulation class.
@@ -84,6 +123,13 @@ std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiv
 /// @param t_simInfo object of user defined type ss::types::SimulationInfo holding the data.
 ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo &t_simInfo) : m_simInfo(t_simInfo)
 {
-    m_entities = std::vector<Entity>(m_simInfo.startingEntityCount);
-    m_entitiesEndIt = m_entities.end();
+    // m_entities = std::vector<Entity>(m_simInfo.startingEntityCount);
+    // m_entitiesEndIt = m_entities.end();
+
+	m_entities.reserve(m_simInfo.startingEntityCount);
+
+    for (size_t i = 0; i < m_simInfo.startingEntityCount; ++i)
+    {
+        m_entities.emplace_back(t_simInfo.worldSize);
+    }
 }
