@@ -156,7 +156,10 @@ void ss::pl::simulator::Simulator::drawSimulation()
     for (const auto& food : simulation->getFoods())
     {
         // DrawPoint3D({ food.pos.x - offset, 0.1f, food.pos.y - offset }, RED);
-        DrawSphere({ food.pos.x - offset, 0.1f, food.pos.y - offset }, 0.3f, GREEN);
+        if (!food.isEaten)
+        {
+			DrawSphere({ food.pos.x - offset, 0.1f, food.pos.y - offset }, 0.3f, GREEN);
+        }
     }
 
     EndMode3D();
