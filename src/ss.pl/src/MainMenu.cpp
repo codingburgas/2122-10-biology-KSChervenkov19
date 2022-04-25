@@ -224,11 +224,12 @@ void ss::pl::mainMenu::MainMenu::deleteAssets()
 
     UnloadTexture(simulatorButton_Texture);
     UnloadTexture(logo_Texture);
-    UnloadTexture(graphsMenu_Texture);
     UnloadTexture(graphsContainer_Texture);
     UnloadTexture(statisticCard_Texture);
+    UnloadTexture(graphsMenu_Texture);
     UnloadTexture(themeButton_Texture);
     UnloadTexture(viewGraph_Texture);
+    UnloadTexture(background_Lines);
     UnloadTexture(themeSwitchAnimationSpritesheet);
 }
 
