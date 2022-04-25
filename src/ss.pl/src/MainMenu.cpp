@@ -21,6 +21,8 @@ void ss::pl::mainMenu::MainMenu::Start() // called once, at the start of the sce
     graphNamePos = {53, 112};
     graphCards.clear();
 
+    currentAnimationFrameRect = { 0.0f, 0.0f, (float)themeSwitchAnimationSpritesheet.width / 12, (float)themeSwitchAnimationSpritesheet.height };
+
     for (std::string statistic : statisticNames)
     {
         graphCards.push_back(graphsCard{statistic, graphNamePos, graphButtonPos});
@@ -50,6 +52,9 @@ void ss::pl::mainMenu::MainMenu::Update() // called every frame
     {
         displayGraphCards();
     }
+
+    if (animationIsPlaying) playThemeAnimation();
+        
 
     EndDrawing();
 
@@ -162,6 +167,21 @@ void ss::pl::mainMenu::MainMenu::displayGraphCards()
     }
 }
 
+void ss::pl::mainMenu::MainMenu::playThemeAnimation()
+{
+    if (!animationIsPlaying) return;
+
+    currentAnimationFrameRect.x = (float)currentAnimationFrame * (float)themeSwitchAnimationSpritesheet.width / 12;
+    DrawTextureRec(themeSwitchAnimationSpritesheet, currentAnimationFrameRect, { 0.0f, 0.0f }, WHITE);
+    currentAnimationFrame++;
+    if (currentAnimationFrame == 11)
+    {
+        currentAnimationFrame = 0;
+        animationIsPlaying = false;
+    }
+
+}
+
 /// This method checks which of the graph buttons is clicked.
 void ss::pl::mainMenu::MainMenu::checkGraphButtonCollisions()
 {
@@ -178,19 +198,6 @@ void ss::pl::mainMenu::MainMenu::checkGraphButtonCollisions()
     });
 }
 
-/// Method for deallocating the dynamically created assets.
-void ss::pl::mainMenu::MainMenu::deleteAssets()
-{
-    UnloadFont(fontInter);
-
-    UnloadTexture(simulatorButton_Texture);
-    UnloadTexture(logo_Texture);
-    UnloadTexture(graphsMenu_Texture);
-    UnloadTexture(graphsContainer_Texture);
-    UnloadTexture(statisticCard_Texture);
-    UnloadTexture(themeButton_Texture);
-    UnloadTexture(viewGraph_Texture);
-}
 
 // clang-format off
 
@@ -207,7 +214,22 @@ void ss::pl::mainMenu::MainMenu::loadAssets()
     themeButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Theme_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     viewGraph_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/View_Graph_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     background_Lines = LoadTexture(std::format("../../assets/{}/mainMenu/Background_Lines.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+    themeSwitchAnimationSpritesheet = LoadTexture(std::format("../../assets/{}/mainMenu/animation/switchAnimationSpritesheet.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
+}
 
+/// Method for deallocating the dynamically created assets.
+void ss::pl::mainMenu::MainMenu::deleteAssets()
+{
+    UnloadFont(fontInter);
+
+    UnloadTexture(simulatorButton_Texture);
+    UnloadTexture(logo_Texture);
+    UnloadTexture(graphsMenu_Texture);
+    UnloadTexture(graphsContainer_Texture);
+    UnloadTexture(statisticCard_Texture);
+    UnloadTexture(themeButton_Texture);
+    UnloadTexture(viewGraph_Texture);
+    UnloadTexture(themeSwitchAnimationSpritesheet);
 }
 
 /// This method draws all the needed assets in the MainMenu page.
@@ -254,6 +276,7 @@ void ss::pl::mainMenu::MainMenu::checkCollision()
         MainMenu::currentTheme = (MainMenu::currentTheme == ThemeTypes::LightTheme) ? ThemeTypes::DarkTheme : ThemeTypes::LightTheme;
         MainMenu::deleteAssets();
         MainMenu::loadAssets();
+        animationIsPlaying = true;
     }
 
     if (!CheckCollisionPointRec(mousePos, { 0, 0, static_cast<float>(graphsContainer_Texture.width), static_cast<float>(graphsContainer_Texture.height) })

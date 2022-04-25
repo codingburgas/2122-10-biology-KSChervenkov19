@@ -4,6 +4,7 @@
 #include "statistics_manager.h"
 #include <algorithm>
 #include <ranges>
+#include <future>
 #include <raylib.h>
 
 namespace ss::pl::mainMenu
@@ -28,6 +29,11 @@ class MainMenu : public Scene
     Texture2D themeButton_Texture;
     Texture2D viewGraph_Texture;
     Texture2D background_Lines;
+
+    Texture2D themeSwitchAnimationSpritesheet;
+    Rectangle currentAnimationFrameRect;
+    int currentAnimationFrame = 0;
+    bool animationIsPlaying = false;
 
     // Custom font
     Font fontInter;
@@ -67,6 +73,8 @@ class MainMenu : public Scene
     void animateGraphsContainer();
     void positionGraphsContainer();
     void displayGraphCards();
+
+    void playThemeAnimation();
 
     // Method for drawing textures
     void drawTextures();
