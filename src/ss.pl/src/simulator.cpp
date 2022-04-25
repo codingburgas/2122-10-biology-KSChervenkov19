@@ -4,13 +4,13 @@
 ///
 /// @param sceneName The name of the current scene. Which here is "Simulation".
 /// @param sceneManager A reference to already existing SceneManager object to control the program flow.
-ss::pl::simulator::Simulation::Simulation(std::string sceneName, SceneManager &sceneManager)
+ss::pl::simulator::Simulator::Simulator(std::string sceneName, SceneManager &sceneManager)
     : Scene(sceneName), m_sceneManager(sceneManager)
 {
 }
 
 /// Method which is called in the start of the Simulation page.
-void ss::pl::simulator::Simulation::Start() // called once, at the start of the scene
+void ss::pl::simulator::Simulator::Start() // called once, at the start of the scene
 {
     loadAssets();
 
@@ -31,7 +31,7 @@ void ss::pl::simulator::Simulation::Start() // called once, at the start of the 
 /// Method which is called every frame.
 ///
 /// It updates the current scene every frame.
-void ss::pl::simulator::Simulation::Update() // called every frame
+void ss::pl::simulator::Simulator::Update() // called every frame
 {
     mousePos = GetMousePosition();
 
@@ -49,13 +49,13 @@ void ss::pl::simulator::Simulation::Update() // called every frame
 /// Method which is called when we exit the program or the Simulation page.
 ///
 /// It deallocates every dynamically created object in the class' instance.
-void ss::pl::simulator::Simulation::onExit() // called once, at the end of the scene
+void ss::pl::simulator::Simulator::onExit() // called once, at the end of the scene
 {
     deleteAssets();
 }
 
 /// This method creates checks for the mouse input during the actual simulation.
-void ss::pl::simulator::Simulation::checkInput()
+void ss::pl::simulator::Simulator::checkInput()
 {
     if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
                                           static_cast<float>(backArrow_Texture.height)}) ||
@@ -80,8 +80,10 @@ void ss::pl::simulator::Simulation::checkInput()
                                           static_cast<float>(simulateButton_Texture.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        Simulation::currentState = SimulatorState::Simulation;
-        camera.canRotate = true;
+        Simulator::currentState = SimulatorState::Simulation;
+        ss::types::SimulationInfo simInfo = { worldSize, cyclesCount, food, entities, 1.0f, 1.0f };
+        simulation = new ss::bll::simulation::Simulation(simInfo);
+;       camera.canRotate = true;
         resetCamera();
     }
 
@@ -92,7 +94,7 @@ void ss::pl::simulator::Simulation::checkInput()
 }
 
 /// This method resets the camera to its initial position.
-void ss::pl::simulator::Simulation::resetCamera()
+void ss::pl::simulator::Simulator::resetCamera()
 {
     camera.position = {10.0f, 10.0f, 10.0f};
     camera.target = {0.0f, 0.0f, 0.0f};
@@ -100,7 +102,7 @@ void ss::pl::simulator::Simulation::resetCamera()
 }
 
 /// This method draws the setUp page before the actual simulation.
-void ss::pl::simulator::Simulation::drawSetup()
+void ss::pl::simulator::Simulator::drawSetup()
 {
     BeginMode3D(camera);
     DrawPlane({planePos.x - 8.0f, planePos.y - 5.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
@@ -133,32 +135,48 @@ void ss::pl::simulator::Simulation::drawSetup()
 }
 
 /// This method draws the actual simulation.
-void ss::pl::simulator::Simulation::drawSimulation()
+void ss::pl::simulator::Simulator::drawSimulation()
 {
     UpdateCamera(&camera);
 
     BeginMode3D(camera);
     DrawGrid(worldSize, 1.0f);
     DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
+
+    const float offset  = (float)worldSize / 2.0f;
+
+    for (const auto& entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
+    {
+        float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
+        ss::types::fVec2 currentPos = entity.getPos();
+
+        DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset}, .5f, RED);
+        DrawLine3D({ currentPos.x - offset, .5f, currentPos.y - offset}, {1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f, 1.0f * sin(entityLookingDirRadian) + currentPos.y - offset}, RED);
+        std::cout << entity.getPos().x << ' ' << entity.getPos().y  << ' ' << entity.getFacingAngle() << "   ";
+    }
+
+    std::cout << '\n';
+
+
     EndMode3D();
 }
 
 // clang-format off
 
 /// Method for loading all the needed assets in the Simulation page.
-void ss::pl::simulator::Simulation::loadAssets()
+void ss::pl::simulator::Simulator::loadAssets()
 {
     fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 96, 0, 0);
 
-    setupContainer_Texture = LoadTexture(std::format("../../assets/{}/simulator/Setup_Container.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
-    backArrow_Texture = LoadTexture(std::format("../../assets/{}/simulator/Back_Arrow.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
-    simulateButton_Texture = LoadTexture(std::format("../../assets/{}/simulator/Simulate_Button.png", themePaths.at(static_cast<int>(Simulation::currentTheme))).c_str());
+    setupContainer_Texture = LoadTexture(std::format("../../assets/{}/simulator/Setup_Container.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
+    backArrow_Texture = LoadTexture(std::format("../../assets/{}/simulator/Back_Arrow.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
+    simulateButton_Texture = LoadTexture(std::format("../../assets/{}/simulator/Simulate_Button.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
 
     GuiLoadStyle((currentTheme == ThemeTypes::LightTheme) ? "../../assets/bluish.txt.rgs" : "../../assets/lavanda.txt.rgs");
 }
 
 /// Method for deallocating the dynamically created assets.
-void ss::pl::simulator::Simulation::deleteAssets()
+void ss::pl::simulator::Simulator::deleteAssets()
 {
     UnloadTexture(setupContainer_Texture);
     UnloadTexture(simulateButton_Texture);

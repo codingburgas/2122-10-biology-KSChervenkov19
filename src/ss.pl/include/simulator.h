@@ -3,14 +3,17 @@
 #include "sceneManager.h"
 #include <raygui.h>
 #include <raylib.h>
+#include "simulation.h"
+#include "utils.h"
 
 namespace ss::pl::simulator
 {
-class Simulation : public Scene
+class Simulator : public Scene
 {
   private:
     // Instance of scene manager class, used to change scenes
-    SceneManager &m_sceneManager;
+    SceneManager &m_sceneManager;  
+    ss::bll::simulation::Simulation* simulation;
 
     // 2D variables
     Vector2 mousePos;
@@ -53,7 +56,7 @@ class Simulation : public Scene
     void resetCamera();
 
   public:
-    Simulation(std::string sceneName, SceneManager &sceneManager);
+    Simulator(std::string sceneName, SceneManager &sceneManager);
 
     virtual void Start();
 

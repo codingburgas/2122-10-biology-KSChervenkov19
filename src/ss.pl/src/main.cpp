@@ -18,7 +18,7 @@ int main()
     SceneManager sceneManager;
 
     ss::pl::mainMenu::MainMenu scene_MainMenu{"MainMenu", sceneManager};
-    ss::pl::simulator::Simulation scene_Simulation{"Simulation", sceneManager};
+    ss::pl::simulator::Simulator scene_Simulation{"Simulation", sceneManager};
     ss::pl::graph::Graph scene_Graph{"Graph", sceneManager};
 
     sceneManager.addScene(&scene_MainMenu);
