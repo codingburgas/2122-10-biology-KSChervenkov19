@@ -15,6 +15,8 @@ int main()
 
     SetTargetFPS(60);
 
+    SetWindowIcon(LoadImage("../../assets/logos/Logo_Square_Transparent.png"));
+
     SceneManager sceneManager;
 
     ss::pl::mainMenu::MainMenu scene_MainMenu{"MainMenu", sceneManager};
