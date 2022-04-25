@@ -121,7 +121,7 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
     size_t coordinate = 0;
     auto currentDirection = DirectionsDeg::LEFT;
 
-    for (auto entity : entities)
+    for (auto& entity : entities)
     {
         entity.m_facingAngle = static_cast<float>(currentDirection);
 
@@ -184,7 +184,7 @@ void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity>
 ///
 /// Constructs the Simulation class with approriate ss::types::SimulationInfo.
 /// @param t_simInfo object of user defined type ss::types::SimulationInfo holding the data.
-ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo &t_simInfo)
+ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_simInfo)
     : m_simInfo(t_simInfo), m_currentCycle(Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize))
 {
     // m_entities = std::vector<Entity>(m_simInfo.startingEntityCount);

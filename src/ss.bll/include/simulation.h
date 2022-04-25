@@ -119,7 +119,7 @@ class Simulation
     static void repositionEntitiesIter(std::vector<Entity> &entities, std::vector<Entity>::iterator &iter);
 
   public:
-    Simulation(const ss::types::SimulationInfo &t_simInfo);
+    Simulation(const ss::types::SimulationInfo t_simInfo);
     void update(float elapsedTime);
     friend class Cycle;
 };
