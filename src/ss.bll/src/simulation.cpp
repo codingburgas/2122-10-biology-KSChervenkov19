@@ -182,9 +182,9 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
     const size_t entitiesCountLastWall = entities.size() - entitiesCountRegularWall * 3;
 
     // Failed attempt at optimizing TODO: debug me please
-  //  size_t facingAngle = 0;
-  //  size_t spacing = wallSize / (entitiesCountRegularWall + 1);
-  //  size_t coordinate = spacing;
+    size_t facingAngle = 0;
+    size_t spacing = wallSize / (entitiesCountRegularWall + 1);
+    size_t coordinate = spacing;
   //  size_t count = 1;
   //  for (size_t i = 0; i < entitiesCountRegularWall * 3; ++i)
   //  {
