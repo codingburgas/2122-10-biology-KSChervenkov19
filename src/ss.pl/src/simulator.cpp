@@ -15,11 +15,10 @@ void ss::pl::simulator::Simulator::Start() // called once, at the start of the s
     loadAssets();
 
     graphsContainerPos = 950;
-    cyclesCount = 1;
+    cyclesCount = 5;
     worldSize = 10;
     entities = 10;
     food = 20;
-    cycles = 5;
     
     timeScale = 1.0f;
 
@@ -138,8 +137,7 @@ void ss::pl::simulator::Simulator::drawSetup()
     worldSize = GuiSliderBar({1000, 132, 455, 53}, nullptr, nullptr, worldSize, 20, 200);
     entities = GuiSliderBar({1000, 282, 455, 53}, nullptr, nullptr, entities, 10, 100);
     food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 10, 200);
-    //GuiValueBox({1180, 730, 242, 51}, nullptr, &cycles, 1, 200, true);
-     cycles = GuiSliderBar({1180, 730, 242, 51}, nullptr, TextFormat("%i", cycles), cycles, 1, 200);
+    cyclesCount = GuiSliderBar({1180, 730, 242, 51}, nullptr, TextFormat("%i", cyclesCount), cyclesCount, 1, 200);
 
     if (!CheckCollisionPointRec(mousePos, {950, 0, (float)graphsContainerPos, (float)graphsContainerPos}))
     {

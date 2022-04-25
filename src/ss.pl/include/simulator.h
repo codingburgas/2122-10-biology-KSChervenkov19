@@ -36,7 +36,6 @@ class Simulator : public Scene
     int worldSize;
     int entities;
     int food;
-    int cycles;
 
 
     float timeScale;
