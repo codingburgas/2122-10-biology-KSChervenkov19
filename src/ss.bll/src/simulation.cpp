@@ -40,6 +40,8 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
         // move();
         break;
     }
+
+    m_pos.x += m_traits.speed * elapsedTime;
 }
 
 // walk mf is for turn logic and moving (mf -> member function)
