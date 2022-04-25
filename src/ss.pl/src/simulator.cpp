@@ -83,7 +83,8 @@ void ss::pl::simulator::Simulator::checkInput()
         Simulator::currentState = SimulatorState::Simulation;
         ss::types::SimulationInfo simInfo = { worldSize, cyclesCount, food, entities, 1.0f, 1.0f };
         simulation = new ss::bll::simulation::Simulation(simInfo);
-;       camera.canRotate = true;
+        offset = (float)worldSize / 2.0f;
+        camera.canRotate = true;
         resetCamera();
     }
 
@@ -140,10 +141,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
     UpdateCamera(&camera);
 
     BeginMode3D(camera);
-    DrawGrid(worldSize, 1.0f);
     DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
-
-    const float offset  = (float)worldSize / 2.0f;
 
     for (const auto& entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
     {
@@ -151,12 +149,9 @@ void ss::pl::simulator::Simulator::drawSimulation()
         ss::types::fVec2 currentPos = entity.getPos();
 
         DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset}, .5f, RED);
+        DrawGrid(worldSize, 1.0f);
         DrawLine3D({ currentPos.x - offset, .5f, currentPos.y - offset}, {1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f, 1.0f * sin(entityLookingDirRadian) + currentPos.y - offset}, RED);
-        std::cout << entity.getPos().x << ' ' << entity.getPos().y  << ' ' << entity.getFacingAngle() << "   ";
     }
-
-    std::cout << '\n';
-
 
     EndMode3D();
 }

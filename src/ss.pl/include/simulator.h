@@ -38,6 +38,9 @@ class Simulator : public Scene
     int food;
     int cycles;
 
+    float offset;
+    float entityLookingDirRadian;
+
     // Variable, stores the current scene state
     enum class SimulatorState
     {
