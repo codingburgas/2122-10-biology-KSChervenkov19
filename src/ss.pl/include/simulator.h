@@ -38,6 +38,8 @@ class Simulator : public Scene
     int food;
     int cycles;
 
+
+    float timeScale;
     float offset;
     float entityLookingDirRadian;
 

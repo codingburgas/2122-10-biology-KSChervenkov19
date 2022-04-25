@@ -20,6 +20,8 @@ void ss::pl::simulator::Simulator::Start() // called once, at the start of the s
     entities = 10;
     food = 20;
     cycles = 5;
+    
+    timeScale = 1.0f;
 
     camera = Camera3D{{10.0f, 10.0f, 10.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, 45.0f, CAMERA_PERSPECTIVE};
     camera.canRotate = false;
@@ -74,6 +76,15 @@ void ss::pl::simulator::Simulator::checkInput()
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         m_sceneManager.setCurrentScene("MainMenu");
+    }
+
+    if (CheckCollisionPointRec(mousePos, { 522, 25, 455, 48 }))
+    {
+        camera.canRotate = false;
+    }
+    else
+    {
+        camera.canRotate = true;
     }
 
     if (CheckCollisionPointRec(mousePos, {1064, 820, static_cast<float>(simulateButton_Texture.width),
@@ -162,11 +173,17 @@ void ss::pl::simulator::Simulator::drawSimulation()
         }
     }
 
+
     EndMode3D();
+    timeScale = GuiSliderBar({ 522, 25, 455, 48 }, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
+
+    simulation->update(GetFrameTime() * timeScale);
+
 
     // The funny. Do not touch
     // bll::simulation::Cycle::distributeEntities(simulation->m_entities, simulation->m_simInfo.worldSize);
     // bll::simulation::Cycle::randomizeFoodPositions(simulation->m_foods, simulation->m_simInfo.worldSize);
+
 }
 
 // clang-format off
