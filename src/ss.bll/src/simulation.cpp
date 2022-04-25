@@ -163,6 +163,15 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
     }
 }
 
+void ss::bll::simulation::Cycle::randomizeFoodPositions(std::span<Food> foods, size_t worldSize)
+{
+    for (auto& food : foods)
+    {
+        food = { { Random::get<Random::common>(0.0f, static_cast<int>(worldSize)),
+                      Random::get<Random::common>(0.0f, static_cast<int>(worldSize)) } };
+    }
+}
+
 void ss::bll::simulation::Cycle::update(float elapsedTime)
 {
     if (m_isCycleDone)
@@ -193,6 +202,11 @@ std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiv
     return std::span(entities.data(), std::distance(entities.begin(), iter));
 }
 
+const std::vector<ss::bll::simulation::Food>& ss::bll::simulation::Simulation::getFoods() const
+{
+    return m_foods;
+}
+
 void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity> &entities,
                                                              std::vector<Entity>::iterator &iter)
 {
@@ -209,7 +223,7 @@ void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity>
 /// Constructs the Simulation class with approriate ss::types::SimulationInfo.
 /// @param t_simInfo object of user defined type ss::types::SimulationInfo holding the data.
 ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_simInfo)
-    : m_simInfo(t_simInfo)
+    : m_simInfo(t_simInfo), m_foods(std::vector<Food>(m_simInfo.foodCount))
 {
     // m_entities = std::vector<Entity>(m_simInfo.startingEntityCount);
     // m_entitiesEndIt = m_entities.end();
@@ -225,6 +239,7 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
     Cycle::distributeEntities(getActiveEntities(m_entities, m_entitiesEndIt), m_simInfo.worldSize);
 
     m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize);
+    Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
 }
 
 void ss::bll::simulation::Simulation::update(float elapsedTime)

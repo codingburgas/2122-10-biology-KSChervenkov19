@@ -92,6 +92,7 @@ class Cycle
 
     static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator &entitiesEndIt);
     static void distributeEntities(std::span<Entity> entities, size_t wallSize);
+    static void randomizeFoodPositions(std::span<Food> foods, size_t worldSize);
 
   public:
     void update(float elapsedTime);
@@ -106,7 +107,8 @@ class Simulation
 
     std::vector<Entity> m_entities;
     std::vector<Entity>::iterator m_entitiesEndIt;
-
+    std::vector<Food> m_foods;
+    
     size_t m_currentCycle_n = 1;
     Cycle m_currentCycle;
 
@@ -117,6 +119,7 @@ class Simulation
     // Make sure that all the active entities are included. (especially the last active one)
     [[nodiscard]] static std::span<Entity> getActiveEntities(std::vector<Entity> &entities,
                                                              std::vector<Entity>::iterator &iter);
+    const std::vector<Food>& getFoods() const;
     static void repositionEntitiesIter(std::vector<Entity> &entities, std::vector<Entity>::iterator &iter);
 
   public:

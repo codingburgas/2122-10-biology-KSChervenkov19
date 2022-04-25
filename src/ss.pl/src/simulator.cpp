@@ -124,9 +124,9 @@ void ss::pl::simulator::Simulator::drawSetup()
     DrawTextEx(fontInter, TextFormat("%i", food), {1412, 490}, 25.5F, 0,
                backgroundColors.at(!(static_cast<int>(currentTheme))));
 
-    worldSize = GuiSliderBar({1000, 132, 455, 53}, nullptr, nullptr, worldSize, 1, 50);
-    entities = GuiSliderBar({1000, 282, 455, 53}, nullptr, nullptr, entities, 1, 200);
-    food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 1, 500);
+    worldSize = GuiSliderBar({1000, 132, 455, 53}, nullptr, nullptr, worldSize, 20, 200);
+    entities = GuiSliderBar({1000, 282, 455, 53}, nullptr, nullptr, entities, 10, 100);
+    food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 10, 200);
     GuiValueBox({1180, 730, 242, 51}, nullptr, &cycles, 1, 200, true);
 
     if (!CheckCollisionPointRec(mousePos, {950, 0, (float)graphsContainerPos, (float)graphsContainerPos}))
@@ -151,6 +151,12 @@ void ss::pl::simulator::Simulator::drawSimulation()
         DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset}, .5f, RED);
         DrawGrid(worldSize, 1.0f);
         DrawLine3D({ currentPos.x - offset, .5f, currentPos.y - offset}, {1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f, 1.0f * sin(entityLookingDirRadian) + currentPos.y - offset}, RED);
+    }
+
+    for (const auto& food : simulation->getFoods())
+    {
+        // DrawPoint3D({ food.pos.x - offset, 0.1f, food.pos.y - offset }, RED);
+        DrawSphere({ food.pos.x - offset, 0.1f, food.pos.y - offset }, 0.3f, GREEN);
     }
 
     EndMode3D();
