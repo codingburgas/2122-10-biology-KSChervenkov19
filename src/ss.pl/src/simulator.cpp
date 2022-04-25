@@ -92,7 +92,7 @@ void ss::pl::simulator::Simulator::checkInput()
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         Simulator::currentState = SimulatorState::Simulation;
-        const types::SimulationInfo simInfo = { static_cast<size_t>(worldSize), static_cast<size_t>(cyclesCount), static_cast<size_t>(food), static_cast<size_t>(entities), { 1.0f, 1.0f} };
+        const types::SimulationInfo simInfo = { static_cast<size_t>(worldSize), static_cast<size_t>(cyclesCount), static_cast<size_t>(food), static_cast<size_t>(entities), { 2.0f, 1.0f} };
         simulation = new ss::bll::simulation::Simulation(simInfo);
         offset = static_cast<float>(worldSize) / 2.0f;
         camera.canRotate = true;
@@ -159,7 +159,14 @@ void ss::pl::simulator::Simulator::drawSimulation()
         float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
         ss::types::fVec2 currentPos = entity.getPos();
 
-        DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset}, .5f, RED);
+        if (entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD)
+        {
+			DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset}, .5f, RED);
+        }
+        else
+        {
+			DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset}, .5f, GREEN);
+        }
         DrawGrid(worldSize, 1.0f);
         DrawLine3D({ currentPos.x - offset, .5f, currentPos.y - offset}, {1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f, 1.0f * sin(entityLookingDirRadian) + currentPos.y - offset}, RED);
     }
@@ -177,7 +184,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
     EndMode3D();
     timeScale = GuiSliderBar({ 522, 25, 455, 48 }, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
 
-    // simulation->update(GetFrameTime() * timeScale);
+    simulation->update(GetFrameTime() * timeScale);
 
 
     // The funny. Do not touch

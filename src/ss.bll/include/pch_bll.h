@@ -15,5 +15,7 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include <algorithm>
+#include <optional>
 
 #endif // PCH_H_BLL

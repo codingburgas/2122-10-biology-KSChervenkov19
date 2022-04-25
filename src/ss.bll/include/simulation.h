@@ -35,8 +35,10 @@ enum class EntityFoodStage
 
 class Entity
 {
-    // public:
+public:
+// ^ remove me (Debug only)
     int m_worldSize;
+    std::vector<Food>* m_foods = nullptr;
 
     types::fVec2 m_pos = {0.0f, 0.0f};
     /* const */ float m_turnRate = 1.0f;
@@ -44,6 +46,8 @@ class Entity
     float m_facingAngle = 0.0f;
     float m_turningAngle = 0.0f;
     float m_timeSinceLastTurn = 0.0f;
+
+    Food* m_targetFood = nullptr;
 
     float m_energyMax = 500;
     float m_currentEnergy = m_energyMax;
@@ -58,14 +62,17 @@ class Entity
     EntityFoodStage m_foodStage = EntityFoodStage::ZERO_FOOD;
 
   public:
-    Entity(const int t_worldSize, const types::Trait& t_traits);
+    Entity(const int t_worldSize, const types::Trait& t_traits, std::vector<Food>* t_foods);
     // Entity& operator=(const Entity&) = default;
 
   private:
     void update(const float elapsedTime);
 
+    std::optional<float> getAngleToClosestFoodInRange();
+
     void generateNewTurningAngle();
     bool isOutOfBounds();
+    void handleFoodCollision();
 
 
     void walk(const float elapsedTime);
@@ -85,18 +92,20 @@ class Cycle
     std::vector<Entity>::iterator *m_entitiesEndIter;
     std::span<Entity> activeEntities;
 
+    std::vector<Food>* m_foods;
+
     size_t m_worldSize;
 
     bool m_isCycleDone = false;
 
   public:
 	Cycle();
-    Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter, size_t t_worldSize);
+    Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter, size_t t_worldSize, std::vector<Food>* t_foods);
 
     void CycleEnd();
     // ~Cycle();
 
-    static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator &entitiesEndIt);
+    static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator &entitiesEndIt, std::vector<Food>* foods);
     static void distributeEntities(std::span<Entity> entities, size_t wallSize);
     static void randomizeFoodPositions(std::span<Food> foods, size_t worldSize);
 

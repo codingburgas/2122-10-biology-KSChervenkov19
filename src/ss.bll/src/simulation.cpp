@@ -8,8 +8,8 @@
 
 using Random = effolkronium::random_static;
 
-ss::bll::simulation::Entity::Entity(const int t_worldSize, const types::Trait& t_traits = {1.0f, 1.0f})
-	: m_worldSize(t_worldSize), m_traits(t_traits)
+ss::bll::simulation::Entity::Entity(const int t_worldSize, const types::Trait& t_traits = {1.0f, 1.0f}, std::vector<Food>* t_foods = nullptr)
+	: m_worldSize(t_worldSize), m_foods(t_foods), m_traits(t_traits)
 {
 }
 
@@ -24,6 +24,18 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
     switch (m_foodStage)
     {
     case EntityFoodStage::ZERO_FOOD:
+    {
+        const auto angleToClosestFoodInRange = getAngleToClosestFoodInRange();
+        if (angleToClosestFoodInRange)
+        {
+            m_facingAngle = *angleToClosestFoodInRange;
+            move(elapsedTime);
+            handleFoodCollision();
+        }
+        else
+        {
+            walk(elapsedTime);
+        }
         // if foodCheck:
         //   facingAngle = getAngle;
         //   move();
@@ -31,6 +43,7 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
         // else:
         //   walk();
         break;
+    }
     case EntityFoodStage::ONE_FOOD:
         // if foodCheck:
         //   facingAngle = getAngle;
@@ -38,6 +51,9 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
         //   set facing angle based on closest wall using DirectionsDeg
         //
         // move();
+
+        // DEBUG
+        walk(elapsedTime);
         break;
     case EntityFoodStage::TWO_FOOD:
         // set facing angle based on closest wall using DirectionsDeg
@@ -46,7 +62,44 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
     }
 
     // Debugging
-    walk(elapsedTime);
+    // walk(elapsedTime);
+}
+
+std::optional<float> ss::bll::simulation::Entity::getAngleToClosestFoodInRange()
+{
+    struct FoodDistance
+    {
+        Food& food;
+        float distance;
+    };
+
+    std::vector<FoodDistance> foodDistance;
+
+    for (auto& food : *m_foods)
+    {
+        if (!food.isEaten)
+        {
+			if (const float distance = utils::getDistance(m_pos, food.pos); distance <= m_traits.sense)
+		    {
+	            foodDistance.push_back({ food, distance });
+		    }
+        }
+    }
+
+    if (foodDistance.empty())
+    {
+        return {};
+    }
+
+    const auto closestFood = *std::ranges::min_element(foodDistance,
+        [](const FoodDistance& lhs, const FoodDistance& rhs)
+        {
+            return lhs.distance < rhs.distance;
+        });
+
+    m_targetFood = &closestFood.food;
+
+    return utils::toDegree(atan2(closestFood.food.pos.y - m_pos.y, closestFood.food.pos.x - m_pos.x)) + 180.0f;
 }
 
 void ss::bll::simulation::Entity::generateNewTurningAngle()
@@ -58,6 +111,21 @@ bool ss::bll::simulation::Entity::isOutOfBounds()
 {
     return (m_pos.x < 0.0f || m_pos.x > m_worldSize) ||
         (m_pos.y < 0.0f || m_pos.y > m_worldSize);
+}
+
+void ss::bll::simulation::Entity::handleFoodCollision()
+{
+    if (m_targetFood)
+    {
+		if (float distance = utils::getDistance(m_pos, m_targetFood->pos); 
+            distance < 0.1f)
+		{
+            m_targetFood->isEaten = true;
+            m_targetFood = nullptr;
+            m_foodStage = EntityFoodStage::ONE_FOOD;
+		}
+	    
+    }
 }
 
 // walk mf is for turn logic and moving (mf -> member function)
@@ -137,15 +205,15 @@ ss::bll::simulation::Cycle::Cycle()
 }
 
 ss::bll::simulation::Cycle::Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter,
-                                  size_t t_worldSize)
+                                  size_t t_worldSize, std::vector<Food>* t_foods)
     : m_entities(t_entities), m_entitiesEndIter(t_entitiesEndIter), m_worldSize(t_worldSize),
-      activeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter))
+      activeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter)), m_foods(t_foods)
 {
 }
 
 void ss::bll::simulation::Cycle::CycleEnd()
 {
-    reproduceEntities(*m_entities, *m_entitiesEndIter);
+    reproduceEntities(*m_entities, *m_entitiesEndIter, m_foods);
     distributeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter), m_worldSize);
     Simulation::repositionEntitiesIter(*m_entities, *m_entitiesEndIter);
     // call reorder of foods
@@ -158,7 +226,7 @@ void ss::bll::simulation::Cycle::CycleEnd()
 //}
 
 void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities,
-                                                   std::vector<Entity>::iterator &entitiesEndIt)
+                                                   std::vector<Entity>::iterator &entitiesEndIt, std::vector<Food>* foods)
 {
     for (auto entity : Simulation::getActiveEntities(entities, entitiesEndIt))
     {
@@ -167,6 +235,7 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities
             Entity newEntity(entity.m_worldSize);
             newEntity.m_traits.sense = entity.m_traits.sense + Random::get(-Entity::traitPadding, Entity::traitPadding);
             newEntity.m_traits.speed = entity.m_traits.speed + Random::get(-Entity::traitPadding, Entity::traitPadding);
+            newEntity.m_foods = foods;
             entities.insert(entitiesEndIt, newEntity);
 
             entity.m_shouldReproduce = false;
@@ -375,9 +444,6 @@ void ss::bll::simulation::Cycle::update(float elapsedTime)
 
     if (areAllEntitiesDone)
         m_isCycleDone = true;
-
-    // iterate through entities and update every single one
-    // somehow determine when all the entities are done
 }
 
 std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiveEntities(
@@ -416,13 +482,13 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
 
     for (size_t i = 0; i < m_simInfo.startingEntityCount; ++i)
     {
-        m_entities.emplace_back(t_simInfo.worldSize, m_simInfo.initialTraits);
+        m_entities.emplace_back(t_simInfo.worldSize, m_simInfo.initialTraits, &m_foods);
     }
     m_entitiesEndIt = m_entities.end();
 
     Cycle::distributeEntities(getActiveEntities(m_entities, m_entitiesEndIt), m_simInfo.worldSize);
 
-    m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize);
+    m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods);
     Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
 }
 
@@ -444,8 +510,9 @@ void ss::bll::simulation::Simulation::update(float elapsedTime)
     if (m_currentCycle.m_isCycleDone)
     {
         m_currentCycle.CycleEnd();
-        m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize);
+        m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods);
         ++m_currentCycle_n;
+        Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
     }
 
     m_currentCycle.update(elapsedTime);

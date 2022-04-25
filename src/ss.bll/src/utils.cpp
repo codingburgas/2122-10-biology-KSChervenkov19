@@ -22,3 +22,8 @@ double ss::bll::utils::toDegree(double radians)
 {
     return (radians * 180.0) / M_PI;
 }
+
+float ss::bll::utils::getDistance(const types::fVec2& p1, const types::fVec2& p2)
+{
+    return sqrt(pow((p2.x - p1.x), 2) + pow(p2.y - p1.y, 2));
+}
