@@ -4,14 +4,14 @@
 </p>
 
 ## 💻 About
-<p>Our project is non-predictable, highly engaging, modern designed, educational, environment-based, data processing, visually represented, 3D-based, mutation-based, interactive, natural selection simulator with a great ease of use</p>
+<p>Our project is a non-predictable, highly engaging, modern designed, educational, environment-based, data processing, visually represented, 3D-based, mutation-based, interactive, natural selection simulator with a great ease of use</p>
 
 ___
 ## ⚙️ Used technologies
 ### Used technologies about the visual elements, docs and the communication
 <p align="left">
     <a href="https://www.figma.com/"><img src="https://img.icons8.com/color/344/figma--v1.png" alt="Figma logo" width=48px/></a>
-    <a href="https://github.com/"><img src="https://img.icons8.com/ios/344/github--v1.png#gh-dark-mode-only" alt="GitHub dark theme logo" width=48px /></a>
+    <a href="https://github.com/"><img src="https://img.icons8.com/ios/344/github--v1.png#gh-dark-mode-only" alt="GitHub dark theme logo" width=48px /><img src="https://i.ibb.co/Btcfrfc/image-4.png#gh-light-mode-only" alt="GitHub dark theme logo" width=48px /></a>
     <a href="https://www.microsoft.com/en-ww/microsoft-teams/log-in"><img src="https://img.icons8.com/color/344/microsoft-teams.png" alt = "MS Teams logo" width=48px /></a>
     <a href="https://www.microsoft.com/en-ww/microsoft-365/free-office-online-for-the-web"><img src="https://img.icons8.com/color/344/ms-word.png" alt="MS Word logo" width=48px /></a>
     <a href="https://www.microsoft.com/en-ww/microsoft-365/free-office-online-for-the-web"><img src="https://img.icons8.com/color/344/ms-powerpoint.png" alt="MS PowerPoint logo" width=48px /></a>
@@ -37,16 +37,16 @@ ___
 ___
 ## 💽 Setup
 ### Dependencies
-- c++ 20 installed
+- C++ 20 installed
 - OpenGL ^3.2
 
 ___
 ## ⏩ Executing the program
-### Compiling it yourself
-- Open <I>2122-10-biology-KSChervenkov19.sln</I> with visual studio
-- Click <I>Local Windows Debugger</I>, located on the top of the screen or hit <I>F5</I>
+- ### Compiling it yourself
+  1. Open <I>2122-10-biology-KSChervenkov19.sln</I> with visual studio
+  1. Click <I>Local Windows Debugger</I>, located on the top of the screen or hit <I>F5</I>
 
-### Download the `.exe` form `Releases` in github
+- ### Download the `.exe` form `Releases` in github
 
 ___
 ## 🏆 Our Team
@@ -64,7 +64,7 @@ ___
 
 ___
 ## ✔️ Reviews
-If you're not sold on this game yet, just listen to what our very satisfied customers have to say about it!
+If you're not sold on this simulator yet, just listen to what our very satisfied customers have to say about it!
 
 ![Picture](assets/Blob.png) "This simulator is pretty cool" - Blob <br>
     (picture of Blob)
