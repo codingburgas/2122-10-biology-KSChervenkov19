@@ -10,7 +10,7 @@ struct fVec2
     float x;
     float y;
 
-    auto operator<=>(const fVec2&) const = default;
+    auto operator<=>(const fVec2 &) const = default;
 };
 
 /// A struct holding the data for a simulation.

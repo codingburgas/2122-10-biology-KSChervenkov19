@@ -4,8 +4,6 @@
 #include "simulation_data.h"
 // clang-format on
 
-
-
 namespace ss::bll::simulation
 {
 struct Food
@@ -37,8 +35,8 @@ enum class EntityFoodStage
 
 class Entity
 {
-// public:
-	int m_worldSize;
+    // public:
+    int m_worldSize;
 
     types::fVec2 m_pos = {0.0f, 0.0f};
     float m_turnRate = 1.0f;
@@ -49,7 +47,7 @@ class Entity
     float m_energyMax = 500;
     float m_currentEnergy = m_energyMax;
 
-    types::Trait traits{ 1.0f, 1.0f };
+    types::Trait traits{1.0f, 1.0f};
     constexpr inline static float traitPadding = 0.3f;
 
     bool m_isAlive = true;
@@ -58,11 +56,11 @@ class Entity
 
     EntityFoodStage m_foodStage = EntityFoodStage::ZERO_FOOD;
 
-public:
+  public:
     Entity(const int t_worldSize);
     // Entity& operator=(const Entity&) = default;
-    
-private:
+
+  private:
     void update(const float elapsedTime);
 
     void walk(const float elapsedTime);
@@ -77,26 +75,25 @@ private:
 
 class Cycle
 {
-    std::vector<Entity>* m_entities;
-    std::vector<Entity>::iterator* m_entitiesEndIter;
+    std::vector<Entity> *m_entities;
+    std::vector<Entity>::iterator *m_entitiesEndIter;
     std::span<Entity> activeEntities;
 
     size_t m_worldSize;
 
-	bool m_isCycleDone = false;
+    bool m_isCycleDone = false;
 
-public:
-    Cycle(std::vector<Entity>* t_entities, 
-		  std::vector<Entity>::iterator* t_entitiesEndIter, size_t t_worldSize);
+  public:
+    Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter, size_t t_worldSize);
 
     void CycleEnd();
     // ~Cycle();
 
-    static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator& entitiesEndIt);
+    static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator &entitiesEndIt);
     static void distributeEntities(std::span<Entity> entities, size_t wallSize);
 
   public:
-      void update(float elapsedTime);
+    void update(float elapsedTime);
 
     friend class Simulation;
 };
@@ -112,14 +109,15 @@ class Simulation
     size_t m_currentCycle_n = 1;
     Cycle m_currentCycle;
 
-public:
+  public:
     bool isSimulationDone = false;
 
-private:
+  private:
     // Make sure that all the active entities are included. (especially the last active one)
-    [[nodiscard]] static std::span<Entity> getActiveEntities(std::vector<Entity>& entities, std::vector<Entity>::iterator& iter);
-    static void repositionEntitiesIter(std::vector<Entity>& entities, std::vector<Entity>::iterator& iter);
-    
+    [[nodiscard]] static std::span<Entity> getActiveEntities(std::vector<Entity> &entities,
+                                                             std::vector<Entity>::iterator &iter);
+    static void repositionEntitiesIter(std::vector<Entity> &entities, std::vector<Entity>::iterator &iter);
+
   public:
     Simulation(const ss::types::SimulationInfo &t_simInfo);
     void update(float elapsedTime);

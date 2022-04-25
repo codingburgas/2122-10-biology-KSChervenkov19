@@ -7,9 +7,7 @@
 
 using Random = effolkronium::random_static;
 
-
-ss::bll::simulation::Entity::Entity(const int t_worldSize)
-    : m_worldSize(t_worldSize)
+ss::bll::simulation::Entity::Entity(const int t_worldSize) : m_worldSize(t_worldSize)
 {
 }
 
@@ -78,12 +76,11 @@ float ss::bll::simulation::Entity::getFacingAngle() const
     return m_facingAngle;
 }
 
-ss::bll::simulation::Cycle::Cycle(std::vector<Entity>* t_entities, 
-								  std::vector<Entity>::iterator* t_entitiesEndIter,
-								  size_t t_worldSize)
-	: m_entities(t_entities), m_entitiesEndIter(t_entitiesEndIter), m_worldSize(t_worldSize), activeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter))
+ss::bll::simulation::Cycle::Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter,
+                                  size_t t_worldSize)
+    : m_entities(t_entities), m_entitiesEndIter(t_entitiesEndIter), m_worldSize(t_worldSize),
+      activeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter))
 {
-
 }
 
 void ss::bll::simulation::Cycle::CycleEnd()
@@ -91,28 +88,28 @@ void ss::bll::simulation::Cycle::CycleEnd()
     reproduceEntities(*m_entities, *m_entitiesEndIter);
     distributeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter), m_worldSize);
     // call reorder of foods
-} 
+}
 
-//ss::bll::simulation::Cycle::~Cycle()
+// ss::bll::simulation::Cycle::~Cycle()
 //{
 //    reproduceEntities(m_entities, m_entitiesEndIter);
 //    distributeEntities(Simulation::getActiveEntities(m_entities, m_entitiesEndIter), m_worldSize);
 //}
 
-void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity>& entities,
-                                                   std::vector<Entity>::iterator& entitiesEndIt)
+void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities,
+                                                   std::vector<Entity>::iterator &entitiesEndIt)
 {
     for (auto entity : Simulation::getActiveEntities(entities, entitiesEndIt))
     {
-	    if (entity.m_shouldReproduce)
-	    {
+        if (entity.m_shouldReproduce)
+        {
             Entity newEntity(entity.m_worldSize);
             newEntity.traits.sense = entity.traits.sense + Random::get(-Entity::traitPadding, Entity::traitPadding);
             newEntity.traits.speed = entity.traits.speed + Random::get(-Entity::traitPadding, Entity::traitPadding);
             entities.insert(entitiesEndIt, newEntity);
 
             entity.m_shouldReproduce = false;
-	    }
+        }
     }
 
     Simulation::repositionEntitiesIter(entities, entitiesEndIt);
@@ -128,34 +125,30 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
     {
         entity.m_facingAngle = static_cast<float>(currentDirection);
 
-	    switch (currentDirection)
-	    {
-	    case DirectionsDeg::LEFT:
+        switch (currentDirection)
+        {
+        case DirectionsDeg::LEFT:
             // { wallSize, coordinate }
-            entity.m_pos = { static_cast<float>(wallSize),
-                               static_cast<float>(coordinate) };
+            entity.m_pos = {static_cast<float>(wallSize), static_cast<float>(coordinate)};
             break;
-	    case DirectionsDeg::UP:
+        case DirectionsDeg::UP:
             // { coordinate, wallSize }
-            entity.m_pos = { static_cast<float>(coordinate),
-                               static_cast<float>(wallSize) };
+            entity.m_pos = {static_cast<float>(coordinate), static_cast<float>(wallSize)};
             break;
-	    case DirectionsDeg::RIGHT:
+        case DirectionsDeg::RIGHT:
             // { 0, coordinate }
-            entity.m_pos = { 0.0f,
-                               static_cast<float>(coordinate) };
+            entity.m_pos = {0.0f, static_cast<float>(coordinate)};
             break;
-	    case DirectionsDeg::DOWN:
+        case DirectionsDeg::DOWN:
             // { coordinate, 0 }
-            entity.m_pos = { static_cast<float>(coordinate),
-                               0.0f };
+            entity.m_pos = {static_cast<float>(coordinate), 0.0f};
             break;
-	    }
+        }
 
         if (currentDirection == DirectionsDeg::DOWN)
         {
             currentDirection = DirectionsDeg::LEFT;
-			coordinate += spacing;
+            coordinate += spacing;
         }
         else
         {
@@ -166,16 +159,18 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
 
 void ss::bll::simulation::Cycle::update(float elapsedTime)
 {
-	// iterate through entities and update every single one
-	// somehow determine when all the entities are done
+    // iterate through entities and update every single one
+    // somehow determine when all the entities are done
 }
 
-std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiveEntities(std::vector<Entity>& entities, std::vector<Entity>::iterator& iter)
+std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiveEntities(
+    std::vector<Entity> &entities, std::vector<Entity>::iterator &iter)
 {
     return std::span(entities.data(), std::distance(entities.begin(), iter));
 }
 
-void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity>& entities, std::vector<Entity>::iterator& iter)
+void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity> &entities,
+                                                             std::vector<Entity>::iterator &iter)
 {
     auto current = entities.begin();
     while (current != entities.end() && current->m_isAlive)
@@ -189,12 +184,13 @@ void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity>
 ///
 /// Constructs the Simulation class with approriate ss::types::SimulationInfo.
 /// @param t_simInfo object of user defined type ss::types::SimulationInfo holding the data.
-ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo& t_simInfo) : m_simInfo(t_simInfo), m_currentCycle(Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize))
+ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo &t_simInfo)
+    : m_simInfo(t_simInfo), m_currentCycle(Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize))
 {
     // m_entities = std::vector<Entity>(m_simInfo.startingEntityCount);
     // m_entitiesEndIt = m_entities.end();
 
-	m_entities.reserve(m_simInfo.startingEntityCount);
+    m_entities.reserve(m_simInfo.startingEntityCount);
 
     for (size_t i = 0; i < m_simInfo.startingEntityCount; ++i)
     {

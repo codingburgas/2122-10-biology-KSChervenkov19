@@ -156,7 +156,8 @@ void ss::pl::mainMenu::MainMenu::displayGraphCards()
             DrawTexture(viewGraph_Texture, graphContainer.buttonPos.x, graphContainer.buttonPos.y + scrollOffset,
                         WHITE);
             DrawTextEx(fontInter, graphContainer.name.c_str(),
-                { graphContainer.namePos.x, graphContainer.namePos.y + scrollOffset }, 40, 1, currentTheme == ThemeTypes::LightTheme ? WHITE : Color{23, 0, 71, 255});
+                       {graphContainer.namePos.x, graphContainer.namePos.y + scrollOffset}, 40, 1,
+                       currentTheme == ThemeTypes::LightTheme ? WHITE : Color{23, 0, 71, 255});
         }
     }
 }
