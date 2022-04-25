@@ -6,9 +6,6 @@
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 
-#define RAYMATH_IMPLEMENTATION
-#include "raymath.h"
-
 const int screenWidth = 1500;
 const int screenHeight = 980;
 
