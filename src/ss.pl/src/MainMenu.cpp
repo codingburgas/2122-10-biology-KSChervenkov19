@@ -239,20 +239,20 @@ void ss::pl::mainMenu::MainMenu::deleteAssets()
 void ss::pl::mainMenu::MainMenu::drawTextures()
 {
     DrawTexture(background_Lines, 0, 0, WHITE);
-    DrawTexture(simulatorButton_Texture, 525, 736, WHITE);
+    DrawTexture(simulatorButton_Texture, 509, 682, WHITE);
     DrawTexture(logo_Texture, 310, 219, WHITE);
-    DrawTexture(graphsMenu_Texture, 28, 20, WHITE);
+    DrawTexture(graphsMenu_Texture, 17, 10, WHITE);
     DrawTexture(graphsContainer_Texture, graphsContainerPos, 0, WHITE);
-    DrawTexture(themeButton_Texture, 1369, 20, WHITE);
+    DrawTexture(themeButton_Texture, 1359, 15, WHITE);
 }
 
 /// This method handles when the mouse cursor is on click.
 /// @return bool.
 bool ss::pl::mainMenu::MainMenu::handleMouseCursor()
 {
-    return CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) })
-        || CheckCollisionPointRec(mousePos, { 28, 20, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) })
-        || CheckCollisionPointRec(mousePos, { 1369, 20, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) });
+    return CheckCollisionPointRec(mousePos, { 509, 682, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) })
+        || CheckCollisionPointRec(mousePos, { 17, 10, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) })
+        || CheckCollisionPointRec(mousePos, { 1359, 15, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) });
 }
 
 /// This method checks for collision on every possible button.
@@ -261,19 +261,19 @@ void ss::pl::mainMenu::MainMenu::checkCollision()
 
     SetMouseCursor(handleMouseCursor() ? MOUSE_CURSOR_POINTING_HAND : MOUSE_CURSOR_DEFAULT);
 
-    if (CheckCollisionPointRec(mousePos, { 28, 20, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) })
+    if (CheckCollisionPointRec(mousePos, { 17, 10, static_cast<float>(graphsMenu_Texture.width), static_cast<float>(graphsMenu_Texture.height) })
         && !graphsIsAnimatingIn && !graphsIsAnimatingOut && !graphsIsOut && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         graphsIsAnimatingIn = true;
     }
 
-    if (CheckCollisionPointRec(mousePos, { 525, 736, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) })
+    if (CheckCollisionPointRec(mousePos, { 509, 682, static_cast<float>(simulatorButton_Texture.width), static_cast<float>(simulatorButton_Texture.height) })
         && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !graphsIsAnimatingIn && !graphsIsAnimatingOut && !graphsIsOut)
     {
         m_sceneManager.setCurrentScene("Simulation");
     }
 
-    if (CheckCollisionPointRec(mousePos, { 1369, 20, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) })
+    if (CheckCollisionPointRec(mousePos, { 1359, 15, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) })
         && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         MainMenu::currentTheme = (MainMenu::currentTheme == ThemeTypes::LightTheme) ? ThemeTypes::DarkTheme : ThemeTypes::LightTheme;
