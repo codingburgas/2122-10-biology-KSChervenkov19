@@ -81,9 +81,9 @@ void ss::pl::simulator::Simulator::checkInput()
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         Simulator::currentState = SimulatorState::Simulation;
-        ss::types::SimulationInfo simInfo = { worldSize, cyclesCount, food, entities, 1.0f, 1.0f };
+        const types::SimulationInfo simInfo = { static_cast<size_t>(worldSize), static_cast<size_t>(cyclesCount), static_cast<size_t>(food), static_cast<size_t>(entities), { 1.0f, 1.0f} };
         simulation = new ss::bll::simulation::Simulation(simInfo);
-        offset = (float)worldSize / 2.0f;
+        offset = static_cast<float>(worldSize) / 2.0f;
         camera.canRotate = true;
         resetCamera();
     }
@@ -160,6 +160,10 @@ void ss::pl::simulator::Simulator::drawSimulation()
     }
 
     EndMode3D();
+
+    // The funny. Do not touch
+    // bll::simulation::Cycle::distributeEntities(simulation->m_entities, simulation->m_simInfo.worldSize);
+    // bll::simulation::Cycle::randomizeFoodPositions(simulation->m_foods, simulation->m_simInfo.worldSize);
 }
 
 // clang-format off

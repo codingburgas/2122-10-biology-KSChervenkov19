@@ -47,7 +47,7 @@ class Entity
     float m_energyMax = 500;
     float m_currentEnergy = m_energyMax;
 
-    types::Trait traits{1.0f, 1.0f};
+    types::Trait m_traits;
     constexpr inline static float traitPadding = 0.3f;
 
     bool m_isAlive = true;
@@ -57,7 +57,7 @@ class Entity
     EntityFoodStage m_foodStage = EntityFoodStage::ZERO_FOOD;
 
   public:
-    Entity(const int t_worldSize);
+    Entity(const int t_worldSize, const types::Trait& t_traits);
     // Entity& operator=(const Entity&) = default;
 
   private:

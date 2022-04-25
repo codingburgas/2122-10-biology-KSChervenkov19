@@ -7,7 +7,8 @@
 
 using Random = effolkronium::random_static;
 
-ss::bll::simulation::Entity::Entity(const int t_worldSize) : m_worldSize(t_worldSize)
+ss::bll::simulation::Entity::Entity(const int t_worldSize, const types::Trait& t_traits = {1.0f, 1.0f})
+	: m_worldSize(t_worldSize), m_traits(t_traits)
 {
 }
 
@@ -110,8 +111,8 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities
         if (entity.m_shouldReproduce)
         {
             Entity newEntity(entity.m_worldSize);
-            newEntity.traits.sense = entity.traits.sense + Random::get(-Entity::traitPadding, Entity::traitPadding);
-            newEntity.traits.speed = entity.traits.speed + Random::get(-Entity::traitPadding, Entity::traitPadding);
+            newEntity.m_traits.sense = entity.m_traits.sense + Random::get(-Entity::traitPadding, Entity::traitPadding);
+            newEntity.m_traits.speed = entity.m_traits.speed + Random::get(-Entity::traitPadding, Entity::traitPadding);
             entities.insert(entitiesEndIt, newEntity);
 
             entity.m_shouldReproduce = false;
@@ -232,7 +233,7 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
 
     for (size_t i = 0; i < m_simInfo.startingEntityCount; ++i)
     {
-        m_entities.emplace_back(t_simInfo.worldSize);
+        m_entities.emplace_back(t_simInfo.worldSize, m_simInfo.initialTraits);
     }
     m_entitiesEndIt = m_entities.end();
 

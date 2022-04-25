@@ -13,16 +13,6 @@ struct fVec2
     auto operator<=>(const fVec2 &) const = default;
 };
 
-/// A struct holding the data for a simulation.
-struct SimulationInfo
-{
-    size_t worldSize;
-    size_t cyclesCount;
-    size_t foodCount;
-    size_t startingEntityCount;
-    float initialSpeed;
-    float initialSense;
-};
 /// A struct holding the data for a trait.
 struct Trait
 {
@@ -31,6 +21,17 @@ struct Trait
 
     auto operator<=>(const Trait &) const = default;
 };
+
+/// A struct holding the data for a simulation.
+struct SimulationInfo
+{
+    size_t worldSize;
+    size_t cyclesCount;
+    size_t foodCount;
+    size_t startingEntityCount;
+	Trait initialTraits = {1.0f, 1.0f};
+};
+
 /// A struct holding the data for a cycle.
 struct Cycle
 {
