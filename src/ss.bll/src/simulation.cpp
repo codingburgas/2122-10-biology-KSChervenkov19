@@ -122,7 +122,7 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities
 
 void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, size_t wallSize)
 {
-    const size_t spacing = wallSize / (entities.size() / 4);
+    size_t spacing = wallSize / (entities.size() / 4);
     size_t coordinate = 0;
     auto currentDirection = DirectionsDeg::LEFT;
 
@@ -134,19 +134,19 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
         {
         case DirectionsDeg::LEFT:
             // { wallSize, coordinate }
-            entity.m_pos = {static_cast<float>(wallSize), static_cast<float>(coordinate)};
+            entity.m_pos = {static_cast<float>(wallSize), static_cast<float>(Random::get(0, (int)wallSize))};
             break;
         case DirectionsDeg::UP:
             // { coordinate, wallSize }
-            entity.m_pos = {static_cast<float>(coordinate), static_cast<float>(wallSize)};
+            entity.m_pos = {static_cast<float>(Random::get(0, (int)wallSize)), static_cast<float>(wallSize)};
             break;
         case DirectionsDeg::RIGHT:
             // { 0, coordinate }
-            entity.m_pos = {0.0f, static_cast<float>(coordinate)};
+            entity.m_pos = {0.0f, static_cast<float>(Random::get(0, (int)wallSize))};
             break;
         case DirectionsDeg::DOWN:
             // { coordinate, 0 }
-            entity.m_pos = {static_cast<float>(coordinate), 0.0f};
+            entity.m_pos = {static_cast<float>(Random::get(0, (int)wallSize)), 0.0f};
             break;
         }
 
