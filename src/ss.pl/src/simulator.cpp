@@ -172,6 +172,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
         }
         DrawGrid(worldSize, 1.0f);
         DrawLine3D({ currentPos.x - offset, .5f, currentPos.y - offset}, {1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f, 1.0f * sin(entityLookingDirRadian) + currentPos.y - offset}, RED);
+        DrawCircle3D({ currentPos.x - offset, .1f, currentPos.y - offset }, entity.m_traits.sense, { 1.0f, 0.0f, 0.0f }, 90.0f, {255, 0, 0, 100});
     }
 
     for (const auto& food : simulation->getFoods())
