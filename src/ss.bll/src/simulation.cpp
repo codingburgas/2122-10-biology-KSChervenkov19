@@ -3,6 +3,8 @@
 #include "simulation.h"
 // clang-format on
 
+#include <iostream>
+
 #include "random.hpp"
 #include "utils.h"
 
@@ -167,6 +169,17 @@ bool ss::bll::simulation::Entity::handleFoodCollision()
     return false;
 }
 
+void ss::bll::simulation::Entity::reset()
+{
+    m_turningAngle = 0;
+    m_timeSinceLastTurn = 0;
+
+    m_currentEnergy = m_energyMax;
+
+    m_isDoneWithCycle = false;
+    m_foodStage = EntityFoodStage::ZERO_FOOD;
+}
+
 // walk mf is for turn logic and moving (mf -> member function)
 // move mf is for just moving forward based on pos and facingAngle
 void ss::bll::simulation::Entity::walk(const float elapsedTime)
@@ -252,10 +265,27 @@ ss::bll::simulation::Cycle::Cycle(std::vector<Entity> *t_entities, std::vector<E
 
 void ss::bll::simulation::Cycle::CycleEnd()
 {
+    for (auto& entity : *m_entities)
+    {
+        switch (entity.m_foodStage)
+        {
+        case EntityFoodStage::ZERO_FOOD:
+            entity.m_isAlive = false;
+            break;
+        case EntityFoodStage::TWO_FOOD:
+            entity.m_shouldReproduce = true;
+            break;
+        default: ;
+        }
+    }
+
     reproduceEntities(*m_entities, *m_entitiesEndIter, m_foods);
     distributeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter), m_worldSize);
-    Simulation::repositionEntitiesIter(*m_entities, *m_entitiesEndIter);
-    // call reorder of foods
+
+    for (auto& entity : *m_entities)
+    {
+        entity.reset();
+    }
 }
 
 // ss::bll::simulation::Cycle::~Cycle()
@@ -267,19 +297,36 @@ void ss::bll::simulation::Cycle::CycleEnd()
 void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities,
                                                    std::vector<Entity>::iterator &entitiesEndIt, std::vector<Food>* foods)
 {
-    for (auto entity : Simulation::getActiveEntities(entities, entitiesEndIt))
+    for (size_t i = 0; i < entities.size(); ++i)
+    // for (auto& entity : entities)
     {
-        if (entity.m_shouldReproduce)
+        if (entities[i].m_isAlive)
         {
-            Entity newEntity(entity.m_worldSize);
-            newEntity.m_traits.sense = entity.m_traits.sense + Random::get(-Entity::traitPadding, Entity::traitPadding);
-            newEntity.m_traits.speed = entity.m_traits.speed + Random::get(-Entity::traitPadding, Entity::traitPadding);
-            newEntity.m_foods = foods;
-            entities.insert(entitiesEndIt, newEntity);
+            if (entities[i].m_shouldReproduce)
+            {
 
-            entity.m_shouldReproduce = false;
+
+                float sense = entities[i].m_traits.sense + Random::get(-Entity::traitPadding, Entity::traitPadding);
+                float speed = entities[i].m_traits.speed + Random::get(-Entity::traitPadding, Entity::traitPadding);
+
+                entities.push_back({ entities[i].m_worldSize, {sense, speed}, foods });
+
+        		// broken v
+        		// entities.insert(entitiesEndIt, newEntity);
+
+
+
+                entities[i].m_shouldReproduce = false;
+	        }
         }
     }
+
+    // std::remove_if(entities.begin(), entities.end(), [](const Entity& et) { return !et.m_isAlive; });
+
+    std::ranges::sort(entities, [](const Entity& lhs, const Entity& rhs)
+    {
+            return lhs.m_isAlive > rhs.m_isAlive;
+    });
 
     Simulation::repositionEntitiesIter(entities, entitiesEndIt);
 }
@@ -533,8 +580,6 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
 
 void ss::bll::simulation::Simulation::update(float elapsedTime)
 {
-    // calls update of current cycle
-
     if (isSimulationDone)
     {
         return;

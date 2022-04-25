@@ -162,9 +162,13 @@ void ss::pl::simulator::Simulator::drawSimulation()
         {
 			DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset}, .5f, RED);
         }
-        else
+        else if (entity.m_foodStage == bll::simulation::EntityFoodStage::ONE_FOOD)
         {
 			DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset}, .5f, GREEN);
+        }
+        else
+        {
+			DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset}, .5f, YELLOW);
         }
         DrawGrid(worldSize, 1.0f);
         DrawLine3D({ currentPos.x - offset, .5f, currentPos.y - offset}, {1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f, 1.0f * sin(entityLookingDirRadian) + currentPos.y - offset}, RED);

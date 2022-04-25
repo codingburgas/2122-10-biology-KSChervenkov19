@@ -53,7 +53,7 @@ public:
     float m_currentEnergy = m_energyMax;
 
     types::Trait m_traits;
-    constexpr inline static float traitPadding = 0.3f;
+    constexpr inline static float traitPadding = 0.8f;
 
     bool m_isAlive = true;
     bool m_isDoneWithCycle = false;
@@ -75,6 +75,7 @@ public:
     bool isOutOfBounds() const;
     bool handleFoodCollision();
 
+    void reset();
 
     void walk(const float elapsedTime);
     void move(const float elapsedTime);
