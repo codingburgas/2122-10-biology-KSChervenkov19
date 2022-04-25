@@ -2,6 +2,7 @@
 
 #include "sceneManager.h"
 #include <raygui.h>
+#include <raymath.h>
 #include <raylib.h>
 #include "simulation.h"
 #include "utils.h"
