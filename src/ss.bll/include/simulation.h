@@ -69,10 +69,11 @@ public:
     void update(const float elapsedTime);
 
     std::optional<float> getAngleToClosestFoodInRange();
+    float getAngleToClosestWall();
 
     void generateNewTurningAngle();
-    bool isOutOfBounds();
-    void handleFoodCollision();
+    bool isOutOfBounds() const;
+    bool handleFoodCollision();
 
 
     void walk(const float elapsedTime);

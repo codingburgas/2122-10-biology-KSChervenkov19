@@ -27,3 +27,8 @@ float ss::bll::utils::getDistance(const types::fVec2& p1, const types::fVec2& p2
 {
     return sqrt(pow((p2.x - p1.x), 2) + pow(p2.y - p1.y, 2));
 }
+
+float ss::bll::utils::getAngle(const types::fVec2& p1, const types::fVec2& p2)
+{
+    return toDegree(atan2(p2.y - p1.y, p2.x - p1.x));
+}

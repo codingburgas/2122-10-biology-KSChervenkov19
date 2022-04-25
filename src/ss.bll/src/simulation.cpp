@@ -25,40 +25,50 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
     {
     case EntityFoodStage::ZERO_FOOD:
     {
-        const auto angleToClosestFoodInRange = getAngleToClosestFoodInRange();
-        if (angleToClosestFoodInRange)
+        
+        if (const auto angleToClosestFoodInRange = getAngleToClosestFoodInRange();
+            angleToClosestFoodInRange)
         {
             m_facingAngle = *angleToClosestFoodInRange;
             move(elapsedTime);
-            handleFoodCollision();
+            if (handleFoodCollision())
+            {
+                m_foodStage = EntityFoodStage::ONE_FOOD;
+            }
         }
         else
         {
             walk(elapsedTime);
         }
-        // if foodCheck:
-        //   facingAngle = getAngle;
-        //   move();
-        //   checkFoodCollision(); // if tru: foodStage = ONE_FOOD
-        // else:
-        //   walk();
         break;
     }
     case EntityFoodStage::ONE_FOOD:
-        // if foodCheck:
-        //   facingAngle = getAngle;
-        // else:
-        //   set facing angle based on closest wall using DirectionsDeg
-        //
-        // move();
-
-        // DEBUG
-        walk(elapsedTime);
+    {
+        if (const auto angleToClosestFoodInRange = getAngleToClosestFoodInRange();
+            angleToClosestFoodInRange)
+        {
+            m_facingAngle = *angleToClosestFoodInRange;
+            move(elapsedTime);
+            if (handleFoodCollision())
+            {
+                m_foodStage = EntityFoodStage::TWO_FOOD;
+            }
+        }
+        else
+        {
+            const float angle = getAngleToClosestWall();
+            m_facingAngle = angle;
+            move(elapsedTime);
+        }
         break;
+	}
     case EntityFoodStage::TWO_FOOD:
-        // set facing angle based on closest wall using DirectionsDeg
-        // move();
+	{
+        const float angle = getAngleToClosestWall();
+        m_facingAngle = angle;
+        move(elapsedTime);
         break;
+	}
     }
 
     // Debugging
@@ -99,7 +109,34 @@ std::optional<float> ss::bll::simulation::Entity::getAngleToClosestFoodInRange()
 
     m_targetFood = &closestFood.food;
 
-    return utils::toDegree(atan2(closestFood.food.pos.y - m_pos.y, closestFood.food.pos.x - m_pos.x)) + 180.0f;
+    return utils::getAngle(closestFood.food.pos, m_pos);
+}
+
+float ss::bll::simulation::Entity::getAngleToClosestWall()
+{
+    using namespace utils;
+
+    types::fVec2 pos;
+    float top = getDistance(m_pos, { m_pos.x, 0.0f });
+    float right = getDistance(m_pos, { static_cast<float>(m_worldSize), m_pos.y });
+    float bottom = getDistance(m_pos, { m_pos.x, static_cast<float>(m_worldSize) });
+    float left = getDistance(m_pos, { 0.0f, m_pos.y });
+
+    const std::vector distances{ top, right, bottom, left };
+
+    switch (std::distance(distances.begin(), std::min_element(distances.begin(), distances.end())))
+    {
+    case 0:
+        return 90.0f;
+    case 1:
+        return 180.0f;
+    case 2:
+        return 270.0f;
+    case 3:
+        return 0.0f;
+    }
+
+    return {};
 }
 
 void ss::bll::simulation::Entity::generateNewTurningAngle()
@@ -107,13 +144,13 @@ void ss::bll::simulation::Entity::generateNewTurningAngle()
     m_turningAngle = Random::get(-m_maxTurnAngle, m_maxTurnAngle);
 }
 
-bool ss::bll::simulation::Entity::isOutOfBounds()
+bool ss::bll::simulation::Entity::isOutOfBounds() const
 {
     return (m_pos.x < 0.0f || m_pos.x > m_worldSize) ||
         (m_pos.y < 0.0f || m_pos.y > m_worldSize);
 }
 
-void ss::bll::simulation::Entity::handleFoodCollision()
+bool ss::bll::simulation::Entity::handleFoodCollision()
 {
     if (m_targetFood)
     {
@@ -122,10 +159,12 @@ void ss::bll::simulation::Entity::handleFoodCollision()
 		{
             m_targetFood->isEaten = true;
             m_targetFood = nullptr;
-            m_foodStage = EntityFoodStage::ONE_FOOD;
+            // m_foodStage = EntityFoodStage::ONE_FOOD;
+            return true;
 		}
-	    
     }
+
+    return false;
 }
 
 // walk mf is for turn logic and moving (mf -> member function)
