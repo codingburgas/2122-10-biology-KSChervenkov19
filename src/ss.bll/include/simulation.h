@@ -101,7 +101,7 @@ class Cycle
 
 class Simulation
 {
-  private:
+  public:
     const ss::types::SimulationInfo m_simInfo;
 
     std::vector<Entity> m_entities;
@@ -113,7 +113,7 @@ class Simulation
   public:
     bool isSimulationDone = false;
 
-  private:
+  public:
     // Make sure that all the active entities are included. (especially the last active one)
     [[nodiscard]] static std::span<Entity> getActiveEntities(std::vector<Entity> &entities,
                                                              std::vector<Entity>::iterator &iter);
