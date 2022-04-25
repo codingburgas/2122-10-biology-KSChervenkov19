@@ -39,7 +39,8 @@ class Entity
     int m_worldSize;
 
     types::fVec2 m_pos = {0.0f, 0.0f};
-    float m_turnRate = 1.0f;
+    /* const */ float m_turnRate = 1.0f;
+    /* const */ float m_maxTurnAngle = 100.0f;
     float m_facingAngle = 0.0f;
     float m_turningAngle = 0.0f;
     float m_timeSinceLastTurn = 0.0f;
@@ -63,7 +64,12 @@ class Entity
   private:
     void update(const float elapsedTime);
 
+    void generateNewTurningAngle();
+    bool isOutOfBounds();
+
+
     void walk(const float elapsedTime);
+    void move(const float elapsedTime);
 
   public:
     [[nodiscard]] const types::fVec2 &getPos() const;

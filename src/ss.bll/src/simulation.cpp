@@ -4,6 +4,7 @@
 // clang-format on
 
 #include "random.hpp"
+#include "utils.h"
 
 using Random = effolkronium::random_static;
 
@@ -15,6 +16,9 @@ ss::bll::simulation::Entity::Entity(const int t_worldSize, const types::Trait& t
 void ss::bll::simulation::Entity::update(const float elapsedTime)
 {
     if (!m_isAlive)
+        return;
+
+    if (m_isDoneWithCycle)
         return;
 
     switch (m_foodStage)
@@ -41,7 +45,19 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
         break;
     }
 
-    m_pos.x += m_traits.speed * elapsedTime;
+    // Debugging
+    walk(elapsedTime);
+}
+
+void ss::bll::simulation::Entity::generateNewTurningAngle()
+{
+    m_turningAngle = Random::get(-m_maxTurnAngle, m_maxTurnAngle);
+}
+
+bool ss::bll::simulation::Entity::isOutOfBounds()
+{
+    return (m_pos.x < 0.0f || m_pos.x > m_worldSize) ||
+        (m_pos.y < 0.0f || m_pos.y > m_worldSize);
 }
 
 // walk mf is for turn logic and moving (mf -> member function)
@@ -53,20 +69,56 @@ void ss::bll::simulation::Entity::walk(const float elapsedTime)
     // if true: timeSinceLastTurn -= 1.0f
     // generate new turningAngle
 
+    if (m_timeSinceLastTurn > 1.6f)
+    {
+        m_timeSinceLastTurn -= 1.6f;
+        generateNewTurningAngle();
+    }
+
     // 1.
-    // turn angle for current frame =  turningAngle * turnRate * elapsedTime
+    // turn angle for current frame = turnRate * elapsedTime
     // add TAFCF to facingAngle and subtract TAFCF from turningAngle
     // if turningAngle really smol prolly best to set it to 0
-    // thing about that last one a lil more
+    // think about that last one a lil more
+
+    if (abs(m_turningAngle) < 0.1f )
+    {
+        m_turningAngle = 0.0f;
+    }
+
+    if (m_turningAngle != 0.0f)
+    {
+        const bool isNegative = signbit(m_turningAngle);
+        m_facingAngle += isNegative ? -m_turnRate : m_turnRate;
+        m_turningAngle += isNegative ? m_turnRate : -m_turnRate;
+    }
 
     // #THIS SHOULD BE SEPARATE FUNCTION probably named walk
     // 2.determine new position based on pos and angle
     /// check if new pos is out of bounds
-    /// if true: isDoneWithCycle = false
+    /// if true: isDoneWithCycle = true
+    /// if true: isAlive = false
     // #ENDTHIS
+
+	move(elapsedTime);
 
     // last step
     // timeSinceLastTurn += elapsedTime
+
+    m_timeSinceLastTurn += elapsedTime;
+}
+
+void ss::bll::simulation::Entity::move(const float elapsedTime)
+{
+    float facingRadian = utils::toRadian(m_facingAngle + 180);
+
+    float XX = m_pos.x + m_traits.speed * elapsedTime * cos(facingRadian);
+    float YY = m_pos.y + m_traits.speed * elapsedTime * sin(facingRadian);
+
+    m_pos = { XX, YY };
+
+    if (isOutOfBounds())
+        m_isDoneWithCycle = true;
 }
 
 const ss::types::fVec2 &ss::bll::simulation::Entity::getPos() const
