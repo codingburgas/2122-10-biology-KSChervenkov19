@@ -92,6 +92,7 @@ void ss::bll::simulation::Cycle::CycleEnd()
 {
     reproduceEntities(*m_entities, *m_entitiesEndIter);
     distributeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter), m_worldSize);
+    Simulation::repositionEntitiesIter(*m_entities, *m_entitiesEndIter);
     // call reorder of foods
 }
 
@@ -164,6 +165,24 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
 
 void ss::bll::simulation::Cycle::update(float elapsedTime)
 {
+    if (m_isCycleDone)
+        return;
+
+    bool areAllEntitiesDone = true;
+
+	auto activeEntities = Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter);
+
+    for (auto& entity : activeEntities)
+    {
+        if (!entity.m_isDoneWithCycle)
+            areAllEntitiesDone = false;
+
+        entity.update(elapsedTime);
+    }
+
+    if (areAllEntitiesDone)
+        m_isCycleDone = true;
+
     // iterate through entities and update every single one
     // somehow determine when all the entities are done
 }
@@ -227,6 +246,7 @@ void ss::bll::simulation::Simulation::update(float elapsedTime)
     {
         m_currentCycle.CycleEnd();
         m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize);
+        ++m_currentCycle_n;
     }
 
     m_currentCycle.update(elapsedTime);
