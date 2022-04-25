@@ -11,7 +11,8 @@ ___
 ### Used technologies about the visual elements, docs and the communication
 <p align="left">
     <a href="https://www.figma.com/"><img src="https://img.icons8.com/color/344/figma--v1.png" alt="Figma logo" width=48px/></a>
-    <a href="https://github.com/"><img src="https://img.icons8.com/ios/344/github--v1.png#gh-dark-mode-only" alt="GitHub dark theme logo" width=48px /><img src="https://i.ibb.co/Btcfrfc/image-4.png#gh-light-mode-only" alt="GitHub dark theme logo" width=48px /></a>
+    <a href="https://github.com/"><img src="https://img.icons8.com/ios/344/github--v1.png#gh-dark-mode-only" alt="GitHub dark theme logo" width=48px /></a>
+    <a href="https://github.com/"><img src="https://i.ibb.co/Btcfrfc/image-4.png#gh-light-mode-only" alt="GitHub dark theme logo" width=48px /></a>
     <a href="https://www.microsoft.com/en-ww/microsoft-teams/log-in"><img src="https://img.icons8.com/color/344/microsoft-teams.png" alt = "MS Teams logo" width=48px /></a>
     <a href="https://www.microsoft.com/en-ww/microsoft-365/free-office-online-for-the-web"><img src="https://img.icons8.com/color/344/ms-word.png" alt="MS Word logo" width=48px /></a>
     <a href="https://www.microsoft.com/en-ww/microsoft-365/free-office-online-for-the-web"><img src="https://img.icons8.com/color/344/ms-powerpoint.png" alt="MS PowerPoint logo" width=48px /></a>
