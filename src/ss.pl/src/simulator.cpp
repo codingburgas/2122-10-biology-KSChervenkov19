@@ -177,7 +177,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
     EndMode3D();
     timeScale = GuiSliderBar({ 522, 25, 455, 48 }, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
 
-    simulation->update(GetFrameTime() * timeScale);
+    // simulation->update(GetFrameTime() * timeScale);
 
 
     // The funny. Do not touch

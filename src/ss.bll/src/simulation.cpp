@@ -178,44 +178,140 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities
 
 void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, size_t wallSize)
 {
-    size_t spacing = wallSize / (entities.size() / 4);
-    size_t coordinate = 0;
-    auto currentDirection = DirectionsDeg::LEFT;
+    const size_t entitiesCountRegularWall = round(static_cast<float>(entities.size()) / 4.0f);
+    const size_t entitiesCountLastWall = entities.size() - entitiesCountRegularWall * 3;
 
-    for (auto& entity : entities)
+    size_t spacing = wallSize / (entitiesCountRegularWall + 1);
+    size_t coordinate = spacing;
+
+    for (size_t i = 0; i < entitiesCountRegularWall; ++i)
     {
-        entity.m_facingAngle = static_cast<float>(currentDirection);
+        entities[i].m_facingAngle = 0.0f;
+        entities[i].m_pos = { static_cast<float>(wallSize), static_cast<float>(coordinate) };
 
-        switch (currentDirection)
-        {
-        case DirectionsDeg::LEFT:
-            // { wallSize, coordinate }
-            entity.m_pos = {static_cast<float>(wallSize), static_cast<float>(Random::get(0, (int)wallSize))};
-            break;
-        case DirectionsDeg::UP:
-            // { coordinate, wallSize }
-            entity.m_pos = {static_cast<float>(Random::get(0, (int)wallSize)), static_cast<float>(wallSize)};
-            break;
-        case DirectionsDeg::RIGHT:
-            // { 0, coordinate }
-            entity.m_pos = {0.0f, static_cast<float>(Random::get(0, (int)wallSize))};
-            break;
-        case DirectionsDeg::DOWN:
-            // { coordinate, 0 }
-            entity.m_pos = {static_cast<float>(Random::get(0, (int)wallSize)), 0.0f};
-            break;
-        }
-
-        if (currentDirection == DirectionsDeg::DOWN)
-        {
-            currentDirection = DirectionsDeg::LEFT;
-            coordinate += spacing;
-        }
-        else
-        {
-            currentDirection = static_cast<DirectionsDeg>(static_cast<size_t>(currentDirection) + 90);
-        }
+        coordinate += spacing;
     }
+
+    coordinate = spacing;
+    for (size_t i = entitiesCountRegularWall; i < entitiesCountRegularWall * 2; ++i)
+    {
+        entities[i].m_facingAngle = 90.0f;
+        entities[i].m_pos = { static_cast<float>(coordinate),static_cast<float>(wallSize) };
+
+        coordinate += spacing;
+    }
+
+    coordinate = spacing;
+    for (size_t i = entitiesCountRegularWall * 2; i < entitiesCountRegularWall * 3; ++i)
+    {
+        entities[i].m_facingAngle = 180.0f;
+        entities[i].m_pos = { 0.0f, static_cast<float>(coordinate) };
+
+        coordinate += spacing;
+    }
+
+    spacing = wallSize / (entitiesCountLastWall + 1);
+    coordinate = spacing;
+    for (size_t i = entitiesCountRegularWall * 3; i < entities.size(); ++i)
+    {
+        entities[i].m_facingAngle = 270.0f;
+        entities[i].m_pos = { static_cast<float>(coordinate), 0.0f };
+
+        coordinate += spacing;
+    }
+
+    // !!!BROKEN Uniform method -------------------------------------
+	//   const size_t padding = 1;
+	//   // wallSize -= padding;
+	//   const size_t entitiesCountRegularWall = round(static_cast<float>(entities.size()) / 4.0f);
+	//   const size_t entitiesCountLastWall = entities.size() - entitiesCountRegularWall * 3;
+
+	 //   size_t facingAngle = 0;
+	 //   size_t coordinate = padding;
+	 //   size_t spacing = (wallSize - padding) / entitiesCountRegularWall;
+
+	 //   for (size_t i = 0; i < entitiesCountRegularWall * 3; ++i)
+	 //   {
+	 //       entities[i].m_facingAngle = static_cast<float>(facingAngle);
+
+		//    if (i > facingAngle / 90 * entitiesCountRegularWall)
+		//    {
+	 //           facingAngle += 90;
+	 //           coordinate = 0;
+		//    }
+
+	 //       switch (static_cast<DirectionsDeg>(facingAngle))
+	 //       {
+	 //       case DirectionsDeg::LEFT:
+	 //           // { wallSize, coordinate }
+	 //           entities[i].m_pos = { static_cast<float>(wallSize), static_cast<float>(coordinate) };
+	 //           break;
+	 //       case DirectionsDeg::UP:
+	 //           // { coordinate, wallSize }
+	 //           entities[i].m_pos = { static_cast<float>(coordinate), static_cast<float>(wallSize) };
+	 //           break;
+	 //       case DirectionsDeg::RIGHT:
+	 //           // { 0, coordinate }
+	 //           entities[i].m_pos = { 0.0f, static_cast<float>(coordinate) };
+	 //           break;
+	 //       default:
+	 //           break;
+	 //       }
+
+	 //       coordinate += spacing;
+	 //   }
+
+	 //   coordinate = padding;
+	 //   spacing = (wallSize - padding) / entitiesCountLastWall;
+
+	 //   for (size_t i = entitiesCountRegularWall * 3; i < entities.size(); ++i)
+	 //   {
+	 //       entities[i].m_facingAngle = 270.0f;
+	 //       entities[i].m_pos = { static_cast<float>(coordinate), 0.0f };
+
+	 //       coordinate += spacing;
+	 //   }
+
+    // Random method -------------------------------------
+
+    //size_t spacing = wallSize / (entities.size() / 4);
+    //size_t coordinate = 0;
+    //auto currentDirection = DirectionsDeg::LEFT;
+
+    //for (auto& entity : entities)
+    //{
+    //    entity.m_facingAngle = static_cast<float>(currentDirection);
+
+    //    switch (currentDirection)
+    //    {
+    //    case DirectionsDeg::LEFT:
+    //        // { wallSize, coordinate }
+    //        entity.m_pos = {static_cast<float>(wallSize), static_cast<float>(Random::get(0, (int)wallSize))};
+    //        break;
+    //    case DirectionsDeg::UP:
+    //        // { coordinate, wallSize }
+    //        entity.m_pos = {static_cast<float>(Random::get(0, (int)wallSize)), static_cast<float>(wallSize)};
+    //        break;
+    //    case DirectionsDeg::RIGHT:
+    //        // { 0, coordinate }
+    //        entity.m_pos = {0.0f, static_cast<float>(Random::get(0, (int)wallSize))};
+    //        break;
+    //    case DirectionsDeg::DOWN:
+    //        // { coordinate, 0 }
+    //        entity.m_pos = {static_cast<float>(Random::get(0, (int)wallSize)), 0.0f};
+    //        break;
+    //    }
+
+    //    if (currentDirection == DirectionsDeg::DOWN)
+    //    {
+    //        currentDirection = DirectionsDeg::LEFT;
+    //        coordinate += spacing;
+    //    }
+    //    else
+    //    {
+    //        currentDirection = static_cast<DirectionsDeg>(static_cast<size_t>(currentDirection) + 90);
+    //    }
+    //}
 }
 
 void ss::bll::simulation::Cycle::randomizeFoodPositions(std::span<Food> foods, size_t worldSize)
