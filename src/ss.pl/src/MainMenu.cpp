@@ -53,9 +53,11 @@ void ss::pl::mainMenu::MainMenu::Update() // called every frame
         displayGraphCards();
     }
 
-    if (animationIsPlaying) playThemeAnimation();
-        
-
+    if (animationIsPlaying)
+    {
+        auto themeSwitchAnim = std::async(&MainMenu::playThemeAnimation, this);
+        themeSwitchAnim.get();
+    }
     EndDrawing();
 
     handleScroll();
