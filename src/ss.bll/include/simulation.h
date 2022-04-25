@@ -84,6 +84,7 @@ class Cycle
     bool m_isCycleDone = false;
 
   public:
+	Cycle();
     Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter, size_t t_worldSize);
 
     void CycleEnd();

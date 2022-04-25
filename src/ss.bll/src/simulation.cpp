@@ -76,6 +76,11 @@ float ss::bll::simulation::Entity::getFacingAngle() const
     return m_facingAngle;
 }
 
+ss::bll::simulation::Cycle::Cycle()
+    : m_entities(nullptr), m_entitiesEndIter(nullptr), m_worldSize(0)
+{
+}
+
 ss::bll::simulation::Cycle::Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter,
                                   size_t t_worldSize)
     : m_entities(t_entities), m_entitiesEndIter(t_entitiesEndIter), m_worldSize(t_worldSize),
@@ -185,7 +190,7 @@ void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity>
 /// Constructs the Simulation class with approriate ss::types::SimulationInfo.
 /// @param t_simInfo object of user defined type ss::types::SimulationInfo holding the data.
 ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_simInfo)
-    : m_simInfo(t_simInfo), m_currentCycle(Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize))
+    : m_simInfo(t_simInfo)
 {
     // m_entities = std::vector<Entity>(m_simInfo.startingEntityCount);
     // m_entitiesEndIt = m_entities.end();
@@ -199,6 +204,8 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
     m_entitiesEndIt = m_entities.end();
 
     Cycle::distributeEntities(getActiveEntities(m_entities, m_entitiesEndIt), m_simInfo.worldSize);
+
+    m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize);
 }
 
 void ss::bll::simulation::Simulation::update(float elapsedTime)
