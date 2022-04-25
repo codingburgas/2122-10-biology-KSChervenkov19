@@ -55,7 +55,7 @@ void ss::pl::mainMenu::MainMenu::Update() // called every frame
 
     if (animationIsPlaying)
     {
-        auto themeSwitchAnim = std::async(&MainMenu::playThemeAnimation, this);
+        auto themeSwitchAnim = std::async(std::launch::deferred, &MainMenu::playThemeAnimation, this);
         themeSwitchAnim.get();
     }
     EndDrawing();
