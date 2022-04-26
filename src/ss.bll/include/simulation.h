@@ -49,7 +49,7 @@ class Entity
 
     Food *m_targetFood = nullptr;
 
-    float m_energyMax = 500;
+    float m_energyMax = 200.0f;
     float m_currentEnergy = m_energyMax;
 
     types::Trait m_traits;
@@ -77,8 +77,9 @@ class Entity
 
     void reset();
 
-    void walk(const float elapsedTime);
-    void move(const float elapsedTime);
+    void hanldeEnergy(const float elapsedTime);
+    void walk(float elapsedTime);
+    void move(float elapsedTime);
 
   public:
     [[nodiscard]] const types::fVec2 &getPos() const;

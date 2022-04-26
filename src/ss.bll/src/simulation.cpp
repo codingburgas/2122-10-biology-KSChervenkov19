@@ -69,6 +69,8 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
     }
     }
 
+    hanldeEnergy(elapsedTime);
+
     // Debugging
     // walk(elapsedTime);
 }
@@ -169,6 +171,17 @@ void ss::bll::simulation::Entity::reset()
 
     m_isDoneWithCycle = false;
     m_foodStage = EntityFoodStage::ZERO_FOOD;
+}
+
+void ss::bll::simulation::Entity::hanldeEnergy(const float elapsedTime)
+{
+    m_currentEnergy -= (pow(m_traits.speed, 2) + pow(m_traits.sense, 3)) * elapsedTime;
+
+	if (m_currentEnergy < 0.0f)
+    {
+        m_isDoneWithCycle = true;
+        m_foodStage = EntityFoodStage::ZERO_FOOD;
+    }
 }
 
 // walk mf is for turn logic and moving (mf -> member function)
@@ -496,7 +509,7 @@ void ss::bll::simulation::Cycle::randomizeFoodPositions(std::span<Food> foods, s
     }
 }
 
-void ss::bll::simulation::Cycle::update(float elapsedTime)
+void ss::bll::simulation::Cycle::update(const float elapsedTime)
 {
     if (m_isCycleDone)
         return;
@@ -563,7 +576,7 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
     Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
 }
 
-void ss::bll::simulation::Simulation::update(float elapsedTime)
+void ss::bll::simulation::Simulation::update(const float elapsedTime)
 {
     if (isSimulationDone)
     {

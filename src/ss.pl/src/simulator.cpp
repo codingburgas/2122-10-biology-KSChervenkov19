@@ -140,7 +140,7 @@ void ss::pl::simulator::Simulator::drawSetup()
 
     worldSize = GuiSliderBar({1000, 132, 455, 53}, nullptr, nullptr, worldSize, 20, 200);
     entities = GuiSliderBar({1000, 282, 455, 53}, nullptr, nullptr, entities, 10, 100);
-    food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 10, 200);
+    food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 0, 200);
     cyclesCount = GuiSliderBar({1180, 730, 242, 51}, nullptr, TextFormat("%i", cyclesCount), cyclesCount, 1, 200);
 
     if (!CheckCollisionPointRec(mousePos, {950, 0, (float)graphsContainerPos, (float)graphsContainerPos}))
@@ -162,6 +162,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
         float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
         ss::types::fVec2 currentPos = entity.getPos();
 
+        // Debugging v
         if (entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD)
         {
             DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f, RED);
@@ -174,6 +175,8 @@ void ss::pl::simulator::Simulator::drawSimulation()
         {
             DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f, YELLOW);
         }
+        // Debugging ^
+
         DrawGrid(worldSize, 1.0f);
         DrawLine3D({currentPos.x - offset, .5f, currentPos.y - offset},
                    {1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f,
