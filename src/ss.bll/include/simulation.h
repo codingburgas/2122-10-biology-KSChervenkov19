@@ -40,6 +40,8 @@ class Entity
     int m_worldSize;
     std::vector<Food> *m_foods = nullptr;
 
+    size_t m_id;
+
     types::fVec2 m_pos = {0.0f, 0.0f};
     /* const */ float m_turnRate = 1.0f;
     /* const */ float m_maxTurnAngle = 100.0f;
@@ -62,7 +64,7 @@ class Entity
     EntityFoodStage m_foodStage = EntityFoodStage::ZERO_FOOD;
 
   public:
-    Entity(const int t_worldSize, const types::Trait &t_traits, std::vector<Food> *t_foods);
+    Entity(size_t t_id, const int t_worldSize, const types::Trait &t_traits, std::vector<Food> *t_foods);
     // Entity& operator=(const Entity&) = default;
 
   private:
@@ -94,6 +96,7 @@ class Cycle
     std::vector<Entity> *m_entities;
     std::vector<Entity>::iterator *m_entitiesEndIter;
     std::span<Entity> activeEntities;
+    size_t* m_lastEntityId;
 
     std::vector<Food> *m_foods;
 
@@ -105,12 +108,12 @@ class Cycle
   public:
     Cycle();
     Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter, size_t t_worldSize,
-          std::vector<Food> *t_foods, size_t t_cycleId);
+          std::vector<Food> *t_foods, size_t t_cycleId, size_t* t_lastEntityId);
 
     void CycleEnd();
     // ~Cycle();
 
-    static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator &entitiesEndIt,
+    static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator &entitiesEndIt, size_t* lastEntityId,
                                   std::vector<Food> *foods);
     static void distributeEntities(std::span<Entity> entities, size_t wallSize);
     static void randomizeFoodPositions(std::span<Food> foods, size_t worldSize);
@@ -129,6 +132,7 @@ class Simulation
     std::vector<Entity> m_entities;
     std::vector<Entity>::iterator m_entitiesEndIt;
     std::vector<Food> m_foods;
+    size_t m_lastEntityId = 1;
 
     size_t m_currentCycle_n = 1;
     Cycle m_currentCycle;
@@ -142,6 +146,7 @@ class Simulation
                                                              std::vector<Entity>::iterator &iter);
     const std::vector<Food> &getFoods() const;
     static void repositionEntitiesIter(std::vector<Entity> &entities, std::vector<Entity>::iterator &iter);
+    const Entity* getEntityById(size_t id);
 
   public:
     Simulation(const ss::types::SimulationInfo t_simInfo);
