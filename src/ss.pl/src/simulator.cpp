@@ -152,57 +152,71 @@ void ss::pl::simulator::Simulator::drawSetup()
 /// This method draws the actual simulation.
 void ss::pl::simulator::Simulator::drawSimulation()
 {
-    UpdateCamera(&camera);
 
-    BeginMode3D(camera);
-    DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
-
-    for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
+    if (!simulation->isSimulationDone)
     {
-        float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
-        ss::types::fVec2 currentPos = entity.getPos();
+        UpdateCamera(&camera);
 
-        // Debugging v
-        if (entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD)
-        {
-            DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f, RED);
-        }
-        else if (entity.m_foodStage == bll::simulation::EntityFoodStage::ONE_FOOD)
-        {
-            DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f, GREEN);
-        }
-        else
-        {
-            DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f, YELLOW);
-        }
-        // Debugging ^
+        BeginMode3D(camera);
+            DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
+            DrawGrid(worldSize, 1.0f);
 
-        DrawGrid(worldSize, 1.0f);
-        DrawLine3D({currentPos.x - offset, .5f, currentPos.y - offset},
-                   {1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f,
-                    1.0f * sin(entityLookingDirRadian) + currentPos.y - offset},
-                   RED);
-        DrawCircle3D({currentPos.x - offset, .1f, currentPos.y - offset}, entity.m_traits.sense, {1.0f, 0.0f, 0.0f},
-                     90.0f, {255, 0, 0, 100});
+            for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
+            {
+                drawEntity(entity);
+            }
+
+            for (const auto &food : simulation->getFoods())
+            {
+                drawFood(food);
+            }
+
+            timeScale = GuiSliderBar({522, 25, 455, 48}, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
+
+            simulation->update(GetFrameTime() * timeScale);
+        EndMode3D();
+    }
+    else
+    {
+        DrawText("SIMULATION DONE", 500, 500, 100, BLACK);
+        //change scene
     }
 
-    for (const auto &food : simulation->getFoods())
-    {
-        // DrawPoint3D({ food.pos.x - offset, 0.1f, food.pos.y - offset }, RED);
-        if (!food.isEaten)
-        {
-            DrawSphere({food.pos.x - offset, 0.1f, food.pos.y - offset}, 0.3f, GREEN);
-        }
-    }
 
-    EndMode3D();
-    timeScale = GuiSliderBar({522, 25, 455, 48}, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
 
-    simulation->update(GetFrameTime() * timeScale);
+
 
     // The funny. Do not touch
     // bll::simulation::Cycle::distributeEntities(simulation->m_entities, simulation->m_simInfo.worldSize);
     // bll::simulation::Cycle::randomizeFoodPositions(simulation->m_foods, simulation->m_simInfo.worldSize);
+}
+
+void ss::pl::simulator::Simulator::drawEntity(const auto& entity)
+{
+    float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
+    ss::types::fVec2 currentPos = entity.getPos();
+
+    //draw entity body
+    DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset }, .5f, entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD ? RED : entity.m_foodStage == bll::simulation::EntityFoodStage::ONE_FOOD ? GREEN : DARKGREEN);
+
+    //draw entity fov
+    DrawLine3D({ currentPos.x - offset, .5f, currentPos.y - offset },
+        { 1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f,
+         1.0f * sin(entityLookingDirRadian) + currentPos.y - offset },
+        RED);
+
+    //draw entity aura(only if user has demanded)
+    DrawCircle3D({ currentPos.x - offset, .1f, currentPos.y - offset }, entity.m_traits.sense, { 1.0f, 0.0f, 0.0f },
+        90.0f, { 255, 0, 0, 100 });
+
+}
+
+void ss::pl::simulator::Simulator::drawFood(const auto& food)
+{
+    if (!food.isEaten)
+    {
+        DrawSphere({ food.pos.x - offset, 0.1f, food.pos.y - offset }, 0.3f, GREEN);
+    }
 }
 
 // clang-format off

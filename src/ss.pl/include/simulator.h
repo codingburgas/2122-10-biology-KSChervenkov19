@@ -52,6 +52,9 @@ class Simulator : public Scene
     void drawSetup();
     void drawSimulation();
 
+    void drawEntity(const auto& entity);
+    void drawFood(const auto& food);
+
     // Method which checks the mouse/keyboard input
     void checkInput();
 
