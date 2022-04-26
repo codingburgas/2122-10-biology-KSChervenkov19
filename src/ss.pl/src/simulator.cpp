@@ -108,6 +108,25 @@ void ss::pl::simulator::Simulator::checkInput()
     }
 }
 
+void ss::pl::simulator::Simulator::handleEntityClick()
+{
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        Ray ray = GetMouseRay(GetMousePosition(), camera);
+
+        RayCollision rayCollision;
+        
+        for (const auto& entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
+        {
+            rayCollision = GetRayCollisionSphere(ray, { entity.getPos().x - offset, 0.5f, entity.getPos().y - offset }, .5f);
+            if (rayCollision.hit)
+            {
+                selectedEntityId = entity.m_id;
+            }
+        }
+    }
+}
+
 /// This method resets the camera to its initial position.
 void ss::pl::simulator::Simulator::resetCamera()
 {
@@ -171,11 +190,16 @@ void ss::pl::simulator::Simulator::drawSimulation()
                 drawFood(food);
             }
 
+            if(selectedEntityId) DrawSphere({ (*simulation->getEntityById(selectedEntityId)).getPos().x - offset, 1.5f, (*simulation->getEntityById(selectedEntityId)).getPos().y - offset }, .5f, PURPLE);
+
+
         EndMode3D();
 
         timeScale = GuiSliderBar({522, 25, 455, 48}, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
 
         simulation->update(GetFrameTime() * timeScale);
+
+        handleEntityClick();
     }
     else
     {

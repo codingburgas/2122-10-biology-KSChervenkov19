@@ -41,6 +41,8 @@ class Simulator : public Scene
     float offset;
     float entityLookingDirRadian;
 
+    size_t selectedEntityId;
+
     // Variable, stores the current scene state
     enum class SimulatorState
     {
@@ -57,6 +59,7 @@ class Simulator : public Scene
 
     // Method which checks the mouse/keyboard input
     void checkInput();
+    void handleEntityClick();
 
     // Method that resets the camera position, rotation, look
     void resetCamera();
