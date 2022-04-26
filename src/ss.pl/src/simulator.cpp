@@ -190,6 +190,8 @@ void ss::pl::simulator::Simulator::drawSimulation()
                 drawFood(food);
             }
 
+        // PLEASE FIX THIS
+        // IT THROWS 
             if(selectedEntityId) DrawSphere({ (*simulation->getEntityById(selectedEntityId)).getPos().x - offset, 1.5f, (*simulation->getEntityById(selectedEntityId)).getPos().y - offset }, .5f, PURPLE);
 
 
