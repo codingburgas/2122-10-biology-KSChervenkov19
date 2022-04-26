@@ -29,7 +29,7 @@ struct SimulationInfo
     size_t cyclesCount;
     size_t foodCount;
     size_t startingEntityCount;
-	Trait initialTraits = {1.0f, 1.0f};
+    Trait initialTraits = {1.0f, 1.0f};
 };
 
 /// A struct holding the data for a cycle.

@@ -19,7 +19,7 @@ void ss::pl::simulator::Simulator::Start() // called once, at the start of the s
     worldSize = 10;
     entities = 10;
     food = 20;
-    
+
     timeScale = 1.0f;
 
     camera = Camera3D{{10.0f, 10.0f, 10.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, 45.0f, CAMERA_PERSPECTIVE};
@@ -77,7 +77,7 @@ void ss::pl::simulator::Simulator::checkInput()
         m_sceneManager.setCurrentScene("MainMenu");
     }
 
-    if (CheckCollisionPointRec(mousePos, { 522, 25, 455, 48 }))
+    if (CheckCollisionPointRec(mousePos, {522, 25, 455, 48}))
     {
         camera.canRotate = false;
     }
@@ -91,7 +91,11 @@ void ss::pl::simulator::Simulator::checkInput()
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         Simulator::currentState = SimulatorState::Simulation;
-        const types::SimulationInfo simInfo = { static_cast<size_t>(worldSize), static_cast<size_t>(cyclesCount), static_cast<size_t>(food), static_cast<size_t>(entities), { 2.0f, 1.0f} };
+        const types::SimulationInfo simInfo = {static_cast<size_t>(worldSize),
+                                               static_cast<size_t>(cyclesCount),
+                                               static_cast<size_t>(food),
+                                               static_cast<size_t>(entities),
+                                               {2.0f, 1.0f}};
         simulation = new ss::bll::simulation::Simulation(simInfo);
         offset = static_cast<float>(worldSize) / 2.0f;
         camera.canRotate = true;
@@ -153,48 +157,49 @@ void ss::pl::simulator::Simulator::drawSimulation()
     BeginMode3D(camera);
     DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
 
-    for (const auto& entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
+    for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
     {
         float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
         ss::types::fVec2 currentPos = entity.getPos();
 
         if (entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD)
         {
-			DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset}, .5f, RED);
+            DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f, RED);
         }
         else if (entity.m_foodStage == bll::simulation::EntityFoodStage::ONE_FOOD)
         {
-			DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset}, .5f, GREEN);
+            DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f, GREEN);
         }
         else
         {
-			DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset}, .5f, YELLOW);
+            DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f, YELLOW);
         }
         DrawGrid(worldSize, 1.0f);
-        DrawLine3D({ currentPos.x - offset, .5f, currentPos.y - offset}, {1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f, 1.0f * sin(entityLookingDirRadian) + currentPos.y - offset}, RED);
-        DrawCircle3D({ currentPos.x - offset, .1f, currentPos.y - offset }, entity.m_traits.sense, { 1.0f, 0.0f, 0.0f }, 90.0f, {255, 0, 0, 100});
+        DrawLine3D({currentPos.x - offset, .5f, currentPos.y - offset},
+                   {1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f,
+                    1.0f * sin(entityLookingDirRadian) + currentPos.y - offset},
+                   RED);
+        DrawCircle3D({currentPos.x - offset, .1f, currentPos.y - offset}, entity.m_traits.sense, {1.0f, 0.0f, 0.0f},
+                     90.0f, {255, 0, 0, 100});
     }
 
-    for (const auto& food : simulation->getFoods())
+    for (const auto &food : simulation->getFoods())
     {
         // DrawPoint3D({ food.pos.x - offset, 0.1f, food.pos.y - offset }, RED);
         if (!food.isEaten)
         {
-			DrawSphere({ food.pos.x - offset, 0.1f, food.pos.y - offset }, 0.3f, GREEN);
+            DrawSphere({food.pos.x - offset, 0.1f, food.pos.y - offset}, 0.3f, GREEN);
         }
     }
 
-
     EndMode3D();
-    timeScale = GuiSliderBar({ 522, 25, 455, 48 }, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
+    timeScale = GuiSliderBar({522, 25, 455, 48}, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
 
     simulation->update(GetFrameTime() * timeScale);
-
 
     // The funny. Do not touch
     // bll::simulation::Cycle::distributeEntities(simulation->m_entities, simulation->m_simInfo.worldSize);
     // bll::simulation::Cycle::randomizeFoodPositions(simulation->m_foods, simulation->m_simInfo.worldSize);
-
 }
 
 // clang-format off

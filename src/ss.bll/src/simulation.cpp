@@ -10,8 +10,9 @@
 
 using Random = effolkronium::random_static;
 
-ss::bll::simulation::Entity::Entity(const int t_worldSize, const types::Trait& t_traits = {1.0f, 1.0f}, std::vector<Food>* t_foods = nullptr)
-	: m_worldSize(t_worldSize), m_foods(t_foods), m_traits(t_traits)
+ss::bll::simulation::Entity::Entity(const int t_worldSize, const types::Trait &t_traits = {1.0f, 1.0f},
+                                    std::vector<Food> *t_foods = nullptr)
+    : m_worldSize(t_worldSize), m_foods(t_foods), m_traits(t_traits)
 {
 }
 
@@ -25,11 +26,9 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
 
     switch (m_foodStage)
     {
-    case EntityFoodStage::ZERO_FOOD:
-    {
-        
-        if (const auto angleToClosestFoodInRange = getAngleToClosestFoodInRange();
-            angleToClosestFoodInRange)
+    case EntityFoodStage::ZERO_FOOD: {
+
+        if (const auto angleToClosestFoodInRange = getAngleToClosestFoodInRange(); angleToClosestFoodInRange)
         {
             m_facingAngle = *angleToClosestFoodInRange;
             move(elapsedTime);
@@ -44,10 +43,8 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
         }
         break;
     }
-    case EntityFoodStage::ONE_FOOD:
-    {
-        if (const auto angleToClosestFoodInRange = getAngleToClosestFoodInRange();
-            angleToClosestFoodInRange)
+    case EntityFoodStage::ONE_FOOD: {
+        if (const auto angleToClosestFoodInRange = getAngleToClosestFoodInRange(); angleToClosestFoodInRange)
         {
             m_facingAngle = *angleToClosestFoodInRange;
             move(elapsedTime);
@@ -63,14 +60,13 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
             move(elapsedTime);
         }
         break;
-	}
-    case EntityFoodStage::TWO_FOOD:
-	{
+    }
+    case EntityFoodStage::TWO_FOOD: {
         const float angle = getAngleToClosestWall();
         m_facingAngle = angle;
         move(elapsedTime);
         break;
-	}
+    }
     }
 
     // Debugging
@@ -81,20 +77,20 @@ std::optional<float> ss::bll::simulation::Entity::getAngleToClosestFoodInRange()
 {
     struct FoodDistance
     {
-        Food& food;
+        Food &food;
         float distance;
     };
 
     std::vector<FoodDistance> foodDistance;
 
-    for (auto& food : *m_foods)
+    for (auto &food : *m_foods)
     {
         if (!food.isEaten)
         {
-			if (const float distance = utils::getDistance(m_pos, food.pos); distance <= m_traits.sense)
-		    {
-	            foodDistance.push_back({ food, distance });
-		    }
+            if (const float distance = utils::getDistance(m_pos, food.pos); distance <= m_traits.sense)
+            {
+                foodDistance.push_back({food, distance});
+            }
         }
     }
 
@@ -103,11 +99,8 @@ std::optional<float> ss::bll::simulation::Entity::getAngleToClosestFoodInRange()
         return {};
     }
 
-    const auto closestFood = *std::ranges::min_element(foodDistance,
-        [](const FoodDistance& lhs, const FoodDistance& rhs)
-        {
-            return lhs.distance < rhs.distance;
-        });
+    const auto closestFood = *std::ranges::min_element(
+        foodDistance, [](const FoodDistance &lhs, const FoodDistance &rhs) { return lhs.distance < rhs.distance; });
 
     m_targetFood = &closestFood.food;
 
@@ -119,12 +112,12 @@ float ss::bll::simulation::Entity::getAngleToClosestWall()
     using namespace utils;
 
     types::fVec2 pos;
-    float top = getDistance(m_pos, { m_pos.x, 0.0f });
-    float right = getDistance(m_pos, { static_cast<float>(m_worldSize), m_pos.y });
-    float bottom = getDistance(m_pos, { m_pos.x, static_cast<float>(m_worldSize) });
-    float left = getDistance(m_pos, { 0.0f, m_pos.y });
+    float top = getDistance(m_pos, {m_pos.x, 0.0f});
+    float right = getDistance(m_pos, {static_cast<float>(m_worldSize), m_pos.y});
+    float bottom = getDistance(m_pos, {m_pos.x, static_cast<float>(m_worldSize)});
+    float left = getDistance(m_pos, {0.0f, m_pos.y});
 
-    const std::vector distances{ top, right, bottom, left };
+    const std::vector distances{top, right, bottom, left};
 
     switch (std::distance(distances.begin(), std::min_element(distances.begin(), distances.end())))
     {
@@ -148,22 +141,20 @@ void ss::bll::simulation::Entity::generateNewTurningAngle()
 
 bool ss::bll::simulation::Entity::isOutOfBounds() const
 {
-    return (m_pos.x < 0.0f || m_pos.x > m_worldSize) ||
-        (m_pos.y < 0.0f || m_pos.y > m_worldSize);
+    return (m_pos.x < 0.0f || m_pos.x > m_worldSize) || (m_pos.y < 0.0f || m_pos.y > m_worldSize);
 }
 
 bool ss::bll::simulation::Entity::handleFoodCollision()
 {
     if (m_targetFood)
     {
-		if (float distance = utils::getDistance(m_pos, m_targetFood->pos); 
-            distance < 0.1f)
-		{
+        if (float distance = utils::getDistance(m_pos, m_targetFood->pos); distance < 0.1f)
+        {
             m_targetFood->isEaten = true;
             m_targetFood = nullptr;
             // m_foodStage = EntityFoodStage::ONE_FOOD;
             return true;
-		}
+        }
     }
 
     return false;
@@ -201,7 +192,7 @@ void ss::bll::simulation::Entity::walk(const float elapsedTime)
     // if turningAngle really smol prolly best to set it to 0
     // think about that last one a lil more
 
-    if (abs(m_turningAngle) < 0.1f )
+    if (abs(m_turningAngle) < 0.1f)
     {
         m_turningAngle = 0.0f;
     }
@@ -220,7 +211,7 @@ void ss::bll::simulation::Entity::walk(const float elapsedTime)
     /// if true: isAlive = false
     // #ENDTHIS
 
-	move(elapsedTime);
+    move(elapsedTime);
 
     // last step
     // timeSinceLastTurn += elapsedTime
@@ -235,7 +226,7 @@ void ss::bll::simulation::Entity::move(const float elapsedTime)
     float XX = m_pos.x + m_traits.speed * elapsedTime * cos(facingRadian);
     float YY = m_pos.y + m_traits.speed * elapsedTime * sin(facingRadian);
 
-    m_pos = { XX, YY };
+    m_pos = {XX, YY};
 
     if (isOutOfBounds())
         m_isDoneWithCycle = true;
@@ -251,13 +242,12 @@ float ss::bll::simulation::Entity::getFacingAngle() const
     return m_facingAngle;
 }
 
-ss::bll::simulation::Cycle::Cycle()
-    : m_entities(nullptr), m_entitiesEndIter(nullptr), m_worldSize(0)
+ss::bll::simulation::Cycle::Cycle() : m_entities(nullptr), m_entitiesEndIter(nullptr), m_worldSize(0)
 {
 }
 
 ss::bll::simulation::Cycle::Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter,
-                                  size_t t_worldSize, std::vector<Food>* t_foods)
+                                  size_t t_worldSize, std::vector<Food> *t_foods)
     : m_entities(t_entities), m_entitiesEndIter(t_entitiesEndIter), m_worldSize(t_worldSize),
       activeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter)), m_foods(t_foods)
 {
@@ -265,7 +255,7 @@ ss::bll::simulation::Cycle::Cycle(std::vector<Entity> *t_entities, std::vector<E
 
 void ss::bll::simulation::Cycle::CycleEnd()
 {
-    for (auto& entity : *m_entities)
+    for (auto &entity : *m_entities)
     {
         switch (entity.m_foodStage)
         {
@@ -275,14 +265,14 @@ void ss::bll::simulation::Cycle::CycleEnd()
         case EntityFoodStage::TWO_FOOD:
             entity.m_shouldReproduce = true;
             break;
-        default: ;
+        default:;
         }
     }
 
     reproduceEntities(*m_entities, *m_entitiesEndIter, m_foods);
     distributeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter), m_worldSize);
 
-    for (auto& entity : *m_entities)
+    for (auto &entity : *m_entities)
     {
         entity.reset();
     }
@@ -295,7 +285,8 @@ void ss::bll::simulation::Cycle::CycleEnd()
 //}
 
 void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities,
-                                                   std::vector<Entity>::iterator &entitiesEndIt, std::vector<Food>* foods)
+                                                   std::vector<Entity>::iterator &entitiesEndIt,
+                                                   std::vector<Food> *foods)
 {
     for (size_t i = 0; i < entities.size(); ++i)
     // for (auto& entity : entities)
@@ -305,28 +296,22 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities
             if (entities[i].m_shouldReproduce)
             {
 
-
                 float sense = entities[i].m_traits.sense + Random::get(-Entity::traitPadding, Entity::traitPadding);
                 float speed = entities[i].m_traits.speed + Random::get(-Entity::traitPadding, Entity::traitPadding);
 
-                entities.push_back({ entities[i].m_worldSize, {sense, speed}, foods });
+                entities.push_back({entities[i].m_worldSize, {sense, speed}, foods});
 
-        		// broken v
-        		// entities.insert(entitiesEndIt, newEntity);
-
-
+                // broken v
+                // entities.insert(entitiesEndIt, newEntity);
 
                 entities[i].m_shouldReproduce = false;
-	        }
+            }
         }
     }
 
     // std::remove_if(entities.begin(), entities.end(), [](const Entity& et) { return !et.m_isAlive; });
 
-    std::ranges::sort(entities, [](const Entity& lhs, const Entity& rhs)
-    {
-            return lhs.m_isAlive > rhs.m_isAlive;
-    });
+    std::ranges::sort(entities, [](const Entity &lhs, const Entity &rhs) { return lhs.m_isAlive > rhs.m_isAlive; });
 
     Simulation::repositionEntitiesIter(entities, entitiesEndIt);
 }
@@ -340,42 +325,42 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
     size_t facingAngle = 0;
     size_t spacing = wallSize / (entitiesCountRegularWall + 1);
     size_t coordinate = spacing;
-  //  size_t count = 1;
-  //  for (size_t i = 0; i < entitiesCountRegularWall * 3; ++i)
-  //  {
-  //      if (i > count * entitiesCountLastWall)
-  //      // if (i > (facingAngle ? facingAngle : 1) / 90 * entitiesCountRegularWall)
-  //      {
-  //          facingAngle += 90;
-  //          coordinate = spacing;
-  //          ++count;
-  //      }
+    //  size_t count = 1;
+    //  for (size_t i = 0; i < entitiesCountRegularWall * 3; ++i)
+    //  {
+    //      if (i > count * entitiesCountLastWall)
+    //      // if (i > (facingAngle ? facingAngle : 1) / 90 * entitiesCountRegularWall)
+    //      {
+    //          facingAngle += 90;
+    //          coordinate = spacing;
+    //          ++count;
+    //      }
 
-  //      entities[i].m_facingAngle = facingAngle;
+    //      entities[i].m_facingAngle = facingAngle;
 
-		//switch (static_cast<DirectionsDeg>(facingAngle))
-  //      {
-  //      case DirectionsDeg::LEFT:
-  //          // { wallSize, coordinate }
-  //          entities[i].m_pos = { static_cast<float>(wallSize), static_cast<float>(coordinate) };
-  //          break;
-  //      case DirectionsDeg::UP:
-  //          // { coordinate, wallSize }
-  //          entities[i].m_pos = { static_cast<float>(coordinate),static_cast<float>(wallSize) };
-  //          break;
-  //      case DirectionsDeg::RIGHT:
-  //          // { 0, coordinate }
-  //          entities[i].m_pos = { 0.0f, static_cast<float>(coordinate) };
-  //          break;
-  //      default:
-  //          break;
-  //      }
-  //  }
+    // switch (static_cast<DirectionsDeg>(facingAngle))
+    //      {
+    //      case DirectionsDeg::LEFT:
+    //          // { wallSize, coordinate }
+    //          entities[i].m_pos = { static_cast<float>(wallSize), static_cast<float>(coordinate) };
+    //          break;
+    //      case DirectionsDeg::UP:
+    //          // { coordinate, wallSize }
+    //          entities[i].m_pos = { static_cast<float>(coordinate),static_cast<float>(wallSize) };
+    //          break;
+    //      case DirectionsDeg::RIGHT:
+    //          // { 0, coordinate }
+    //          entities[i].m_pos = { 0.0f, static_cast<float>(coordinate) };
+    //          break;
+    //      default:
+    //          break;
+    //      }
+    //  }
 
     for (size_t i = 0; i < entitiesCountRegularWall; ++i)
     {
         entities[i].m_facingAngle = 0.0f;
-        entities[i].m_pos = { static_cast<float>(wallSize), static_cast<float>(coordinate) };
+        entities[i].m_pos = {static_cast<float>(wallSize), static_cast<float>(coordinate)};
 
         coordinate += spacing;
     }
@@ -384,7 +369,7 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
     for (size_t i = entitiesCountRegularWall; i < entitiesCountRegularWall * 2; ++i)
     {
         entities[i].m_facingAngle = 90.0f;
-        entities[i].m_pos = { static_cast<float>(coordinate),static_cast<float>(wallSize) };
+        entities[i].m_pos = {static_cast<float>(coordinate), static_cast<float>(wallSize)};
 
         coordinate += spacing;
     }
@@ -393,7 +378,7 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
     for (size_t i = entitiesCountRegularWall * 2; i < entitiesCountRegularWall * 3; ++i)
     {
         entities[i].m_facingAngle = 180.0f;
-        entities[i].m_pos = { 0.0f, static_cast<float>(coordinate) };
+        entities[i].m_pos = {0.0f, static_cast<float>(coordinate)};
 
         coordinate += spacing;
     }
@@ -403,70 +388,70 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
     for (size_t i = entitiesCountRegularWall * 3; i < entities.size(); ++i)
     {
         entities[i].m_facingAngle = 270.0f;
-        entities[i].m_pos = { static_cast<float>(coordinate), 0.0f };
+        entities[i].m_pos = {static_cast<float>(coordinate), 0.0f};
 
         coordinate += spacing;
     }
 
     // !!!BROKEN Uniform method -------------------------------------
-	//   const size_t padding = 1;
-	//   // wallSize -= padding;
-	//   const size_t entitiesCountRegularWall = round(static_cast<float>(entities.size()) / 4.0f);
-	//   const size_t entitiesCountLastWall = entities.size() - entitiesCountRegularWall * 3;
+    //   const size_t padding = 1;
+    //   // wallSize -= padding;
+    //   const size_t entitiesCountRegularWall = round(static_cast<float>(entities.size()) / 4.0f);
+    //   const size_t entitiesCountLastWall = entities.size() - entitiesCountRegularWall * 3;
 
-	 //   size_t facingAngle = 0;
-	 //   size_t coordinate = padding;
-	 //   size_t spacing = (wallSize - padding) / entitiesCountRegularWall;
+    //   size_t facingAngle = 0;
+    //   size_t coordinate = padding;
+    //   size_t spacing = (wallSize - padding) / entitiesCountRegularWall;
 
-	 //   for (size_t i = 0; i < entitiesCountRegularWall * 3; ++i)
-	 //   {
-	 //       entities[i].m_facingAngle = static_cast<float>(facingAngle);
+    //   for (size_t i = 0; i < entitiesCountRegularWall * 3; ++i)
+    //   {
+    //       entities[i].m_facingAngle = static_cast<float>(facingAngle);
 
-		//    if (i > facingAngle / 90 * entitiesCountRegularWall)
-		//    {
-	 //           facingAngle += 90;
-	 //           coordinate = 0;
-		//    }
+    //    if (i > facingAngle / 90 * entitiesCountRegularWall)
+    //    {
+    //           facingAngle += 90;
+    //           coordinate = 0;
+    //    }
 
-	 //       switch (static_cast<DirectionsDeg>(facingAngle))
-	 //       {
-	 //       case DirectionsDeg::LEFT:
-	 //           // { wallSize, coordinate }
-	 //           entities[i].m_pos = { static_cast<float>(wallSize), static_cast<float>(coordinate) };
-	 //           break;
-	 //       case DirectionsDeg::UP:
-	 //           // { coordinate, wallSize }
-	 //           entities[i].m_pos = { static_cast<float>(coordinate), static_cast<float>(wallSize) };
-	 //           break;
-	 //       case DirectionsDeg::RIGHT:
-	 //           // { 0, coordinate }
-	 //           entities[i].m_pos = { 0.0f, static_cast<float>(coordinate) };
-	 //           break;
-	 //       default:
-	 //           break;
-	 //       }
+    //       switch (static_cast<DirectionsDeg>(facingAngle))
+    //       {
+    //       case DirectionsDeg::LEFT:
+    //           // { wallSize, coordinate }
+    //           entities[i].m_pos = { static_cast<float>(wallSize), static_cast<float>(coordinate) };
+    //           break;
+    //       case DirectionsDeg::UP:
+    //           // { coordinate, wallSize }
+    //           entities[i].m_pos = { static_cast<float>(coordinate), static_cast<float>(wallSize) };
+    //           break;
+    //       case DirectionsDeg::RIGHT:
+    //           // { 0, coordinate }
+    //           entities[i].m_pos = { 0.0f, static_cast<float>(coordinate) };
+    //           break;
+    //       default:
+    //           break;
+    //       }
 
-	 //       coordinate += spacing;
-	 //   }
+    //       coordinate += spacing;
+    //   }
 
-	 //   coordinate = padding;
-	 //   spacing = (wallSize - padding) / entitiesCountLastWall;
+    //   coordinate = padding;
+    //   spacing = (wallSize - padding) / entitiesCountLastWall;
 
-	 //   for (size_t i = entitiesCountRegularWall * 3; i < entities.size(); ++i)
-	 //   {
-	 //       entities[i].m_facingAngle = 270.0f;
-	 //       entities[i].m_pos = { static_cast<float>(coordinate), 0.0f };
+    //   for (size_t i = entitiesCountRegularWall * 3; i < entities.size(); ++i)
+    //   {
+    //       entities[i].m_facingAngle = 270.0f;
+    //       entities[i].m_pos = { static_cast<float>(coordinate), 0.0f };
 
-	 //       coordinate += spacing;
-	 //   }
+    //       coordinate += spacing;
+    //   }
 
     // Random method -------------------------------------
 
-    //size_t spacing = wallSize / (entities.size() / 4);
-    //size_t coordinate = 0;
-    //auto currentDirection = DirectionsDeg::LEFT;
+    // size_t spacing = wallSize / (entities.size() / 4);
+    // size_t coordinate = 0;
+    // auto currentDirection = DirectionsDeg::LEFT;
 
-    //for (auto& entity : entities)
+    // for (auto& entity : entities)
     //{
     //    entity.m_facingAngle = static_cast<float>(currentDirection);
 
@@ -504,10 +489,10 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
 
 void ss::bll::simulation::Cycle::randomizeFoodPositions(std::span<Food> foods, size_t worldSize)
 {
-    for (auto& food : foods)
+    for (auto &food : foods)
     {
-        food = { { Random::get<Random::common>(0.0f, static_cast<int>(worldSize)),
-                      Random::get<Random::common>(0.0f, static_cast<int>(worldSize)) } };
+        food = {{Random::get<Random::common>(0.0f, static_cast<int>(worldSize)),
+                 Random::get<Random::common>(0.0f, static_cast<int>(worldSize))}};
     }
 }
 
@@ -518,9 +503,9 @@ void ss::bll::simulation::Cycle::update(float elapsedTime)
 
     bool areAllEntitiesDone = true;
 
-	auto activeEntities = Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter);
+    auto activeEntities = Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter);
 
-    for (auto& entity : activeEntities)
+    for (auto &entity : activeEntities)
     {
         if (!entity.m_isDoneWithCycle)
             areAllEntitiesDone = false;
@@ -538,7 +523,7 @@ std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiv
     return std::span(entities.data(), std::distance(entities.begin(), iter));
 }
 
-const std::vector<ss::bll::simulation::Food>& ss::bll::simulation::Simulation::getFoods() const
+const std::vector<ss::bll::simulation::Food> &ss::bll::simulation::Simulation::getFoods() const
 {
     return m_foods;
 }

@@ -3,8 +3,8 @@
 #include "SceneManager.h"
 #include "statistics_manager.h"
 #include <algorithm>
-#include <ranges>
 #include <future>
+#include <ranges>
 #include <raylib.h>
 
 namespace ss::pl::mainMenu

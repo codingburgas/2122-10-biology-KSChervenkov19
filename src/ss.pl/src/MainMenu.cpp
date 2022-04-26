@@ -21,7 +21,8 @@ void ss::pl::mainMenu::MainMenu::Start() // called once, at the start of the sce
     graphNamePos = {53, 112};
     graphCards.clear();
 
-    currentAnimationFrameRect = { 0.0f, 0.0f, (float)themeSwitchAnimationSpritesheet.width / 12, (float)themeSwitchAnimationSpritesheet.height };
+    currentAnimationFrameRect = {0.0f, 0.0f, (float)themeSwitchAnimationSpritesheet.width / 12,
+                                 (float)themeSwitchAnimationSpritesheet.height};
 
     for (std::string statistic : statisticNames)
     {
@@ -171,17 +172,17 @@ void ss::pl::mainMenu::MainMenu::displayGraphCards()
 
 void ss::pl::mainMenu::MainMenu::playThemeAnimation()
 {
-    if (!animationIsPlaying) return;
+    if (!animationIsPlaying)
+        return;
 
     currentAnimationFrameRect.x = (float)currentAnimationFrame * (float)themeSwitchAnimationSpritesheet.width / 12;
-    DrawTextureRec(themeSwitchAnimationSpritesheet, currentAnimationFrameRect, { 0.0f, 0.0f }, WHITE);
+    DrawTextureRec(themeSwitchAnimationSpritesheet, currentAnimationFrameRect, {0.0f, 0.0f}, WHITE);
     currentAnimationFrame++;
     if (currentAnimationFrame == 11)
     {
         currentAnimationFrame = 0;
         animationIsPlaying = false;
     }
-
 }
 
 /// This method checks which of the graph buttons is clicked.
@@ -199,7 +200,6 @@ void ss::pl::mainMenu::MainMenu::checkGraphButtonCollisions()
         }
     });
 }
-
 
 // clang-format off
 

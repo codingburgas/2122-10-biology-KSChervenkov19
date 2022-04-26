@@ -35,10 +35,10 @@ enum class EntityFoodStage
 
 class Entity
 {
-public:
-// ^ remove me (Debug only)
+  public:
+    // ^ remove me (Debug only)
     int m_worldSize;
-    std::vector<Food>* m_foods = nullptr;
+    std::vector<Food> *m_foods = nullptr;
 
     types::fVec2 m_pos = {0.0f, 0.0f};
     /* const */ float m_turnRate = 1.0f;
@@ -47,7 +47,7 @@ public:
     float m_turningAngle = 0.0f;
     float m_timeSinceLastTurn = 0.0f;
 
-    Food* m_targetFood = nullptr;
+    Food *m_targetFood = nullptr;
 
     float m_energyMax = 500;
     float m_currentEnergy = m_energyMax;
@@ -62,7 +62,7 @@ public:
     EntityFoodStage m_foodStage = EntityFoodStage::ZERO_FOOD;
 
   public:
-    Entity(const int t_worldSize, const types::Trait& t_traits, std::vector<Food>* t_foods);
+    Entity(const int t_worldSize, const types::Trait &t_traits, std::vector<Food> *t_foods);
     // Entity& operator=(const Entity&) = default;
 
   private:
@@ -94,20 +94,22 @@ class Cycle
     std::vector<Entity>::iterator *m_entitiesEndIter;
     std::span<Entity> activeEntities;
 
-    std::vector<Food>* m_foods;
+    std::vector<Food> *m_foods;
 
     size_t m_worldSize;
 
     bool m_isCycleDone = false;
 
   public:
-	Cycle();
-    Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter, size_t t_worldSize, std::vector<Food>* t_foods);
+    Cycle();
+    Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter, size_t t_worldSize,
+          std::vector<Food> *t_foods);
 
     void CycleEnd();
     // ~Cycle();
 
-    static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator &entitiesEndIt, std::vector<Food>* foods);
+    static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator &entitiesEndIt,
+                                  std::vector<Food> *foods);
     static void distributeEntities(std::span<Entity> entities, size_t wallSize);
     static void randomizeFoodPositions(std::span<Food> foods, size_t worldSize);
 
@@ -125,7 +127,7 @@ class Simulation
     std::vector<Entity> m_entities;
     std::vector<Entity>::iterator m_entitiesEndIt;
     std::vector<Food> m_foods;
-    
+
     size_t m_currentCycle_n = 1;
     Cycle m_currentCycle;
 
@@ -136,7 +138,7 @@ class Simulation
     // Make sure that all the active entities are included. (especially the last active one)
     [[nodiscard]] static std::span<Entity> getActiveEntities(std::vector<Entity> &entities,
                                                              std::vector<Entity>::iterator &iter);
-    const std::vector<Food>& getFoods() const;
+    const std::vector<Food> &getFoods() const;
     static void repositionEntitiesIter(std::vector<Entity> &entities, std::vector<Entity>::iterator &iter);
 
   public:

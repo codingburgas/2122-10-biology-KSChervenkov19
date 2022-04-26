@@ -1,10 +1,10 @@
 #pragma once
 
 #include "sceneManager.h"
-#include <raygui.h>
-#include <raylib.h>
 #include "simulation.h"
 #include "utils.h"
+#include <raygui.h>
+#include <raylib.h>
 
 namespace ss::pl::simulator
 {
@@ -12,8 +12,8 @@ class Simulator : public Scene
 {
   private:
     // Instance of scene manager class, used to change scenes
-    SceneManager &m_sceneManager;  
-    ss::bll::simulation::Simulation* simulation;
+    SceneManager &m_sceneManager;
+    ss::bll::simulation::Simulation *simulation;
 
     // 2D variables
     Vector2 mousePos;
@@ -36,7 +36,6 @@ class Simulator : public Scene
     int worldSize;
     int entities;
     int food;
-
 
     float timeScale;
     float offset;
