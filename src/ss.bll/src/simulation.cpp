@@ -3,8 +3,6 @@
 #include "simulation.h"
 // clang-format on
 
-#include <iostream>
-
 #include "random.hpp"
 #include "utils.h"
 
@@ -378,32 +376,41 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
         coordinate += spacing;
     }
 
-    coordinate = spacing;
-    for (size_t i = entitiesCountRegularWall; i < entitiesCountRegularWall * 2; ++i)
+    if (entities.size() >= 2)
     {
-        entities[i].m_facingAngle = 90.0f;
-        entities[i].m_pos = {static_cast<float>(coordinate), static_cast<float>(wallSize)};
+        coordinate = spacing;
+        for (size_t i = entitiesCountRegularWall; i < entitiesCountRegularWall * 2; ++i)
+        {
+            entities[i].m_facingAngle = 90.0f;
+            entities[i].m_pos = {static_cast<float>(coordinate), static_cast<float>(wallSize)};
 
-        coordinate += spacing;
+            coordinate += spacing;
+        }
     }
 
-    coordinate = spacing;
-    for (size_t i = entitiesCountRegularWall * 2; i < entitiesCountRegularWall * 3; ++i)
+    if (entities.size() >= 3)
     {
-        entities[i].m_facingAngle = 180.0f;
-        entities[i].m_pos = {0.0f, static_cast<float>(coordinate)};
+        coordinate = spacing;
+        for (size_t i = entitiesCountRegularWall * 2; i < entitiesCountRegularWall * 3; ++i)
+        {
+            entities[i].m_facingAngle = 180.0f;
+            entities[i].m_pos = {0.0f, static_cast<float>(coordinate)};
 
-        coordinate += spacing;
+            coordinate += spacing;
+        }
     }
 
-    spacing = wallSize / (entitiesCountLastWall + 1);
-    coordinate = spacing;
-    for (size_t i = entitiesCountRegularWall * 3; i < entities.size(); ++i)
+    if (entities.size() >= 4)
     {
-        entities[i].m_facingAngle = 270.0f;
-        entities[i].m_pos = {static_cast<float>(coordinate), 0.0f};
+	    spacing = wallSize / (entitiesCountLastWall + 1);
+	    coordinate = spacing;
+	    for (size_t i = entitiesCountRegularWall * 3; i < entities.size(); ++i)
+	    {
+	        entities[i].m_facingAngle = 270.0f;
+	        entities[i].m_pos = {static_cast<float>(coordinate), 0.0f};
 
-        coordinate += spacing;
+	        coordinate += spacing;
+	    }
     }
 
     // !!!BROKEN Uniform method -------------------------------------
