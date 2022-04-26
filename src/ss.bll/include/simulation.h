@@ -99,12 +99,13 @@ class Cycle
 
     size_t m_worldSize;
 
+    size_t m_cycleId;
     bool m_isCycleDone = false;
 
   public:
     Cycle();
     Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter, size_t t_worldSize,
-          std::vector<Food> *t_foods);
+          std::vector<Food> *t_foods, size_t t_cycleId);
 
     void CycleEnd();
     // ~Cycle();

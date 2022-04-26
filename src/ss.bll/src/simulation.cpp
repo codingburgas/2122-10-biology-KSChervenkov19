@@ -258,9 +258,9 @@ ss::bll::simulation::Cycle::Cycle() : m_entities(nullptr), m_entitiesEndIter(nul
 }
 
 ss::bll::simulation::Cycle::Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter,
-                                  size_t t_worldSize, std::vector<Food> *t_foods)
+                                  size_t t_worldSize, std::vector<Food> *t_foods, size_t t_cycleId)
     : m_entities(t_entities), m_entitiesEndIter(t_entitiesEndIter), m_worldSize(t_worldSize),
-      activeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter)), m_foods(t_foods)
+      activeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter)), m_foods(t_foods), m_cycleId(t_cycleId)
 {
 }
 
@@ -579,7 +579,7 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
 
     Cycle::distributeEntities(getActiveEntities(m_entities, m_entitiesEndIt), m_simInfo.worldSize);
 
-    m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods);
+    m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods, m_currentCycle_n);
     Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
 }
 
@@ -599,7 +599,7 @@ void ss::bll::simulation::Simulation::update(const float elapsedTime)
     if (m_currentCycle.m_isCycleDone)
     {
         m_currentCycle.CycleEnd();
-        m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods);
+        m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods, m_currentCycle_n);
         ++m_currentCycle_n;
         Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
     }
