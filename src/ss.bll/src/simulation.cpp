@@ -276,6 +276,7 @@ void ss::bll::simulation::Cycle::CycleEnd()
         {
         case EntityFoodStage::ZERO_FOOD:
             entity.m_isAlive = false;
+            entity.m_cyclesLived = m_cycleId - entity.m_cycleBornAt;
             break;
         case EntityFoodStage::TWO_FOOD:
             entity.m_shouldReproduce = true;
@@ -536,6 +537,24 @@ void ss::bll::simulation::Cycle::update(const float elapsedTime)
         m_isCycleDone = true;
 }
 
+void ss::bll::simulation::Simulation::cleanEntities()
+{
+    std::vector<int> indexesForDeletion;
+
+    for (size_t i = 0; i < m_entities.size(); ++i)
+    {
+	    if (m_entities.at(i).m_cycleBornAt > m_simInfo.cyclesCount)
+	    {
+            indexesForDeletion.push_back(i);
+	    }
+    }
+
+    for (auto index : indexesForDeletion)
+    {
+        m_entities.erase(m_entities.begin() + index);
+    }
+}
+
 std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiveEntities(
     std::vector<Entity> &entities, std::vector<Entity>::iterator &iter)
 {
@@ -603,9 +622,10 @@ void ss::bll::simulation::Simulation::update(const float elapsedTime)
         return;
     }
 
-    if (m_currentCycle_n > m_simInfo.cyclesCount)
+    if (m_currentCycle_n > m_simInfo.cyclesCount+1)
     {
         isSimulationDone = true;
+        cleanEntities();
         return;
     }
 

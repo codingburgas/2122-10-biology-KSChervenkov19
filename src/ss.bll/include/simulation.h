@@ -142,6 +142,9 @@ class Simulation
   public:
     bool isSimulationDone = false;
 
+private:
+    void cleanEntities();
+
   public:
     // Make sure that all the active entities are included. (especially the last active one)
     [[nodiscard]] static std::span<Entity> getActiveEntities(std::vector<Entity> &entities,
