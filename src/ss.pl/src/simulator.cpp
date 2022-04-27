@@ -60,7 +60,7 @@ void ss::pl::simulator::Simulator::checkInput()
 {
     if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
                                           static_cast<float>(backArrow_Texture.height)}) ||
-        CheckCollisionPointRec(mousePos, {1064, 820, static_cast<float>(simulateButton_Texture.width),
+        CheckCollisionPointRec(mousePos, {1020, 820, static_cast<float>(simulateButton_Texture.width),
                                           static_cast<float>(simulateButton_Texture.height)}))
     {
         SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
@@ -144,7 +144,7 @@ void ss::pl::simulator::Simulator::drawSetup()
     EndMode3D();
 
     DrawTexture(setupContainer_Texture, graphsContainerPos, 0, WHITE);
-    DrawTexture(simulateButton_Texture, 1064, 820, WHITE);
+    DrawTexture(simulateButton_Texture, 1020, 820, WHITE);
     DrawTexture(backArrow_Texture, 57, 90, WHITE);
 
     DrawTextEx(fontInter, "World Size:", {1001, 86}, 32.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
