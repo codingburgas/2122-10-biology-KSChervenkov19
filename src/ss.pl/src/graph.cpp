@@ -230,20 +230,21 @@ void ss::pl::graph::Graph::drawGraph()
 /// Method for drawing the menu in the graph page.
 void ss::pl::graph::Graph::drawMenu()
 {
-    DrawTexture(cycle_Next, 1398, 836, WHITE);
-    DrawTexture(cycle_Prev, 1045, 836, WHITE);
-    DrawTexture(slider_Box, 1365, 747, WHITE);
-    DrawTexture(auto_Button, 1161, 611, WHITE);
+    DrawTexture(cycle_Next, 1398, 806, WHITE);
+    DrawTexture(cycle_Prev, 1045, 806, WHITE);
+    DrawTexture(slider_Box, 1365, 697, WHITE);
+    DrawTexture(auto_Button, 1161, 561, WHITE);
 
-    DrawTextEx(fontInter, TextFormat("%i", (currentCycle)), {1238, 851}, 49, 0,
+    DrawTextEx(fontInter, TextFormat("%i", (currentCycle)), {1238, 821}, 49, 0,
                Graph::backgroundColors.at(!static_cast<int>(Graph::currentTheme)));
-    DrawTextEx(fontInter, "Auto", {1049, 617}, 39, 0,
+    DrawTextEx(fontInter, "Auto", {1049, 567}, 39, 0,
                Graph::backgroundColors.at(!static_cast<int>(Graph::currentTheme)));
-    DrawTextEx(fontInter, "Seconds:", {1049, 696}, 39, 0,
+    DrawTextEx(fontInter, "Seconds:", {1049, 646}, 39, 0,
                Graph::backgroundColors.at(!static_cast<int>(Graph::currentTheme)));
-    DrawTextEx(fontInter, TextFormat("%i", (cycleSpeed)), {1405, 757}, 33, 0, BLACK);
+    DrawTextEx(fontInter, TextFormat("%i", (cycleSpeed)), {1405, 707}, 33, 0, BLACK);
 
-    cycleSpeed = GuiSliderBar({1046, 747, 320, 53}, nullptr, nullptr, cycleSpeed, 1, 21);
+    cycleSpeed = GuiSliderBar({1046, 697, 320, 53}, nullptr, nullptr, cycleSpeed, 1, 21);
+    GuiSliderBar({1046, 749, 421, 25}, nullptr, nullptr, fElapsedTime, 0, cycleSpeed);
 }
 
 /// Method for loading all the needed assets in the graph page.
@@ -315,7 +316,7 @@ void ss::pl::graph::Graph::checkCollision()
     }
 
     if (CheckCollisionPointRec(
-            mousePos, {1398, 836, static_cast<float>(cycle_Next.width), static_cast<float>(cycle_Next.height)}) &&
+            mousePos, {1398, 806, static_cast<float>(cycle_Next.width), static_cast<float>(cycle_Next.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         if (currentCycle != cycleInfo.size())
@@ -342,7 +343,7 @@ void ss::pl::graph::Graph::checkCollision()
     }
 
     if (CheckCollisionPointRec(
-            mousePos, {1045, 836, static_cast<float>(cycle_Prev.width), static_cast<float>(cycle_Prev.height)}) &&
+            mousePos, {1045, 806, static_cast<float>(cycle_Prev.width), static_cast<float>(cycle_Prev.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         if (currentCycle - 1 != 0)
@@ -369,7 +370,7 @@ void ss::pl::graph::Graph::checkCollision()
     }
 
     if (CheckCollisionPointRec(
-            mousePos, {1161, 611, static_cast<float>(auto_Button.width), static_cast<float>(auto_Button.height)}) &&
+            mousePos, {1161, 561, static_cast<float>(auto_Button.width), static_cast<float>(auto_Button.height)}) &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         currentAutoState == AutoState::AutoOff ? currentAutoState = AutoState::AutoOn
