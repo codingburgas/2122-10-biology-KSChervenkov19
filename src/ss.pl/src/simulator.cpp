@@ -115,10 +115,11 @@ void ss::pl::simulator::Simulator::handleEntityClick()
         Ray ray = GetMouseRay(GetMousePosition(), camera);
 
         RayCollision rayCollision;
-        
-        for (const auto& entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
+
+        for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
         {
-            rayCollision = GetRayCollisionSphere(ray, { entity.getPos().x - offset, 0.5f, entity.getPos().y - offset }, .5f);
+            rayCollision =
+                GetRayCollisionSphere(ray, {entity.getPos().x - offset, 0.5f, entity.getPos().y - offset}, .5f);
             if (rayCollision.hit)
             {
                 selectedEntityId = entity.m_id;
@@ -177,27 +178,30 @@ void ss::pl::simulator::Simulator::drawSimulation()
         UpdateCamera(&camera);
 
         BeginMode3D(camera);
-            DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
-            DrawGrid(worldSize, 1.0f);
+        DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
+        DrawGrid(worldSize, 1.0f);
 
-            for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
-            {
-                drawEntity(entity);
-            }
+        for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
+        {
+            drawEntity(entity);
+        }
 
-            for (const auto &food : simulation->getFoods())
-            {
-                drawFood(food);
-            }
+        for (const auto &food : simulation->getFoods())
+        {
+            drawFood(food);
+        }
 
         // PLEASE FIX THIS
-        // IT THROWS 
-            if(selectedEntityId) DrawSphere({ (*simulation->getEntityById(selectedEntityId)).getPos().x - offset, 1.5f, (*simulation->getEntityById(selectedEntityId)).getPos().y - offset }, .5f, PURPLE);
-
+        // IT THROWS
+        if (selectedEntityId)
+            DrawSphere({(*simulation->getEntityById(selectedEntityId)).getPos().x - offset, 1.5f,
+                        (*simulation->getEntityById(selectedEntityId)).getPos().y - offset},
+                       .5f, PURPLE);
 
         EndMode3D();
 
-        timeScale = GuiSliderBar({522, 25, 455, 48}, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
+        timeScale =
+            GuiSliderBar({522, 25, 455, 48}, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
 
         simulation->update(GetFrameTime() * timeScale);
 
@@ -206,43 +210,41 @@ void ss::pl::simulator::Simulator::drawSimulation()
     else
     {
         DrawText("SIMULATION DONE", 500, 500, 100, BLACK);
-        //change scene
+        // change scene
     }
-
-
-
-
 
     // The funny. Do not touch
     // bll::simulation::Cycle::distributeEntities(simulation->m_entities, simulation->m_simInfo.worldSize);
     // bll::simulation::Cycle::randomizeFoodPositions(simulation->m_foods, simulation->m_simInfo.worldSize);
 }
 
-void ss::pl::simulator::Simulator::drawEntity(const auto& entity)
+void ss::pl::simulator::Simulator::drawEntity(const auto &entity)
 {
     float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
     ss::types::fVec2 currentPos = entity.getPos();
 
-    //draw entity body
-    DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset }, .5f, entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD ? RED : entity.m_foodStage == bll::simulation::EntityFoodStage::ONE_FOOD ? GREEN : DARKGREEN);
+    // draw entity body
+    DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f,
+               entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD
+                   ? RED
+                   : entity.m_foodStage == bll::simulation::EntityFoodStage::ONE_FOOD ? GREEN : DARKGREEN);
 
-    //draw entity fov
-    DrawLine3D({ currentPos.x - offset, .5f, currentPos.y - offset },
-        { 1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f,
-         1.0f * sin(entityLookingDirRadian) + currentPos.y - offset },
-        RED);
+    // draw entity fov
+    DrawLine3D({currentPos.x - offset, .5f, currentPos.y - offset},
+               {1.0f * cos(entityLookingDirRadian) + currentPos.x - offset, .5f,
+                1.0f * sin(entityLookingDirRadian) + currentPos.y - offset},
+               RED);
 
-    //draw entity aura(only if user has demanded)
-    DrawCircle3D({ currentPos.x - offset, .1f, currentPos.y - offset }, entity.m_traits.sense, { 1.0f, 0.0f, 0.0f },
-        90.0f, { 255, 0, 0, 100 });
-
+    // draw entity aura(only if user has demanded)
+    DrawCircle3D({currentPos.x - offset, .1f, currentPos.y - offset}, entity.m_traits.sense, {1.0f, 0.0f, 0.0f}, 90.0f,
+                 {255, 0, 0, 100});
 }
 
-void ss::pl::simulator::Simulator::drawFood(const auto& food)
+void ss::pl::simulator::Simulator::drawFood(const auto &food)
 {
     if (!food.isEaten)
     {
-        DrawSphere({ food.pos.x - offset, 0.1f, food.pos.y - offset }, 0.3f, GREEN);
+        DrawSphere({food.pos.x - offset, 0.1f, food.pos.y - offset}, 0.3f, GREEN);
     }
 }
 

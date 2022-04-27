@@ -175,7 +175,7 @@ void ss::bll::simulation::Entity::hanldeEnergy(const float elapsedTime)
 {
     m_currentEnergy -= (pow(m_traits.speed, 2) + pow(m_traits.sense, 3)) * elapsedTime;
 
-	if (m_currentEnergy < 0.0f)
+    if (m_currentEnergy < 0.0f)
     {
         m_isDoneWithCycle = true;
         m_foodStage = EntityFoodStage::ZERO_FOOD;
@@ -258,9 +258,11 @@ ss::bll::simulation::Cycle::Cycle() : m_entities(nullptr), m_entitiesEndIter(nul
 }
 
 ss::bll::simulation::Cycle::Cycle(std::vector<Entity> *t_entities, std::vector<Entity>::iterator *t_entitiesEndIter,
-                                  size_t t_worldSize, std::vector<Food> *t_foods, size_t t_cycleId, size_t* t_lastEntityId = nullptr)
+                                  size_t t_worldSize, std::vector<Food> *t_foods, size_t t_cycleId,
+                                  size_t *t_lastEntityId = nullptr)
     : m_entities(t_entities), m_entitiesEndIter(t_entitiesEndIter), m_worldSize(t_worldSize),
-      activeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter)), m_foods(t_foods), m_cycleId(t_cycleId), m_lastEntityId(t_lastEntityId)
+      activeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter)), m_foods(t_foods),
+      m_cycleId(t_cycleId), m_lastEntityId(t_lastEntityId)
 {
 }
 
@@ -296,8 +298,7 @@ void ss::bll::simulation::Cycle::CycleEnd()
 //}
 
 void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities,
-                                                   std::vector<Entity>::iterator &entitiesEndIt,
-												   size_t* lastEntityId,
+                                                   std::vector<Entity>::iterator &entitiesEndIt, size_t *lastEntityId,
                                                    std::vector<Food> *foods)
 {
     for (size_t i = 0; i < entities.size(); ++i)
@@ -403,15 +404,15 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
 
     if (entities.size() >= 4)
     {
-	    spacing = wallSize / (entitiesCountLastWall + 1);
-	    coordinate = spacing;
-	    for (size_t i = entitiesCountRegularWall * 3; i < entities.size(); ++i)
-	    {
-	        entities[i].m_facingAngle = 270.0f;
-	        entities[i].m_pos = {static_cast<float>(coordinate), 0.0f};
+        spacing = wallSize / (entitiesCountLastWall + 1);
+        coordinate = spacing;
+        for (size_t i = entitiesCountRegularWall * 3; i < entities.size(); ++i)
+        {
+            entities[i].m_facingAngle = 270.0f;
+            entities[i].m_pos = {static_cast<float>(coordinate), 0.0f};
 
-	        coordinate += spacing;
-	    }
+            coordinate += spacing;
+        }
     }
 
     // !!!BROKEN Uniform method -------------------------------------
@@ -560,10 +561,10 @@ void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity>
     iter = current;
 }
 
-const ss::bll::simulation::Entity* ss::bll::simulation::Simulation::getEntityById(size_t id)
+const ss::bll::simulation::Entity *ss::bll::simulation::Simulation::getEntityById(size_t id)
 {
     auto activeEntities = getActiveEntities(m_entities, m_entitiesEndIt);
-    if (auto entity = std::ranges::find_if(activeEntities, [id](const Entity& et) { return et.m_id == id; });
+    if (auto entity = std::ranges::find_if(activeEntities, [id](const Entity &et) { return et.m_id == id; });
         entity != activeEntities.end())
     {
         return &*entity;
@@ -592,7 +593,8 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
 
     Cycle::distributeEntities(getActiveEntities(m_entities, m_entitiesEndIt), m_simInfo.worldSize);
 
-    m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods, m_currentCycle_n, &m_lastEntityId);
+    m_currentCycle =
+        Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods, m_currentCycle_n, &m_lastEntityId);
     Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
 }
 
@@ -612,7 +614,8 @@ void ss::bll::simulation::Simulation::update(const float elapsedTime)
     if (m_currentCycle.m_isCycleDone)
     {
         m_currentCycle.CycleEnd();
-        m_currentCycle = Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods, m_currentCycle_n, &m_lastEntityId);
+        m_currentCycle =
+            Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods, m_currentCycle_n, &m_lastEntityId);
         ++m_currentCycle_n;
         Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
     }
