@@ -615,6 +615,40 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
     ++m_currentCycle_n;
 }
 
+void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::string> fileName) const
+{
+    std::vector<types::Cycle> cycles;
+    cycles.reserve(m_currentCycle_n - 2);
+
+    for (size_t i = 0, lastedEntities; i < m_currentCycle_n - 2; ++i)
+    {
+        size_t cycleId = i + 1;
+
+        types::Cycle cycle;
+        cycle.lastedEntities = 0;
+
+        for (const auto& entity : m_entities)
+        {
+	        if (entity.m_cycleBornAt + entity.m_cyclesLived > cycleId)
+	        {
+                ++cycle.lastedEntities;
+                cycle.traitsInfo.push_back(entity.m_traits);
+	        }
+        }
+
+        cycles.push_back(cycle);
+    }
+
+    if (fileName)
+    {
+        dal::StatisticsStore::saveStatisticTo(*fileName, cycles);
+    }
+    else
+    {
+        dal::StatisticsStore::saveStatisticTo(cycles);
+    }
+}
+
 void ss::bll::simulation::Simulation::update(const float elapsedTime)
 {
     if (isSimulationDone)
@@ -622,7 +656,7 @@ void ss::bll::simulation::Simulation::update(const float elapsedTime)
         return;
     }
 
-    if (m_currentCycle_n > m_simInfo.cyclesCount+1)
+    if (m_currentCycle_n > m_simInfo.cyclesCount + 1)
     {
         isSimulationDone = true;
         cleanEntities();

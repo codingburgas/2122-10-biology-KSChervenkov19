@@ -2,6 +2,7 @@
 // clang-format off
 #include "pch_bll.h"
 #include "simulation_data.h"
+#include "statistics_store.h"
 // clang-format on
 
 namespace ss::bll::simulation
@@ -155,6 +156,7 @@ private:
 
   public:
     Simulation(const ss::types::SimulationInfo t_simInfo);
+    void saveSimulationInfo(std::optional<std::string> fileName) const;
     void update(float elapsedTime);
     friend class Cycle;
 };
