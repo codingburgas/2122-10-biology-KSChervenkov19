@@ -184,7 +184,11 @@ void ss::pl::simulator::Simulator::drawSimulation()
         for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
         {
             drawEntity(entity);
+
+            // Debugging
+            // std::cout << entity.m_cycleBornAt << ' ';
         }
+        // std::cout << '\n';
 
         for (const auto &food : simulation->getFoods())
         {

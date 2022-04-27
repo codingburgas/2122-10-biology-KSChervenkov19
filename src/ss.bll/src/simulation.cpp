@@ -285,7 +285,6 @@ void ss::bll::simulation::Cycle::CycleEnd()
     }
 
     reproduceEntities(*m_entities, *m_entitiesEndIter, m_lastEntityId, m_cycleId, m_foods);
-    std::cout << m_cycleId << '\n';
     distributeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter), m_worldSize);
 
     for (auto &entity : *m_entities)
@@ -298,6 +297,7 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities
                                                    std::vector<Entity>::iterator &entitiesEndIt, size_t *lastEntityId, size_t cycleId,
                                                    std::vector<Food> *foods)
 {
+    std::cout << cycleId << '\n';
     for (size_t i = 0; i < entities.size(); ++i)
     // for (auto& entity : entities)
     {
@@ -593,6 +593,7 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
     m_currentCycle =
         Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods, m_currentCycle_n, &m_lastEntityId);
     Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
+    ++m_currentCycle_n;
 }
 
 void ss::bll::simulation::Simulation::update(const float elapsedTime)
