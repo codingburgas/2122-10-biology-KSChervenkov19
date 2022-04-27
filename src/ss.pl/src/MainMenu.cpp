@@ -273,7 +273,7 @@ void ss::pl::mainMenu::MainMenu::checkCollision()
     }
 
     if (CheckCollisionPointRec(mousePos, { 1359, 15, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) })
-        && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !graphsIsOut)
     {
         MainMenu::currentTheme = (MainMenu::currentTheme == ThemeTypes::LightTheme) ? ThemeTypes::DarkTheme : ThemeTypes::LightTheme;
         MainMenu::deleteAssets();

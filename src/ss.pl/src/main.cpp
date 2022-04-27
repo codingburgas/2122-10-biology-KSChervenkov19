@@ -31,13 +31,6 @@ int main()
 
     while (!WindowShouldClose())
     {
-
-        // fElapsedTime = timeScale * GetFrameTime();
-
-        // cubePos.x += cubeSpeed * fElapsedTime;
-
-        // timeScale = GuiSlider(Rectangle{ screenWidth/2 - 165.0f / 2.0f, screenHeight - 25.0f, 165, 20 }, "TIME
-        // SCALE", TextFormat("%0.1f", timeScale), timeScale, 0.5f, 100.0f);
         sceneManager.updateScene();
     }
 
