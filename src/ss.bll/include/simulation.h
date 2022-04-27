@@ -41,6 +41,8 @@ class Entity
     std::vector<Food> *m_foods = nullptr;
 
     size_t m_id;
+    size_t m_cycleBornAt;
+    size_t m_cyclesLived = 0;
 
     types::fVec2 m_pos = {0.0f, 0.0f};
     /* const */ float m_turnRate = 1.0f;
@@ -64,7 +66,7 @@ class Entity
     EntityFoodStage m_foodStage = EntityFoodStage::ZERO_FOOD;
 
   public:
-    Entity(size_t t_id, const int t_worldSize, const types::Trait &t_traits, std::vector<Food> *t_foods);
+    Entity(size_t t_id, const int t_worldSize, const types::Trait &t_traits, std::vector<Food> *t_foods, size_t t_cycleBornAt);
     // Entity& operator=(const Entity&) = default;
 
   private:
@@ -114,7 +116,7 @@ class Cycle
     // ~Cycle();
 
     static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator &entitiesEndIt,
-                                  size_t *lastEntityId, std::vector<Food> *foods);
+                                  size_t *lastEntityId, size_t cycleId, std::vector<Food> *foods);
     static void distributeEntities(std::span<Entity> entities, size_t wallSize);
     static void randomizeFoodPositions(std::span<Food> foods, size_t worldSize);
 
