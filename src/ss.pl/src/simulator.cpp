@@ -27,6 +27,7 @@ void ss::pl::simulator::Simulator::Start() // called once, at the start of the s
     SetCameraMode(camera, CAMERA_FREE);
 
     planePos = {0.0f, 0.0f};
+    simulating = true;
 }
 
 /// Method which is called every frame.
@@ -105,6 +106,11 @@ void ss::pl::simulator::Simulator::checkInput()
     if (IsKeyPressed(KEY_R))
     {
         resetCamera();
+    }
+
+    if (IsKeyPressed(KEY_SPACE))
+    {
+        simulating = !simulating;
     }
 }
 
@@ -208,7 +214,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
         timeScale =
             GuiSliderBar({522, 25, 455, 48}, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
 
-        simulation->update(GetFrameTime() * timeScale);
+        if(simulating) simulation->update(GetFrameTime() * timeScale);
 
         handleEntityClick();
     }

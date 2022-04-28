@@ -40,6 +40,7 @@ class Simulator : public Scene
     float timeScale;
     float offset;
     float entityLookingDirRadian;
+    bool simulating;
 
     size_t selectedEntityId;
 
