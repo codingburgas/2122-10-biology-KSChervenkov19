@@ -298,7 +298,6 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities
                                                    std::vector<Entity>::iterator &entitiesEndIt, size_t *lastEntityId, size_t cycleId,
                                                    std::vector<Food> *foods)
 {
-    std::cout << cycleId << '\n';
     for (size_t i = 0; i < entities.size(); ++i)
     // for (auto& entity : entities)
     {
@@ -543,6 +542,11 @@ void ss::bll::simulation::Simulation::cleanEntities()
 
     for (size_t i = 0; i < m_entities.size(); ++i)
     {
+        if (m_entities.at(i).m_cyclesLived == 0)
+        {
+            m_entities[i].m_cyclesLived = m_simInfo.cyclesCount - m_entities[i].m_cycleBornAt;
+        }
+
 	    if (m_entities.at(i).m_cycleBornAt > m_simInfo.cyclesCount)
 	    {
             indexesForDeletion.push_back(i);
@@ -609,10 +613,10 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
 
     Cycle::distributeEntities(getActiveEntities(m_entities, m_entitiesEndIt), m_simInfo.worldSize);
 
+    ++m_currentCycle_n;
     m_currentCycle =
         Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods, m_currentCycle_n, &m_lastEntityId);
     Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
-    ++m_currentCycle_n;
 }
 
 void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::string> fileName) const
@@ -620,7 +624,7 @@ void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::stri
     std::vector<types::Cycle> cycles;
     cycles.reserve(m_currentCycle_n - 2);
 
-    for (size_t i = 0, lastedEntities; i < m_currentCycle_n - 2; ++i)
+    for (size_t i = 0; i < m_currentCycle_n - 2; ++i)
     {
         size_t cycleId = i + 1;
 
@@ -665,8 +669,8 @@ void ss::bll::simulation::Simulation::update(const float elapsedTime)
 
     if (m_currentCycle.m_isCycleDone)
     {
-        m_currentCycle.CycleEnd();
         ++m_currentCycle_n;
+        m_currentCycle.CycleEnd();
         m_currentCycle =
             Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods, m_currentCycle_n, &m_lastEntityId);
         Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
