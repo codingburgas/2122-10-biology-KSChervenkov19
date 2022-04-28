@@ -222,16 +222,30 @@ void ss::pl::simulator::Simulator::drawSimulation()
     {
         if (flag)
         {
-            simulation->saveSimulationInfo("test");
+            //simulation->saveSimulationInfo("test");
+            summaryInfo = getSummaryData();
             flag = false;
         }
-        DrawText("SIMULATION DONE", 500, 500, 100, BLACK);
-        // change scene
+
+        drawSummary();
     }
 
     // The funny. Do not touch
     // bll::simulation::Cycle::distributeEntities(simulation->m_entities, simulation->m_simInfo.worldSize);
     // bll::simulation::Cycle::randomizeFoodPositions(simulation->m_foods, simulation->m_simInfo.worldSize);
+}
+
+void ss::pl::simulator::Simulator::drawSummary()
+{
+    DrawTexture(summary_Container, 437, 201, WHITE);
+    DrawTexture(exit_Button, 992, 243, WHITE);
+    DrawTexture(save_Data_Button, 621, 673, WHITE);
+
+    DrawTextEx(fontInter, "SUMMARY", { 595, 255 }, 70, 0, {5, 11, 30, 255});
+    DrawTextEx(fontInter, TextFormat("Total alive entities: %i", summaryInfo.activeEntites), { 566, 369 }, 32, 0, {5, 11, 30, 255});
+    DrawTextEx(fontInter, TextFormat("Total died entities: %i", summaryInfo.diedEntities), { 566, 439 }, 32, 0, {5, 11, 30, 255});
+    DrawTextEx(fontInter, TextFormat("Average entity speed: %.1f", summaryInfo.averageSpeed), { 566, 508 }, 32, 0, {5, 11, 30, 255});
+    DrawTextEx(fontInter, TextFormat("Average entity sense: %.1f", summaryInfo.averageSense), { 566, 578 }, 32, 0, {5, 11, 30, 255});
 }
 
 void ss::pl::simulator::Simulator::drawEntity(const auto &entity)
@@ -264,6 +278,13 @@ void ss::pl::simulator::Simulator::drawFood(const auto &food)
     }
 }
 
+ss::pl::simulator::Simulator::SummaryInfo ss::pl::simulator::Simulator::getSummaryData()
+{
+    return SummaryInfo(simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt).size(), 
+        simulation->m_entities.size() - simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt).size(),
+        69, 69);
+}
+
 // clang-format off
 
 /// Method for loading all the needed assets in the Simulation page.
@@ -274,6 +295,9 @@ void ss::pl::simulator::Simulator::loadAssets()
     setupContainer_Texture = LoadTexture(std::format("../../assets/{}/simulator/Setup_Container.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
     backArrow_Texture = LoadTexture(std::format("../../assets/{}/simulator/Back_Arrow.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
     simulateButton_Texture = LoadTexture(std::format("../../assets/{}/simulator/Simulate_Button.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
+    summary_Container = LoadTexture(std::format("../../assets/{}/simulator/Summary_Container.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
+    exit_Button = LoadTexture(std::format("../../assets/{}/simulator/Exit_Button.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
+    save_Data_Button = LoadTexture(std::format("../../assets/{}/simulator/Save_Data_Button.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
 
     GuiLoadStyle((currentTheme == ThemeTypes::LightTheme) ? "../../assets/bluish.txt.rgs" : "../../assets/lavanda.txt.rgs");
 }
@@ -284,6 +308,9 @@ void ss::pl::simulator::Simulator::deleteAssets()
     UnloadTexture(setupContainer_Texture);
     UnloadTexture(simulateButton_Texture);
     UnloadTexture(backArrow_Texture);
+    UnloadTexture(summary_Container);
+    UnloadTexture(exit_Button);
+    UnloadTexture(save_Data_Button);
 
     UnloadFont(fontInter);
 }

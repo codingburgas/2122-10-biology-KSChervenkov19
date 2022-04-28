@@ -23,6 +23,9 @@ class Simulator : public Scene
     Texture2D setupContainer_Texture;
     Texture2D backArrow_Texture;
     Texture2D simulateButton_Texture;
+    Texture2D summary_Container;
+    Texture2D exit_Button;
+    Texture2D save_Data_Button;
 
     // Camera
     Camera3D camera{0};
@@ -51,12 +54,25 @@ class Simulator : public Scene
         Simulation
     } currentState = SimulatorState::Setup;
 
+    // Getter variables
+    struct SummaryInfo
+    {
+        size_t activeEntites;
+        size_t diedEntities;
+        float averageSpeed;
+        float averageSense;
+    } summaryInfo;
+
     // Methods, used to draw scenes
     void drawSetup();
     void drawSimulation();
+    void drawSummary();
 
     void drawEntity(const auto &entity);
     void drawFood(const auto &food);
+
+    // Getter methods
+    SummaryInfo getSummaryData();
 
     // Method which checks the mouse/keyboard input
     void checkInput();
