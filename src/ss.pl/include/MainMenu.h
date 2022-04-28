@@ -30,8 +30,7 @@ class MainMenu : public Scene
     Texture2D viewGraph_Texture;
     Texture2D background_Lines;
 
-    Texture2D themeSwitchAnimationSpritesheet;
-    Rectangle currentAnimationFrameRect;
+    Texture2D currentFrameTexture;
     int currentAnimationFrame = 0;
     bool animationIsPlaying = false;
 

@@ -21,9 +21,6 @@ void ss::pl::mainMenu::MainMenu::Start() // called once, at the start of the sce
     graphNamePos = {53, 112};
     graphCards.clear();
 
-    currentAnimationFrameRect = {0.0f, 0.0f, (float)themeSwitchAnimationSpritesheet.width / 12,
-                                 (float)themeSwitchAnimationSpritesheet.height};
-
     for (std::string statistic : statisticNames)
     {
         graphCards.push_back(graphsCard{statistic, graphNamePos, graphButtonPos});
@@ -174,9 +171,13 @@ void ss::pl::mainMenu::MainMenu::playThemeAnimation()
     if (!animationIsPlaying)
         return;
 
-    currentAnimationFrameRect.x = (float)currentAnimationFrame * (float)themeSwitchAnimationSpritesheet.width / 12;
-    DrawTextureRec(themeSwitchAnimationSpritesheet, currentAnimationFrameRect, {0.0f, 0.0f}, WHITE);
+
+    UnloadTexture(currentFrameTexture);
+    currentFrameTexture = LoadTexture(std::format("../../assets/{}/mainMenu/animation/Frame{}.png", themePaths.at(static_cast<int>(MainMenu::currentTheme)), currentAnimationFrame).c_str());
+    DrawTexture(currentFrameTexture, 0, 0, WHITE);
+
     currentAnimationFrame++;
+
     if (currentAnimationFrame == 11)
     {
         currentAnimationFrame = 0;
@@ -215,7 +216,6 @@ void ss::pl::mainMenu::MainMenu::loadAssets()
     themeButton_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/Theme_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     viewGraph_Texture = LoadTexture(std::format("../../assets/{}/mainMenu/View_Graph_Button.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
     background_Lines = LoadTexture(std::format("../../assets/{}/mainMenu/Background_Lines.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
-    themeSwitchAnimationSpritesheet = LoadTexture(std::format("../../assets/{}/mainMenu/animation/switchAnimationSpritesheet.png", themePaths.at(static_cast<int>(MainMenu::currentTheme))).c_str());
 }
 
 /// Method for deallocating the dynamically created assets.
@@ -231,7 +231,7 @@ void ss::pl::mainMenu::MainMenu::deleteAssets()
     UnloadTexture(themeButton_Texture);
     UnloadTexture(viewGraph_Texture);
     UnloadTexture(background_Lines);
-    UnloadTexture(themeSwitchAnimationSpritesheet);
+    UnloadTexture(currentFrameTexture);
 }
 
 /// This method draws all the needed assets in the MainMenu page.
