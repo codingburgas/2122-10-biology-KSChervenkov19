@@ -173,6 +173,7 @@ void ss::pl::simulator::Simulator::drawSetup()
 void ss::pl::simulator::Simulator::drawSimulation()
 {
 
+	bool flag = true;
     if (!simulation->isSimulationDone)
     {
         UpdateCamera(&camera);
@@ -213,6 +214,11 @@ void ss::pl::simulator::Simulator::drawSimulation()
     }
     else
     {
+        if (flag)
+        {
+            simulation->saveSimulationInfo("test");
+            flag = false;
+        }
         DrawText("SIMULATION DONE", 500, 500, 100, BLACK);
         // change scene
     }
