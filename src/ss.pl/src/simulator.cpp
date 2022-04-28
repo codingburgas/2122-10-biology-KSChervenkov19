@@ -103,6 +103,29 @@ void ss::pl::simulator::Simulator::checkInput()
         resetCamera();
     }
 
+    if (CheckCollisionPointRec(mousePos, {992, 243, static_cast<float>(exit_Button.width),
+        static_cast<float>(exit_Button.height)}) && currentState == SimulatorState::Simulation &&
+        IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        if(simulation->isSimulationDone)
+        {
+            resetCamera();
+            currentState = SimulatorState::Setup;
+        }
+    }
+
+    if (CheckCollisionPointRec(mousePos, {621, 673, static_cast<float>(save_Data_Button.width),
+        static_cast<float>(save_Data_Button.height)}) && currentState == SimulatorState::Simulation &&
+        IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        if(simulation->isSimulationDone)
+        {
+            resetCamera();
+            simulation->saveSimulationInfo("test");
+            currentState = SimulatorState::Setup;
+        }
+    }
+
     if (IsKeyPressed(KEY_R))
     {
         resetCamera();
@@ -224,7 +247,6 @@ void ss::pl::simulator::Simulator::drawSimulation()
     {
         if (flag)
         {
-            //simulation->saveSimulationInfo("test");
             summaryInfo = getSummaryData();
             flag = false;
         }
