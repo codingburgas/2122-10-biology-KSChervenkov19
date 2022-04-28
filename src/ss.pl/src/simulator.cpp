@@ -106,6 +106,7 @@ void ss::pl::simulator::Simulator::checkInput()
     if (IsKeyPressed(KEY_R))
     {
         resetCamera();
+        selectedEntityId = NULL;
     }
 
     if (IsKeyPressed(KEY_SPACE))
@@ -140,6 +141,7 @@ void ss::pl::simulator::Simulator::resetCamera()
     camera.position = {10.0f, 10.0f, 10.0f};
     camera.target = {0.0f, 0.0f, 0.0f};
     camera.up = {0.0f, 1.0f, 0.0f};
+
 }
 
 /// This method draws the setUp page before the actual simulation.
@@ -178,12 +180,10 @@ void ss::pl::simulator::Simulator::drawSetup()
 /// This method draws the actual simulation.
 void ss::pl::simulator::Simulator::drawSimulation()
 {
-
 	bool flag = true;
     if (!simulation->isSimulationDone)
     {
         UpdateCamera(&camera);
-
         BeginMode3D(camera);
         DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
         DrawGrid(worldSize, 1.0f);
@@ -204,19 +204,21 @@ void ss::pl::simulator::Simulator::drawSimulation()
 
         // PLEASE FIX THIS
         // IT THROWS
-        if (selectedEntityId)
-            DrawSphere({(*simulation->getEntityById(selectedEntityId)).getPos().x - offset, 1.5f,
-                        (*simulation->getEntityById(selectedEntityId)).getPos().y - offset},
-                       .5f, PURPLE);
 
+        
         EndMode3D();
+
+        handleEntityClick();
+        if (auto selectedEntity = simulation->getEntityById(selectedEntityId); selectedEntity)
+        {
+            camera.target = { selectedEntity->m_pos.x - offset, .5f, selectedEntity->m_pos.y - offset };
+        }
 
         timeScale =
             GuiSliderBar({522, 25, 455, 48}, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
 
         if(simulating) simulation->update(GetFrameTime() * timeScale);
 
-        handleEntityClick();
     }
     else
     {
