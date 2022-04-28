@@ -295,8 +295,8 @@ void ss::bll::simulation::Cycle::CycleEnd()
 }
 
 void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities,
-                                                   std::vector<Entity>::iterator &entitiesEndIt, size_t *lastEntityId, size_t cycleId,
-                                                   std::vector<Food> *foods)
+                                                   std::vector<Entity>::iterator &entitiesEndIt, size_t *lastEntityId,
+                                                   size_t cycleId, std::vector<Food> *foods)
 {
     std::cout << cycleId << '\n';
     for (size_t i = 0; i < entities.size(); ++i)
@@ -543,10 +543,10 @@ void ss::bll::simulation::Simulation::cleanEntities()
 
     for (size_t i = 0; i < m_entities.size(); ++i)
     {
-	    if (m_entities.at(i).m_cycleBornAt > m_simInfo.cyclesCount)
-	    {
+        if (m_entities.at(i).m_cycleBornAt > m_simInfo.cyclesCount)
+        {
             indexesForDeletion.push_back(i);
-	    }
+        }
     }
 
     for (auto index : indexesForDeletion)
@@ -603,7 +603,8 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
 
     for (size_t i = 0; i < m_simInfo.startingEntityCount; ++i)
     {
-        m_entities.emplace_back(m_lastEntityId++, t_simInfo.worldSize, m_simInfo.initialTraits, &m_foods, m_currentCycle_n);
+        m_entities.emplace_back(m_lastEntityId++, t_simInfo.worldSize, m_simInfo.initialTraits, &m_foods,
+                                m_currentCycle_n);
     }
     m_entitiesEndIt = m_entities.end();
 
@@ -627,13 +628,13 @@ void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::stri
         types::Cycle cycle;
         cycle.lastedEntities = 0;
 
-        for (const auto& entity : m_entities)
+        for (const auto &entity : m_entities)
         {
-	        if (entity.m_cycleBornAt + entity.m_cyclesLived > cycleId)
-	        {
+            if (entity.m_cycleBornAt + entity.m_cyclesLived > cycleId)
+            {
                 ++cycle.lastedEntities;
                 cycle.traitsInfo.push_back(entity.m_traits);
-	        }
+            }
         }
 
         cycles.push_back(cycle);

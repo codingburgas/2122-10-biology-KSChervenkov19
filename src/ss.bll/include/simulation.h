@@ -67,7 +67,8 @@ class Entity
     EntityFoodStage m_foodStage = EntityFoodStage::ZERO_FOOD;
 
   public:
-    Entity(size_t t_id, const int t_worldSize, const types::Trait &t_traits, std::vector<Food> *t_foods, size_t t_cycleBornAt);
+    Entity(size_t t_id, const int t_worldSize, const types::Trait &t_traits, std::vector<Food> *t_foods,
+           size_t t_cycleBornAt);
     // Entity& operator=(const Entity&) = default;
 
   private:
@@ -143,7 +144,7 @@ class Simulation
   public:
     bool isSimulationDone = false;
 
-private:
+  private:
     void cleanEntities();
 
   public:
