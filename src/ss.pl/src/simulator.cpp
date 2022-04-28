@@ -265,11 +265,11 @@ void ss::pl::simulator::Simulator::drawSummary()
     DrawTexture(exit_Button, 992, 243, WHITE);
     DrawTexture(save_Data_Button, 621, 673, WHITE);
 
-    DrawTextEx(fontInter, "SUMMARY", { 595, 255 }, 70, 0, {5, 11, 30, 255});
-    DrawTextEx(fontInter, TextFormat("Total alive entities: %i", summaryInfo.activeEntites), { 566, 369 }, 32, 0, {5, 11, 30, 255});
-    DrawTextEx(fontInter, TextFormat("Total died entities: %i", summaryInfo.diedEntities), { 566, 439 }, 32, 0, {5, 11, 30, 255});
-    DrawTextEx(fontInter, TextFormat("Average entity speed: %.1f", summaryInfo.averageSpeed), { 566, 508 }, 32, 0, {5, 11, 30, 255});
-    DrawTextEx(fontInter, TextFormat("Average entity sense: %.1f", summaryInfo.averageSense), { 566, 578 }, 32, 0, {5, 11, 30, 255});
+    DrawTextEx(fontInter, "SUMMARY", { 595, 255 }, 70, 0, Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
+    DrawTextEx(fontInter, TextFormat("Total alive entities: %i", summaryInfo.activeEntites), { 566, 369 }, 32, 0, Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
+    DrawTextEx(fontInter, TextFormat("Total died entities: %i", summaryInfo.diedEntities), { 566, 439 }, 32, 0, Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
+    DrawTextEx(fontInter, TextFormat("Average entity speed: %.1f", summaryInfo.averageSpeed), { 566, 508 }, 32, 0, Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
+    DrawTextEx(fontInter, TextFormat("Average entity sense: %.1f", summaryInfo.averageSense), { 566, 578 }, 32, 0, Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
 }
 
 void ss::pl::simulator::Simulator::drawEntity(const auto &entity)
