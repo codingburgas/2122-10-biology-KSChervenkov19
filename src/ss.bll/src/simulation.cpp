@@ -547,8 +547,8 @@ void ss::bll::simulation::Simulation::cleanEntities()
             m_entities[i].m_cyclesLived = m_simInfo.cyclesCount - m_entities[i].m_cycleBornAt;
         }
 
-	    if (m_entities.at(i).m_cycleBornAt > m_simInfo.cyclesCount)
-	    {
+        if (m_entities.at(i).m_cycleBornAt > m_simInfo.cyclesCount)
+        {
             indexesForDeletion.push_back(i);
         }
     }

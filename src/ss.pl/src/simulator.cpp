@@ -103,11 +103,11 @@ void ss::pl::simulator::Simulator::checkInput()
         resetCamera();
     }
 
-    if (CheckCollisionPointRec(mousePos, {992, 243, static_cast<float>(exit_Button.width),
-        static_cast<float>(exit_Button.height)}) && currentState == SimulatorState::Simulation &&
-        IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    if (CheckCollisionPointRec(
+            mousePos, {992, 243, static_cast<float>(exit_Button.width), static_cast<float>(exit_Button.height)}) &&
+        currentState == SimulatorState::Simulation && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        if(simulation->isSimulationDone)
+        if (simulation->isSimulationDone)
         {
             resetCamera();
             currentState = SimulatorState::Setup;
@@ -115,10 +115,10 @@ void ss::pl::simulator::Simulator::checkInput()
     }
 
     if (CheckCollisionPointRec(mousePos, {621, 673, static_cast<float>(save_Data_Button.width),
-        static_cast<float>(save_Data_Button.height)}) && currentState == SimulatorState::Simulation &&
-        IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                                          static_cast<float>(save_Data_Button.height)}) &&
+        currentState == SimulatorState::Simulation && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        if(simulation->isSimulationDone)
+        if (simulation->isSimulationDone)
         {
             resetCamera();
             simulation->saveSimulationInfo("test");
@@ -164,7 +164,6 @@ void ss::pl::simulator::Simulator::resetCamera()
     camera.position = {10.0f, 10.0f, 10.0f};
     camera.target = {0.0f, 0.0f, 0.0f};
     camera.up = {0.0f, 1.0f, 0.0f};
-
 }
 
 /// This method draws the setUp page before the actual simulation.
@@ -203,7 +202,7 @@ void ss::pl::simulator::Simulator::drawSetup()
 /// This method draws the actual simulation.
 void ss::pl::simulator::Simulator::drawSimulation()
 {
-	bool flag = true;
+    bool flag = true;
     if (!simulation->isSimulationDone)
     {
         UpdateCamera(&camera);
@@ -228,20 +227,19 @@ void ss::pl::simulator::Simulator::drawSimulation()
         // PLEASE FIX THIS
         // IT THROWS
 
-        
         EndMode3D();
 
         handleEntityClick();
         if (auto selectedEntity = simulation->getEntityById(selectedEntityId); selectedEntity)
         {
-            camera.target = { selectedEntity->m_pos.x - offset, .5f, selectedEntity->m_pos.y - offset };
+            camera.target = {selectedEntity->m_pos.x - offset, .5f, selectedEntity->m_pos.y - offset};
         }
 
         timeScale =
             GuiSliderBar({522, 25, 455, 48}, "Timescale:", TextFormat("%.2f", timeScale), timeScale, 0.1f, 10.0f);
 
-        if(simulating) simulation->update(GetFrameTime() * timeScale);
-
+        if (simulating)
+            simulation->update(GetFrameTime() * timeScale);
     }
     else
     {
@@ -265,11 +263,16 @@ void ss::pl::simulator::Simulator::drawSummary()
     DrawTexture(exit_Button, 992, 243, WHITE);
     DrawTexture(save_Data_Button, 621, 673, WHITE);
 
-    DrawTextEx(fontInter, "SUMMARY", { 595, 255 }, 70, 0, Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
-    DrawTextEx(fontInter, TextFormat("Total alive entities: %i", summaryInfo.activeEntites), { 566, 369 }, 32, 0, Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
-    DrawTextEx(fontInter, TextFormat("Total died entities: %i", summaryInfo.diedEntities), { 566, 439 }, 32, 0, Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
-    DrawTextEx(fontInter, TextFormat("Average entity speed: %.1f", summaryInfo.averageSpeed), { 566, 508 }, 32, 0, Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
-    DrawTextEx(fontInter, TextFormat("Average entity sense: %.1f", summaryInfo.averageSense), { 566, 578 }, 32, 0, Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
+    DrawTextEx(fontInter, "SUMMARY", {595, 255}, 70, 0,
+               Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
+    DrawTextEx(fontInter, TextFormat("Total alive entities: %i", summaryInfo.activeEntites), {566, 369}, 32, 0,
+               Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
+    DrawTextEx(fontInter, TextFormat("Total died entities: %i", summaryInfo.diedEntities), {566, 439}, 32, 0,
+               Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
+    DrawTextEx(fontInter, TextFormat("Average entity speed: %.1f", summaryInfo.averageSpeed), {566, 508}, 32, 0,
+               Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
+    DrawTextEx(fontInter, TextFormat("Average entity sense: %.1f", summaryInfo.averageSense), {566, 578}, 32, 0,
+               Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
 }
 
 void ss::pl::simulator::Simulator::drawEntity(const auto &entity)
@@ -304,9 +307,10 @@ void ss::pl::simulator::Simulator::drawFood(const auto &food)
 
 ss::pl::simulator::Simulator::SummaryInfo ss::pl::simulator::Simulator::getSummaryData()
 {
-    return SummaryInfo(simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt).size(), 
-        simulation->m_entities.size() - simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt).size(),
-        69, 69);
+    return SummaryInfo(simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt).size(),
+                       simulation->m_entities.size() -
+                           simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt).size(),
+                       69, 69);
 }
 
 // clang-format off

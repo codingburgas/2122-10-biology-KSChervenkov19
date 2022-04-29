@@ -171,9 +171,11 @@ void ss::pl::mainMenu::MainMenu::playThemeAnimation()
     if (!animationIsPlaying)
         return;
 
-
     UnloadTexture(currentFrameTexture);
-    currentFrameTexture = LoadTexture(std::format("../../assets/{}/mainMenu/animation/Frame{}.png", themePaths.at(static_cast<int>(MainMenu::currentTheme)), currentAnimationFrame).c_str());
+    currentFrameTexture =
+        LoadTexture(std::format("../../assets/{}/mainMenu/animation/Frame{}.png",
+                                themePaths.at(static_cast<int>(MainMenu::currentTheme)), currentAnimationFrame)
+                        .c_str());
     DrawTexture(currentFrameTexture, 0, 0, WHITE);
 
     currentAnimationFrame++;

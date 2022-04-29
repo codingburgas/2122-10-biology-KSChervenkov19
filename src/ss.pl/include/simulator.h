@@ -46,7 +46,7 @@ class Simulator : public Scene
     bool simulating;
 
     size_t selectedEntityId;
-    ss::bll::simulation::Entity* selectedEntity;
+    ss::bll::simulation::Entity *selectedEntity;
 
     // Variable, stores the current scene state
     enum class SimulatorState
