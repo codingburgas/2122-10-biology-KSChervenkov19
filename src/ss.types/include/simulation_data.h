@@ -7,9 +7,10 @@ namespace ss::types
 {
 enum class EntityTarget
 {
-	SearchingFood,
-    GoingFood,
-    GoingHome
+	SEARCHINGFOOD,
+    GOINGFOOD,
+    GOINGHOME,
+    IDLE
 };
 
 struct fVec2
