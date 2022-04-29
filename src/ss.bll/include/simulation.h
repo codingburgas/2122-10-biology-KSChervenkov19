@@ -88,6 +88,7 @@ class Entity
     void move(float elapsedTime);
 
   public:
+    types::EntityTarget getBrain() const;
     [[nodiscard]] const types::fVec2 &getPos() const;
     [[nodiscard]] float getFacingAngle() const;
 
@@ -156,7 +157,7 @@ class Simulation
     const Entity *getEntityById(size_t id);
 
   public:
-    Simulation(const ss::types::SimulationInfo t_simInfo);
+    Simulation(types::SimulationInfo t_simInfo);
     void saveSimulationInfo(std::optional<std::string> fileName) const;
     void update(float elapsedTime);
     friend class Cycle;

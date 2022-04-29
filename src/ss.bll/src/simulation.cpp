@@ -245,6 +245,21 @@ void ss::bll::simulation::Entity::move(const float elapsedTime)
         m_isDoneWithCycle = true;
 }
 
+ss::types::EntityTarget ss::bll::simulation::Entity::getBrain() const
+{
+    if (m_targetFood)
+    {
+        return types::EntityTarget::GoingFood;
+    }
+
+	if (m_foodStage == EntityFoodStage::TWO_FOOD)
+	{
+        return types::EntityTarget::GoingHome;
+	}
+
+    return types::EntityTarget::SearchingFood;
+}
+
 const ss::types::fVec2 &ss::bll::simulation::Entity::getPos() const
 {
     return m_pos;

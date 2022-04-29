@@ -5,6 +5,13 @@
 
 namespace ss::types
 {
+enum class EntityTarget
+{
+	SearchingFood,
+    GoingFood,
+    GoingHome
+};
+
 struct fVec2
 {
     float x;
