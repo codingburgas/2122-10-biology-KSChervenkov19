@@ -5,6 +5,7 @@
 #include "utils.h"
 #include <raygui.h>
 #include <raylib.h>
+#include <array>
 
 namespace ss::pl::simulator
 {
@@ -35,18 +36,27 @@ class Simulator : public Scene
 
     // Variables, used for initializing the simulation
     float graphsContainerPos;
-    int cyclesCount;
-    int worldSize;
-    int entities;
-    int food;
+    size_t cyclesCount;
+    size_t worldSize;
+    size_t entities;
+    size_t food;
 
-    float timeScale;
     float offset;
     float entityLookingDirRadian;
     bool simulating;
 
     size_t selectedEntityId;
     ss::bll::simulation::Entity *selectedEntity;
+
+    bool additionalMenuTriggered;
+    float timeScale;
+    bool shouldShowProgressBar;
+    bool shouldShowTraits;
+    enum class SLECTED_TRAITS_MONITOR
+    {
+        SPEED,
+        ENERGY,
+    } selectedTraitsMonitor = SLECTED_TRAITS_MONITOR::SPEED;
 
     // Variable, stores the current scene state
     enum class SimulatorState
@@ -64,13 +74,18 @@ class Simulator : public Scene
         float averageSense;
     } summaryInfo;
 
+    const std::array<std::string, 4> entityThoughts = {"SearchingFood", "GoingFood", "GoingHome", "Idle"};
+
     // Methods, used to draw scenes
     void drawSetup();
     void drawSimulation();
     void drawSummary();
+    void drawAdditionalMenu();
+    void drawProgressBar();
 
     void drawEntity(const auto &entity);
     void drawFood(const auto &food);
+    void drawEntityThoughts(const ss::bll::simulation::Entity* entity);
 
     // Getter methods
     SummaryInfo getSummaryData();
