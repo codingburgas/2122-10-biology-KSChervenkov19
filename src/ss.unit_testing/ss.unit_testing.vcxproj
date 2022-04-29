@@ -169,6 +169,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ss.bll.unit_testing\bll_unit_testing.cpp" />
+    <ClCompile Include="src\ss.bll.unit_testing\get_degree_from_radian.cpp" />
+    <ClCompile Include="src\ss.bll.unit_testing\get_radian_from_degree.cpp" />
     <ClCompile Include="src\ss.bll.unit_testing\get_statistics_files_names_2.cpp" />
     <ClCompile Include="src\ss.bll.unit_testing\get_statistics_method_2.cpp" />
     <ClCompile Include="src\ss.dal.unit_testing\dal_unit_testing.cpp" />
