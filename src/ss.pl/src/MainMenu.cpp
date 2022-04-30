@@ -70,7 +70,7 @@ void ss::pl::mainMenu::MainMenu::onExit() // called once, at the end of the scen
     isSetUp = false;
 }
 
-/// This method calculates the Graph container's place.
+/// Method for calculating the Graph container's place.
 ///
 /// @return The possition in float.
 float ss::pl::mainMenu::MainMenu::calculateGraphsContainer()
@@ -87,7 +87,7 @@ float ss::pl::mainMenu::MainMenu::calculateGraphsContainer()
     return animationCalc;
 }
 
-/// Handling the scroll button.
+/// Method for handling the scroll button.
 void ss::pl::mainMenu::MainMenu::handleScroll()
 {
     if (scrollOffset + GetMouseWheelMove() * 35 <= 0 &&
@@ -97,7 +97,7 @@ void ss::pl::mainMenu::MainMenu::handleScroll()
     }
 }
 
-/// This method positions the graph container through the animation.
+/// Method for positioning the graph container through the animation.
 void ss::pl::mainMenu::MainMenu::positionGraphsContainer()
 {
     currentGraphPos.x = (graphsIsAnimatingOut) ? graphsContainerPos - 53 : graphsContainerPos + 53;
@@ -108,7 +108,7 @@ void ss::pl::mainMenu::MainMenu::positionGraphsContainer()
     });
 }
 
-/// This method slows down the showing of the graph container.
+/// Method for slowing down the showing of the graph container.
 void ss::pl::mainMenu::MainMenu::animateGraphsContainer()
 {
     if (graphsContainerPos >= 0)
@@ -141,7 +141,7 @@ void ss::pl::mainMenu::MainMenu::animateGraphsContainer()
     }
 }
 
-/// This method display the graph cards on click on the menu.
+/// Method for displaying the graph cards on click on the menu.
 void ss::pl::mainMenu::MainMenu::displayGraphCards()
 {
     checkGraphButtonCollisions();
@@ -166,6 +166,7 @@ void ss::pl::mainMenu::MainMenu::displayGraphCards()
     }
 }
 
+/// Method for displaying the theme switch animation
 void ss::pl::mainMenu::MainMenu::playThemeAnimation()
 {
     if (!animationIsPlaying)
@@ -187,7 +188,7 @@ void ss::pl::mainMenu::MainMenu::playThemeAnimation()
     }
 }
 
-/// This method checks which of the graph buttons is clicked.
+/// Method for checking which of the graph buttons is clicked.
 void ss::pl::mainMenu::MainMenu::checkGraphButtonCollisions()
 {
     std::ranges::for_each(graphCards, [this](const graphsCard &graphButton) {
@@ -236,7 +237,7 @@ void ss::pl::mainMenu::MainMenu::deleteAssets()
     UnloadTexture(currentFrameTexture);
 }
 
-/// This method draws all the needed assets in the MainMenu page.
+/// Method for drawing all the needed assets in the MainMenu page.
 void ss::pl::mainMenu::MainMenu::drawTextures()
 {
     DrawTexture(background_Lines, 0, 0, WHITE);
@@ -247,7 +248,7 @@ void ss::pl::mainMenu::MainMenu::drawTextures()
     DrawTexture(themeButton_Texture, 1359, 15, WHITE);
 }
 
-/// This method handles when the mouse cursor is on click.
+/// Method for handling when the mouse cursor is on click.
 /// @return bool.
 bool ss::pl::mainMenu::MainMenu::handleMouseCursor()
 {
@@ -256,7 +257,7 @@ bool ss::pl::mainMenu::MainMenu::handleMouseCursor()
         || CheckCollisionPointRec(mousePos, { 1359, 15, static_cast<float>(themeButton_Texture.width), static_cast<float>(themeButton_Texture.height) });
 }
 
-/// This method checks for collision on every possible button.
+/// Method for checking collision on every possible button.
 void ss::pl::mainMenu::MainMenu::checkCollision()
 {
 
