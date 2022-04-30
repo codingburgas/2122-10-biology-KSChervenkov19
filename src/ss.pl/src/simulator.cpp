@@ -215,7 +215,7 @@ void ss::pl::simulator::Simulator::drawSetup()
 /// Method for drawing the actual simulation.
 void ss::pl::simulator::Simulator::drawSimulation()
 {
-    bool flag = true;
+    static bool flag = true;
     if (!simulation->isSimulationDone)
     {
         UpdateCamera(&camera);
@@ -280,6 +280,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
         {
             summaryInfo = getSummaryData();
             aminationProgress = 0;
+            simulation->saveSimulationInfo({});
             flag = false;
         }
 

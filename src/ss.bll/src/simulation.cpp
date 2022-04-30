@@ -564,7 +564,7 @@ void ss::bll::simulation::Simulation::cleanEntities()
     {
         if (m_entities.at(i).m_cyclesLived == 0)
         {
-            m_entities[i].m_cyclesLived = m_simInfo.cyclesCount - m_entities[i].m_cycleBornAt;
+            m_entities[i].m_cyclesLived = m_simInfo.cyclesCount + 1 - m_entities[i].m_cycleBornAt;
         }
 
         if (m_entities.at(i).m_cycleBornAt > m_simInfo.cyclesCount)
