@@ -53,7 +53,7 @@ std::vector<std::string> ss::dal::StatisticsStore::getStatisticsNames()
 /// @param cycles A generation data.
 void ss::dal::StatisticsStore::saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles)
 {
-    std::ofstream out(fileName + ".json");
+    std::ofstream out("../../statistics/" + fileName + ".json");
 
     if (!out.is_open())
         throw std::runtime_error("File: " + fileName + " cannot be opened!");
