@@ -31,6 +31,12 @@ class Simulator : public Scene
     Texture2D dropDown_Arrow;
     Texture2D dropDown_Arrow_Selected;
 
+    Texture2D entitySearchingFood;
+    Texture2D entityGoingHome;
+    Texture2D entityGoingTowardsFood;
+    Texture2D entityShouldBreed;
+    
+
     // Camera
     Camera3D camera{0};
 

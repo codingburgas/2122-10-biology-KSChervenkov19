@@ -246,22 +246,19 @@ void ss::pl::simulator::Simulator::drawSimulation()
             drawFood(food);
         }
 
-        // PLEASE FIX THIS
-        // IT THROWS
+        handleEntityClick();
+        if (const ss::bll::simulation::Entity* selectedEntity = simulation->getEntityById(selectedEntityId);
+            selectedEntity)
+        {
+            camera.target = { selectedEntity->m_pos.x - offset, .5f, selectedEntity->m_pos.y - offset };
+            drawEntityThoughts(selectedEntity);
+        }
 
         EndMode3D();
 
         drawProgressBar();
 
         drawAdditionalMenu();
-
-        handleEntityClick();
-        if (const ss::bll::simulation::Entity *selectedEntity = simulation->getEntityById(selectedEntityId);
-            selectedEntity)
-        {
-            camera.target = {selectedEntity->m_pos.x - offset, .5f, selectedEntity->m_pos.y - offset};
-            drawEntityThoughts(selectedEntity);
-        }
 
         if (simulating)
         {
@@ -463,7 +460,31 @@ void ss::pl::simulator::Simulator::drawFood(const auto &food)
 /// Method for drawing entity's movement target when you click on it
 void ss::pl::simulator::Simulator::drawEntityThoughts(const ss::bll::simulation::Entity *entity)
 {
-    //std::cout << entityThoughts.at(static_cast<size_t>(entity->getBrain()));
+    switch (entity->getBrain())
+    {
+    case ss::types::EntityTarget::SEARCHINGFOOD:
+        DrawBillboard(camera, entitySearchingFood, { entity->getPos().x - offset, 2.0f, entity->getPos().y - offset }, 2.0f, WHITE);
+        break;
+
+    case ss::types::EntityTarget::GOINGFOOD:
+        DrawBillboard(camera, entityGoingTowardsFood, { entity->getPos().x - offset, 2.0f, entity->getPos().y - offset }, 2.0f, WHITE);
+        break;
+
+    case ss::types::EntityTarget::GOINGHOME:
+        DrawBillboard(camera, entityGoingHome, { entity->getPos().x - offset, 2.0f, entity->getPos().y - offset }, 2.0f, WHITE);
+        break;
+
+    case ss::types::EntityTarget::IDLE:
+        if (entity->m_foodStage == ss::bll::simulation::EntityFoodStage::TWO_FOOD)
+        {
+            DrawBillboard(camera, entityShouldBreed, { entity->getPos().x - offset, 2.0f, entity->getPos().y - offset }, 2.0f, WHITE);
+        }
+        else
+        {
+            DrawBillboard(camera, entityGoingHome, { entity->getPos().x - offset, 2.0f, entity->getPos().y - offset }, 2.0f, WHITE);
+        }
+        break;
+    }
 }
 
 /// Method for getting the data for summary screen
@@ -490,6 +511,11 @@ void ss::pl::simulator::Simulator::loadAssets()
     dropDown_Arrow = LoadTexture("../../assets/lightTheme/simulator/DropDown_Arrow.png");
     dropDown_Arrow_Selected = LoadTexture("../../assets/lightTheme/simulator/DropDown_Arrow_Selected.png");
 
+    entitySearchingFood = LoadTexture(std::format("../../assets/{}/simulator/Entity_Searching_Food.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
+    entityGoingTowardsFood = LoadTexture(std::format("../../assets/{}/simulator/Entity_Going_Towards_Food.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
+    entityGoingHome = LoadTexture(std::format("../../assets/{}/simulator/Entity_Going_Home.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
+    entityShouldBreed = LoadTexture(std::format("../../assets/{}/simulator/Entity_Should_Breed.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
+
     GuiLoadStyle((currentTheme == ThemeTypes::LightTheme) ? "../../assets/bluish.txt.rgs" : "../../assets/lavanda.txt.rgs");
 }
 
@@ -505,6 +531,10 @@ void ss::pl::simulator::Simulator::deleteAssets()
     UnloadTexture(checkmark);
     UnloadTexture(dropDown_Arrow);
     UnloadTexture(dropDown_Arrow_Selected);
+    UnloadTexture(entitySearchingFood);
+    UnloadTexture(entityGoingHome);
+    UnloadTexture(entityGoingTowardsFood);
+    UnloadTexture(entityShouldBreed);
 
     UnloadFont(fontInter);
 }
