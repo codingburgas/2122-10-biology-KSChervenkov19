@@ -224,26 +224,26 @@ void ss::pl::simulator::Simulator::drawSimulation()
         DrawGrid(worldSize, 1.0f);
         animateProgress();
 
-        int index = 0;
+        /*int index = 0;
         if (currentCycle != simulation->m_currentCycle_n)
         {
             delete[]radiusArray;
             radiusArray = new float[simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt).size()];
             currentCycle = simulation->m_currentCycle_n;
-        }
+        }*/
         for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
         {
-            if (entity.m_isDoneWithCycle && entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD)
-            {
-                radiusArray[index] = animateDying(radiusArray[index]);
-            }
-            else
-            {
-                radiusArray[index] = .5f;
-            }
+            //if (entity.m_isDoneWithCycle && entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD)
+            //{
+            //    radiusArray[index] = animateDying(radiusArray[index]);
+            //}
+            //else
+            //{
+            //    radiusArray[index] = .5f;
+            //}
 
-            drawEntity(entity, radiusArray[index]);
-            index++;
+            drawEntity(entity);
+            //index++;
             // Debugging
             // std::cout << entity.m_cycleBornAt << ' ';
         }
@@ -353,7 +353,7 @@ void ss::pl::simulator::Simulator::drawProgressBar()
 
     //std::cout << (((simulation->m_currentCycle_n - 1 / cyclesCount) * 10) / 100) << '\n';
     // Draw current cycle number
-    DrawTextEx(fontInter, TextFormat("%i", simulation->m_currentCycle_n - 1), { 659, 915 }, 36, 1, { 132, 132, 132, 255 });
+    DrawTextEx(fontInter, TextFormat("%i", simulation->m_currentCycle_n - 1), { aminationProgress-11, 915 }, 36, 1, { 132, 132, 132, 255 });
 
     // Draw background of progressbar
     DrawRectangle(0, 960, 1500, 20, WHITE);
@@ -377,20 +377,20 @@ float ss::pl::simulator::Simulator::animateProgress()
 /// Method for calculating the dying animation 
 /// @param current float radius
 /// @return new float radius
-float ss::pl::simulator::Simulator::animateDying(float currentRadius)
-{
-    if(currentRadius > 0) currentRadius -= .02f;
-    return currentRadius;
-}
+//float ss::pl::simulator::Simulator::animateDying(float currentRadius)
+//{
+//    if(currentRadius > 0) currentRadius -= .02f;
+//    return currentRadius;
+//}
 
 /// Method for drawing every entity at the simulation field
-void ss::pl::simulator::Simulator::drawEntity(const auto &entity, float radius)
+void ss::pl::simulator::Simulator::drawEntity(const auto &entity)
 {
     float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
     ss::types::fVec2 currentPos = entity.getPos();
 
     // draw entity body
-    DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, radius,
+    DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f,
                entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD
                    ? RED
                    : entity.m_foodStage == bll::simulation::EntityFoodStage::ONE_FOOD ? GREEN : DARKGREEN);
