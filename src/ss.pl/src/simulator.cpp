@@ -31,7 +31,7 @@ void ss::pl::simulator::Simulator::Start() // called once, at the start of the s
 
     additionalMenuTriggered = false;
     shouldShowProgressBar = true;
-    shouldShowTraits = true;
+    shouldShowTraits = false;
     selectedTraitsMonitor = SLECTED_TRAITS_MONITOR::SPEED;
     
     savedSimulationInfo = false;
@@ -314,7 +314,7 @@ void ss::pl::simulator::Simulator::drawSummary()
 /// Method for drawing controls menu at simulation runtime
 void ss::pl::simulator::Simulator::drawAdditionalMenu()
 {
-    if (CheckCollisionPointRec(mousePos, {1350.0f, 59.0f, 78.0f, 22.0f}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    if (CheckCollisionPointRec(mousePos, {1044.0f, 37.0f, 419.0f, 65.0f}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         additionalMenuTriggered = !additionalMenuTriggered;
     }
@@ -347,7 +347,8 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
     DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 65.0f}, 10.0f, 1, {101, 158, 244, 255}):
     DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 65.0f}, 10.0f, 1, {158, 149, 245, 255});
 
-    DrawRectangleRounded({1350.0f, 59.0f, 78.0f, 22.0f}, 10.0f, 1, WHITE);
+    additionalMenuTriggered? DrawTexture(dropDown_Arrow_Selected, 1390, 57, WHITE):
+                             DrawTexture(dropDown_Arrow, 1400, 48, WHITE);
 }
 
 /// Method for drawing the progress bar at the bottom of simuation
@@ -486,6 +487,8 @@ void ss::pl::simulator::Simulator::loadAssets()
     exit_Button = LoadTexture(std::format("../../assets/{}/simulator/Exit_Button.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
     save_Data_Button = LoadTexture(std::format("../../assets/{}/simulator/Save_Data_Button.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
     checkmark = LoadTexture("../../assets/lightTheme/simulator/Checkmark.png");
+    dropDown_Arrow = LoadTexture("../../assets/lightTheme/simulator/DropDown_Arrow.png");
+    dropDown_Arrow_Selected = LoadTexture("../../assets/lightTheme/simulator/DropDown_Arrow_Selected.png");
 
     GuiLoadStyle((currentTheme == ThemeTypes::LightTheme) ? "../../assets/bluish.txt.rgs" : "../../assets/lavanda.txt.rgs");
 }
@@ -500,6 +503,8 @@ void ss::pl::simulator::Simulator::deleteAssets()
     UnloadTexture(exit_Button);
     UnloadTexture(save_Data_Button);
     UnloadTexture(checkmark);
+    UnloadTexture(dropDown_Arrow);
+    UnloadTexture(dropDown_Arrow_Selected);
 
     UnloadFont(fontInter);
 }

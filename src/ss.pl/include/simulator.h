@@ -28,6 +28,8 @@ class Simulator : public Scene
     Texture2D exit_Button;
     Texture2D save_Data_Button;
     Texture2D checkmark;
+    Texture2D dropDown_Arrow;
+    Texture2D dropDown_Arrow_Selected;
 
     // Camera
     Camera3D camera{0};
