@@ -3,9 +3,9 @@
 #include "sceneManager.h"
 #include "simulation.h"
 #include "utils.h"
+#include <array>
 #include <raygui.h>
 #include <raylib.h>
-#include <array>
 
 namespace ss::pl::simulator
 {
@@ -85,7 +85,7 @@ class Simulator : public Scene
 
     void drawEntity(const auto &entity);
     void drawFood(const auto &food);
-    void drawEntityThoughts(const ss::bll::simulation::Entity* entity);
+    void drawEntityThoughts(const ss::bll::simulation::Entity *entity);
 
     // Getter methods
     SummaryInfo getSummaryData();

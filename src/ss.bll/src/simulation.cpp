@@ -252,16 +252,15 @@ ss::types::EntityTarget ss::bll::simulation::Entity::getBrain() const
         return types::EntityTarget::IDLE;
     }
 
-	if (m_targetFood)
+    if (m_targetFood)
     {
         return types::EntityTarget::GOINGFOOD;
     }
 
-	if (m_foodStage == EntityFoodStage::ONE_FOOD ||
-        m_foodStage == EntityFoodStage::TWO_FOOD)
-	{
+    if (m_foodStage == EntityFoodStage::ONE_FOOD || m_foodStage == EntityFoodStage::TWO_FOOD)
+    {
         return types::EntityTarget::GOINGHOME;
-	}
+    }
 
     return types::EntityTarget::SEARCHINGFOOD;
 }
@@ -656,8 +655,7 @@ void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::stri
         for (const auto &entity : m_entities)
         {
             // if (entity.m_cycleBornAt + entity.m_cyclesLived > cycleId)
-            if (entity.m_cycleBornAt <= cycleId &&
-                entity.m_cycleBornAt + entity.m_cyclesLived > cycleId)
+            if (entity.m_cycleBornAt <= cycleId && entity.m_cycleBornAt + entity.m_cyclesLived > cycleId)
             {
                 ++cycle.lastedEntities;
                 cycle.traitsInfo.push_back(entity.m_traits);

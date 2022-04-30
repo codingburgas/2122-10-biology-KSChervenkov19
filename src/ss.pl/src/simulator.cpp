@@ -96,11 +96,7 @@ void ss::pl::simulator::Simulator::checkInput()
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         Simulator::currentState = SimulatorState::Simulation;
-        const types::SimulationInfo simInfo = {worldSize,
-                                               cyclesCount,
-                                               food,
-                                               entities,
-                                               {2.0f, 1.0f}};
+        const types::SimulationInfo simInfo = {worldSize, cyclesCount, food, entities, {2.0f, 1.0f}};
         simulation = new ss::bll::simulation::Simulation(simInfo);
         offset = static_cast<float>(worldSize) / 2.0f;
         camera.canRotate = true;
@@ -238,7 +234,8 @@ void ss::pl::simulator::Simulator::drawSimulation()
         drawAdditionalMenu();
 
         handleEntityClick();
-        if (const ss::bll::simulation::Entity* selectedEntity = simulation->getEntityById(selectedEntityId); selectedEntity)
+        if (const ss::bll::simulation::Entity *selectedEntity = simulation->getEntityById(selectedEntityId);
+            selectedEntity)
         {
             camera.target = {selectedEntity->m_pos.x - offset, .5f, selectedEntity->m_pos.y - offset};
             drawEntityThoughts(selectedEntity);
@@ -283,38 +280,44 @@ void ss::pl::simulator::Simulator::drawSummary()
 
 void ss::pl::simulator::Simulator::drawAdditionalMenu()
 {
-    if (CheckCollisionPointRec(mousePos, { 1350.0f, 59.0f, 78.0f, 22.0f }) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    if (CheckCollisionPointRec(mousePos, {1350.0f, 59.0f, 78.0f, 22.0f}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         additionalMenuTriggered = !additionalMenuTriggered;
     }
 
     if (additionalMenuTriggered)
     {
-        DrawTextEx(fontInter, "Timescale:", { 1073, 124 }, 28.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
-        DrawRectangleRounded({ 1044.0f, 37.0f, 419.0f, 474.0f }, .2f, 1, { 193, 187, 245, 53 });
-        timeScale = GuiSliderBar({ 1073, 165, 355, 48 }, nullptr, nullptr, timeScale, 0.1f, 10.0f);
+        DrawTextEx(fontInter, "Timescale:", {1073, 124}, 28.6F, 0,
+                   backgroundColors.at(!(static_cast<int>(currentTheme))));
+        DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 474.0f}, .2f, 1, {193, 187, 245, 53});
+        timeScale = GuiSliderBar({1073, 165, 355, 48}, nullptr, nullptr, timeScale, 0.1f, 10.0f);
 
-        DrawTextEx(fontInter, "Progressbar:", { 1073, 241 }, 28.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
-        //draw checkbox
+        DrawTextEx(fontInter, "Progressbar:", {1073, 241}, 28.6F, 0,
+                   backgroundColors.at(!(static_cast<int>(currentTheme))));
+        // draw checkbox
 
-        DrawTextEx(fontInter, "Monitor traits:", { 1073, 321 }, 28.6F, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
-
+        DrawTextEx(fontInter, "Monitor traits:", {1073, 321}, 28.6F, 0,
+                   backgroundColors.at(!(static_cast<int>(currentTheme))));
     }
 
-    DrawRectangleRounded({ 1044.0f, 37.0f, 419.0f, 65.0f }, 10.0f, 1, { 158, 149, 245, 255 });
-    DrawRectangleRounded({ 1350.0f, 59.0f, 78.0f, 22.0f }, 10.0f, 1, WHITE);
+    DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 65.0f}, 10.0f, 1, {158, 149, 245, 255});
+    DrawRectangleRounded({1350.0f, 59.0f, 78.0f, 22.0f}, 10.0f, 1, WHITE);
 }
 
 void ss::pl::simulator::Simulator::drawProgressBar()
 {
-    if (shouldShowProgressBar) return;
+    if (shouldShowProgressBar)
+        return;
 
     std::cout << (((simulation->m_currentCycle_n - 1 / cyclesCount) * 10) / 100) << '\n';
 
-    //draw background of progressbar
+    // draw background of progressbar
     DrawRectangle(0, 960, 1500, 20, WHITE);
-    //draw progressbar fill
-    DrawRectangleRounded({ 0, 960, (static_cast<float>(simulation->m_currentCycle_n-1) / static_cast<float>(cyclesCount)) * 1500.0f, 20 }, 1, 10, Color{101, 158, 244, 255});
+    // draw progressbar fill
+    DrawRectangleRounded(
+        {0, 960, (static_cast<float>(simulation->m_currentCycle_n - 1) / static_cast<float>(cyclesCount)) * 1500.0f,
+         20},
+        1, 10, Color{101, 158, 244, 255});
 }
 
 void ss::pl::simulator::Simulator::drawEntity(const auto &entity)
@@ -347,7 +350,7 @@ void ss::pl::simulator::Simulator::drawFood(const auto &food)
     }
 }
 
-void ss::pl::simulator::Simulator::drawEntityThoughts(const ss::bll::simulation::Entity* entity)
+void ss::pl::simulator::Simulator::drawEntityThoughts(const ss::bll::simulation::Entity *entity)
 {
     std::cout << entityThoughts.at(static_cast<size_t>(entity->getBrain()));
 }

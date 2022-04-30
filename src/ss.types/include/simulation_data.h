@@ -7,7 +7,7 @@ namespace ss::types
 {
 enum class EntityTarget
 {
-	SEARCHINGFOOD,
+    SEARCHINGFOOD,
     GOINGFOOD,
     GOINGHOME,
     IDLE
