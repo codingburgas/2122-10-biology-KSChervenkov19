@@ -150,6 +150,7 @@ void ss::pl::simulator::Simulator::checkInput()
     }
 }
 
+/// Method for handling the camera and collision for clickig on entity
 void ss::pl::simulator::Simulator::handleEntityClick()
 {
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -170,7 +171,7 @@ void ss::pl::simulator::Simulator::handleEntityClick()
     }
 }
 
-/// This method resets the camera to its initial position.
+/// Method for reseting the camera to its initial position.
 void ss::pl::simulator::Simulator::resetCamera()
 {
     camera.position = {10.0f, 10.0f, 10.0f};
@@ -178,7 +179,7 @@ void ss::pl::simulator::Simulator::resetCamera()
     camera.up = {0.0f, 1.0f, 0.0f};
 }
 
-/// This method draws the setUp page before the actual simulation.
+/// Method for drawing the setUp page before the actual simulation.
 void ss::pl::simulator::Simulator::drawSetup()
 {
     BeginMode3D(camera);
@@ -211,7 +212,7 @@ void ss::pl::simulator::Simulator::drawSetup()
     }
 }
 
-/// This method draws the actual simulation.
+/// Method for drawing the actual simulation.
 void ss::pl::simulator::Simulator::drawSimulation()
 {
     bool flag = true;
@@ -274,7 +275,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
     // bll::simulation::Cycle::randomizeFoodPositions(simulation->m_foods, simulation->m_simInfo.worldSize);
 }
 
-/// This method draws summary screen at the end of the simulation
+/// Method for drawing summary screen at the end of the simulation
 void ss::pl::simulator::Simulator::drawSummary()
 {
     DrawTexture(summary_Container, 437, 201, WHITE);
@@ -293,7 +294,7 @@ void ss::pl::simulator::Simulator::drawSummary()
                Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
 }
 
-/// This method draws controls menu at simulation runtime
+/// Method for drawing controls menu at simulation runtime
 void ss::pl::simulator::Simulator::drawAdditionalMenu()
 {
     if (CheckCollisionPointRec(mousePos, {1350.0f, 59.0f, 78.0f, 22.0f}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -327,6 +328,7 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
     DrawRectangleRounded({1350.0f, 59.0f, 78.0f, 22.0f}, 10.0f, 1, WHITE);
 }
 
+/// Method for drawing the progress bar at the bottom of simuation
 void ss::pl::simulator::Simulator::drawProgressBar()
 {
     if (!shouldShowProgressBar)
@@ -343,6 +345,8 @@ void ss::pl::simulator::Simulator::drawProgressBar()
     DrawRectangleRounded({-10, 960, aminationProgress + 10, 20}, 1, 10, Color{101, 158, 244, 255});
 }
 
+/// Method for animating the progress bar at the bottom of simuation
+/// @return current progress bar's X position
 float ss::pl::simulator::Simulator::animateProgress()
 {
     if (aminationProgress <= (static_cast<float>(simulation->m_currentCycle_n - 1) / static_cast<float>(cyclesCount)) * 1500.0f)
@@ -353,6 +357,7 @@ float ss::pl::simulator::Simulator::animateProgress()
     return aminationProgress + 10;
 }
 
+/// Method for drawing every entity at the simulation field
 void ss::pl::simulator::Simulator::drawEntity(const auto &entity)
 {
     float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
@@ -375,6 +380,7 @@ void ss::pl::simulator::Simulator::drawEntity(const auto &entity)
                  {255, 0, 0, 100});
 }
 
+/// Method for drawing every food at the simulation field
 void ss::pl::simulator::Simulator::drawFood(const auto &food)
 {
     if (!food.isEaten)
@@ -383,11 +389,14 @@ void ss::pl::simulator::Simulator::drawFood(const auto &food)
     }
 }
 
+/// Method for drawing entity's movement target when you click on it
 void ss::pl::simulator::Simulator::drawEntityThoughts(const ss::bll::simulation::Entity *entity)
 {
     //std::cout << entityThoughts.at(static_cast<size_t>(entity->getBrain()));
 }
 
+/// Method for getting the data for summary screen
+/// @return data for summary screen
 ss::pl::simulator::Simulator::SummaryInfo ss::pl::simulator::Simulator::getSummaryData()
 {
     return SummaryInfo(simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt).size(),
