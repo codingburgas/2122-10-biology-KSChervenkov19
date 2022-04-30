@@ -44,6 +44,7 @@ class Entity
     size_t m_id;
     size_t m_cycleBornAt;
     size_t m_cyclesLived = 0;
+    size_t m_cycleDiedAt = 0;
 
     types::fVec2 m_pos = {0.0f, 0.0f};
     /* const */ float m_turnRate = 1.0f;

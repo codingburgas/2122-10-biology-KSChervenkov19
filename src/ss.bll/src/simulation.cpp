@@ -181,6 +181,7 @@ void ss::bll::simulation::Entity::hanldeEnergy(const float elapsedTime)
 	{
 		m_isDoneWithCycle = true;
 		m_foodStage = EntityFoodStage::ZERO_FOOD;
+		// m_cycleDiedAt = m_cycle
 	}
 }
 
@@ -295,6 +296,11 @@ void ss::bll::simulation::Cycle::CycleEnd()
 		switch (entity.m_foodStage)
 		{
 		case EntityFoodStage::ZERO_FOOD:
+			
+			if (entity.m_isAlive)
+			{
+				entity.m_cycleDiedAt = m_cycleId - 1;
+			}
 			entity.m_isAlive = false;
 			entity.m_cyclesLived = m_cycleId - entity.m_cycleBornAt;
 			break;
@@ -307,6 +313,13 @@ void ss::bll::simulation::Cycle::CycleEnd()
 
 	reproduceEntities(*m_entities, *m_entitiesEndIter, m_lastEntityId, m_cycleId, m_foods);
 	distributeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter), m_worldSize);
+
+	std::cout <<  std::format("Cycle Id: {}\n", m_cycleId);
+	for (const auto& entity : *m_entities)
+	{
+		std::cout << std::format("Id: {}, Born: {}, LivedFor: {}\n", entity.m_id, entity.m_cycleBornAt, entity.m_cyclesLived);
+	}
+	std::cout << std::string(15, '-') << '\n';
 
 	for (auto& entity : *m_entities)
 	{
@@ -488,7 +501,13 @@ void ss::bll::simulation::Simulation::cleanEntities()
 	{
 		if (m_entities.at(i).m_cyclesLived == 0)
 		{
-			m_entities[i].m_cyclesLived = m_simInfo.cyclesCount + 1 - m_entities[i].m_cycleBornAt;
+			m_entities[i].m_cyclesLived = m_simInfo.cyclesCount - m_entities[i].m_cycleBornAt;
+
+		}
+
+		if (m_entities.at(i).m_cycleDiedAt == 0)
+		{
+			m_entities[i].m_cycleDiedAt = m_simInfo.cyclesCount;
 		}
 
 		if (m_entities.at(i).m_cycleBornAt > m_simInfo.cyclesCount)
@@ -617,7 +636,10 @@ void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::stri
 		for (const auto& entity : m_entities)
 		{
 			// if (entity.m_cycleBornAt + entity.m_cyclesLived > cycleId)
-			if (entity.m_cycleBornAt <= cycleId && entity.m_cycleBornAt + entity.m_cyclesLived > cycleId)
+			// if (entity.m_cycleBornAt <= cycleId && 
+			//   entity.m_cycleBornAt + entity.m_cyclesLived > cycleId)
+			if (entity.m_cycleBornAt <= cycleId &&
+				entity.m_cycleDiedAt >= cycleId)
 			{
 				++cycle.lastedEntities;
 				cycle.traitsInfo.push_back(entity.m_traits);
@@ -625,6 +647,7 @@ void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::stri
 		}
 
 		cycles.push_back(cycle);
+		std::cout << std::format("Alive entities for cycle: {}", cycle.lastedEntities);
 	}
 
 	if (fileName)
