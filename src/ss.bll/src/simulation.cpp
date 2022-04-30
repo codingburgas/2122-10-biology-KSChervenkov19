@@ -329,6 +329,12 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity>& entities
 				float sense = entities[i].m_traits.sense + Random::get(-Entity::traitPadding, Entity::traitPadding);
 				float speed = entities[i].m_traits.speed + Random::get(-Entity::traitPadding, Entity::traitPadding);
 
+				if (sense < 0.2f)
+					sense = 0.2;
+
+				if (speed < 0.5f)
+					speed = 0.5f;
+
 				entities.push_back({ *lastEntityId, entities[i].m_worldSize, {sense, speed}, foods, cycleId });
 				++(*lastEntityId);
 				// broken v
