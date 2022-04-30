@@ -32,6 +32,7 @@ void ss::pl::simulator::Simulator::Start() // called once, at the start of the s
     additionalMenuTriggered = false;
     shouldShowProgressBar = true;
     shouldShowTraits = true;
+    selectedTraitsMonitor = SLECTED_TRAITS_MONITOR::SPEED;
 }
 
 /// Method which is called every frame.
@@ -326,16 +327,21 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
         DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 474.0f}, .2f, 1, {193, 187, 245, 53});
         timeScale = GuiSliderBar({1073, 165, 355, 48}, nullptr, nullptr, timeScale, 0.1f, 10.0f);
 
+
         DrawTextEx(fontInter, "Progressbar:", {1073, 241}, 36, 0,
                    backgroundColors.at(!(static_cast<int>(currentTheme))));
         DrawRectangleRounded({1298, 241, 45, 43}, .2f, 1, {255, 255, 255, 255});
-        if (shouldShowProgressBar) DrawTexture(checkmark, 1300, 246, WHITE);
-        // draw checkbox
+        if (shouldShowProgressBar) DrawTexture(checkmark, 1300, 246, WHITE);  // draw checkbox
+
 
         DrawTextEx(fontInter, "Monitor traits:", {1073, 321}, 36, 0,
                    backgroundColors.at(!(static_cast<int>(currentTheme))));
         DrawRectangleRounded({1298, 321, 45, 43}, .2f, 1, {255, 255, 255, 255});
-        if (shouldShowTraits) DrawTexture(checkmark, 1300, 326, WHITE);
+        if (shouldShowTraits) DrawTexture(checkmark, 1300, 326, WHITE); // draw checkbox
+
+        //draw switch
+        if (shouldShowTraits) drawTraitsSwitch();
+
     }
 
     (currentTheme == ThemeTypes::LightTheme)? 
@@ -360,6 +366,28 @@ void ss::pl::simulator::Simulator::drawProgressBar()
 
     // Draw progressbar fill
     DrawRectangleRounded({-10, 960, aminationProgress + 10, 20}, 1, 10, Color{101, 158, 244, 255});
+}
+
+void ss::pl::simulator::Simulator::drawTraitsSwitch()
+{
+    if (CheckCollisionPointRec(mousePos, { 1151, 403, 185, 57 }))
+    {
+        SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        {
+            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+            selectedTraitsMonitor = selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? SLECTED_TRAITS_MONITOR::ENERGY : SLECTED_TRAITS_MONITOR::SPEED;
+        }
+    }
+
+    //draw base
+    DrawRectangleRounded({ 1152, 402, 184, 58 }, 1, 10, Color{ 205, 208, 238, 255 });
+
+    //drawCircle
+    DrawRectangleRounded({ static_cast<float>((selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? 1278 : 1152)), 402, 58, 58 }, 1, 10, WHITE);
+
+    //draw monitored trait
+    DrawTextEx(fontInter, (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? "Speed" : "Energy"), { (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? 1167.0f : 1216.0f) , 412.0f}, 36, 1, {132, 132, 132, 255});
 }
 
 /// Method for animating the progress bar at the bottom of simuation

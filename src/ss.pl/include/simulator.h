@@ -62,7 +62,7 @@ class Simulator : public Scene
     {
         SPEED,
         ENERGY,
-    } selectedTraitsMonitor = SLECTED_TRAITS_MONITOR::SPEED;
+    } selectedTraitsMonitor;
 
     // Variable, stores the current scene state
     enum class SimulatorState
@@ -87,6 +87,7 @@ class Simulator : public Scene
     void drawSimulation();
     void drawSummary();
     void drawAdditionalMenu();
+    void drawTraitsSwitch();
     void drawProgressBar();
 
     //void drawEntity(const auto &entity, float radius);
