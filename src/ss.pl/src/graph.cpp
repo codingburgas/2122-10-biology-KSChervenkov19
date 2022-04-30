@@ -381,6 +381,7 @@ void ss::pl::graph::Graph::checkCollision()
     }
 }
 
+/// Method for automating the cycle change.
 void ss::pl::graph::Graph::automateCycle()
 {
     fElapsedTime += GetFrameTime();
