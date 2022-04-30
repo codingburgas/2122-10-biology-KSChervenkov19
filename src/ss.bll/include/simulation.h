@@ -79,7 +79,7 @@ class Entity
 
     void generateNewTurningAngle();
     bool isOutOfBounds() const;
-    bool handleFoodCollision();
+    bool handleFoodCollision(const float elapsedTime);
 
     void reset();
 

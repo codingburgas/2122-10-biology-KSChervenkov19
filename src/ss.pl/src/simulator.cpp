@@ -325,7 +325,7 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
         DrawTextEx(fontInter, "Timescale:", {1073, 124}, 36, 0,
                    backgroundColors.at(!(static_cast<int>(currentTheme))));
         DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 474.0f}, .2f, 1, {193, 187, 245, 53});
-        timeScale = GuiSliderBar({1073, 165, 355, 48}, nullptr, nullptr, timeScale, 0.1f, 10.0f);
+        timeScale = GuiSliderBar({1073, 165, 355, 48}, nullptr, nullptr, timeScale, 0.1f, 50.0f);
 
 
         DrawTextEx(fontInter, "Progressbar:", {1073, 241}, 36, 0,
@@ -412,16 +412,25 @@ float ss::pl::simulator::Simulator::animateProgress()
 //}
 
 /// Method for drawing every entity at the simulation field
-void ss::pl::simulator::Simulator::drawEntity(const auto &entity)
+void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity& entity)
 {
     float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
     ss::types::fVec2 currentPos = entity.getPos();
 
     // draw entity body
-    DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f,
-               entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD
-                   ? RED
-                   : entity.m_foodStage == bll::simulation::EntityFoodStage::ONE_FOOD ? GREEN : DARKGREEN);
+    if (shouldShowTraits)
+    {
+        if(selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED)
+        DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset }, .5f,
+            Color{static_cast<unsigned char>(90 + entity.m_traits.speed > 1 ? (entity.m_traits.speed * 20)/100 * 157 : 0), 90, static_cast<unsigned char>(65 + entity.m_traits.speed < 1 ? (entity.m_traits.speed * 20) / 100 * 190 : 0), 255});
+    }
+    else
+    {
+        DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f,
+                   entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD
+                       ? RED
+                       : entity.m_foodStage == bll::simulation::EntityFoodStage::ONE_FOOD ? GREEN : DARKGREEN);
+    }
 
     // draw entity fov
     DrawLine3D({currentPos.x - offset, .5f, currentPos.y - offset},

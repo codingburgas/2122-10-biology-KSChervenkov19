@@ -91,7 +91,7 @@ class Simulator : public Scene
     void drawProgressBar();
 
     //void drawEntity(const auto &entity, float radius);
-    void drawEntity(const auto &entity);
+    void drawEntity(const ss::bll::simulation::Entity &entity);
     void drawFood(const auto &food);
     void drawEntityThoughts(const ss::bll::simulation::Entity *entity);
 

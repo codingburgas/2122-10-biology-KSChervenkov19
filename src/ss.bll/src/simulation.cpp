@@ -32,7 +32,7 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
         {
             m_facingAngle = *angleToClosestFoodInRange;
             move(elapsedTime);
-            if (handleFoodCollision())
+            if (handleFoodCollision(elapsedTime))
             {
                 m_foodStage = EntityFoodStage::ONE_FOOD;
             }
@@ -48,7 +48,7 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
         {
             m_facingAngle = *angleToClosestFoodInRange;
             move(elapsedTime);
-            if (handleFoodCollision())
+            if (handleFoodCollision(elapsedTime))
             {
                 m_foodStage = EntityFoodStage::TWO_FOOD;
             }
@@ -146,11 +146,11 @@ bool ss::bll::simulation::Entity::isOutOfBounds() const
     return (m_pos.x < 0.0f || m_pos.x > m_worldSize) || (m_pos.y < 0.0f || m_pos.y > m_worldSize);
 }
 
-bool ss::bll::simulation::Entity::handleFoodCollision()
+bool ss::bll::simulation::Entity::handleFoodCollision(const float elaspedTime)
 {
     if (m_targetFood)
     {
-        if (float distance = utils::getDistance(m_pos, m_targetFood->pos); distance < 0.1f)
+        if (float distance = utils::getDistance(m_pos, m_targetFood->pos); distance <= m_traits.speed * elaspedTime)
         {
             m_targetFood->isEaten = true;
             m_targetFood = nullptr;
