@@ -328,10 +328,13 @@ void ss::pl::simulator::Simulator::drawProgressBar()
         return;
 
     //std::cout << (((simulation->m_currentCycle_n - 1 / cyclesCount) * 10) / 100) << '\n';
+    // Draw current cycle number
+    DrawTextEx(fontInter, TextFormat("%i", simulation->m_currentCycle_n - 1), { 659, 915 }, 36, 1, { 132, 132, 132, 255 });
 
-    // draw background of progressbar
+    // Draw background of progressbar
     DrawRectangle(0, 960, 1500, 20, WHITE);
-    // draw progressbar fill
+
+    // Draw progressbar fill
     DrawRectangleRounded({-10, 960, aminationProgress + 10, 20}, 1, 10, Color{101, 158, 244, 255});
 }
 
