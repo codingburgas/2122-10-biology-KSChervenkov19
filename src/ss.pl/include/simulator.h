@@ -43,6 +43,7 @@ class Simulator : public Scene
 
     float offset;
     float entityLookingDirRadian;
+    float aminationProgress;
     bool simulating;
 
     size_t selectedEntityId;
@@ -52,6 +53,7 @@ class Simulator : public Scene
     float timeScale;
     bool shouldShowProgressBar;
     bool shouldShowTraits;
+
     enum class SLECTED_TRAITS_MONITOR
     {
         SPEED,
@@ -86,6 +88,8 @@ class Simulator : public Scene
     void drawEntity(const auto &entity);
     void drawFood(const auto &food);
     void drawEntityThoughts(const ss::bll::simulation::Entity *entity);
+
+    float animateProgress();
 
     // Getter methods
     SummaryInfo getSummaryData();

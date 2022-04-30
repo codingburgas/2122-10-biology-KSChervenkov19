@@ -309,15 +309,22 @@ void ss::pl::simulator::Simulator::drawProgressBar()
     if (shouldShowProgressBar)
         return;
 
-    std::cout << (((simulation->m_currentCycle_n - 1 / cyclesCount) * 10) / 100) << '\n';
+    //std::cout << (((simulation->m_currentCycle_n - 1 / cyclesCount) * 10) / 100) << '\n';
 
     // draw background of progressbar
     DrawRectangle(0, 960, 1500, 20, WHITE);
     // draw progressbar fill
-    DrawRectangleRounded(
-        {0, 960, (static_cast<float>(simulation->m_currentCycle_n - 1) / static_cast<float>(cyclesCount)) * 1500.0f,
-         20},
-        1, 10, Color{101, 158, 244, 255});
+    DrawRectangleRounded({-10, 960, animateProgress(), 20}, 1, 10, Color{101, 158, 244, 255});
+}
+
+float ss::pl::simulator::Simulator::animateProgress()
+{
+    if (aminationProgress <= (static_cast<float>(simulation->m_currentCycle_n - 1) / static_cast<float>(cyclesCount)) * 1500.0f)
+    {
+        aminationProgress += timeScale / 2;
+    }
+
+    return aminationProgress + 10;
 }
 
 void ss::pl::simulator::Simulator::drawEntity(const auto &entity)
@@ -352,7 +359,7 @@ void ss::pl::simulator::Simulator::drawFood(const auto &food)
 
 void ss::pl::simulator::Simulator::drawEntityThoughts(const ss::bll::simulation::Entity *entity)
 {
-    std::cout << entityThoughts.at(static_cast<size_t>(entity->getBrain()));
+    //std::cout << entityThoughts.at(static_cast<size_t>(entity->getBrain()));
 }
 
 ss::pl::simulator::Simulator::SummaryInfo ss::pl::simulator::Simulator::getSummaryData()
