@@ -365,3 +365,6 @@ FodyWeavers.xsd
 #Doxygen Files
 doxygen-awesome.css
 html/
+
+#JSON files
+statistics/*.json
