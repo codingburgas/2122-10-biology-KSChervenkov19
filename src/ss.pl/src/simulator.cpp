@@ -33,6 +33,9 @@ void ss::pl::simulator::Simulator::Start() // called once, at the start of the s
     shouldShowProgressBar = true;
     shouldShowTraits = true;
     selectedTraitsMonitor = SLECTED_TRAITS_MONITOR::SPEED;
+    
+    savedSimulationInfo = false;
+    catchSummaryInfo = false;
 }
 
 /// Method which is called every frame.
@@ -102,6 +105,7 @@ void ss::pl::simulator::Simulator::checkInput()
         offset = static_cast<float>(worldSize) / 2.0f;
         camera.canRotate = true;
         resetCamera();
+
     }
 
     if (CheckCollisionPointRec(
@@ -111,18 +115,6 @@ void ss::pl::simulator::Simulator::checkInput()
         if (simulation->isSimulationDone)
         {
             resetCamera();
-            currentState = SimulatorState::Setup;
-        }
-    }
-
-    if (CheckCollisionPointRec(mousePos, {606, 673, static_cast<float>(save_Data_Button.width),
-                                          static_cast<float>(save_Data_Button.height)}) &&
-        currentState == SimulatorState::Simulation && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-    {
-        if (simulation->isSimulationDone)
-        {
-            resetCamera();
-            simulation->saveSimulationInfo("test");
             currentState = SimulatorState::Setup;
         }
     }
@@ -216,7 +208,6 @@ void ss::pl::simulator::Simulator::drawSetup()
 /// Method for drawing the actual simulation.
 void ss::pl::simulator::Simulator::drawSimulation()
 {
-    static bool flag = true;
     if (!simulation->isSimulationDone)
     {
         UpdateCamera(&camera);
@@ -277,15 +268,20 @@ void ss::pl::simulator::Simulator::drawSimulation()
     }
     else
     {
-        if (flag)
+        if (!catchSummaryInfo)
         {
             summaryInfo = getSummaryData();
             aminationProgress = 0;
-            simulation->saveSimulationInfo({});
-            flag = false;
+            catchSummaryInfo = true;
         }
 
         drawSummary();
+
+        if (CheckCollisionPointRec(mousePos, { 624, 659, 267, 79 }) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        {
+            simulation->saveSimulationInfo({});
+            currentState = SimulatorState::Setup;
+        }
     }
 
     // The funny. Do not touch
@@ -420,9 +416,17 @@ void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity&
     // draw entity body
     if (shouldShowTraits)
     {
-        if(selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED)
-        DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset }, .5f,
-            Color{static_cast<unsigned char>(90 + entity.m_traits.speed > 1 ? (entity.m_traits.speed * 20)/100 * 157 : 0), 90, static_cast<unsigned char>(65 + entity.m_traits.speed < 1 ? (entity.m_traits.speed * 20) / 100 * 190 : 0), 255});
+        if (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED)
+        {
+            DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset }, .5f,
+                Color{static_cast<unsigned char>(90 + entity.m_traits.speed > 1 ? (entity.m_traits.speed * 20)/100 * 157 : 0), 90, static_cast<unsigned char>(65 + entity.m_traits.speed < 1 ? (entity.m_traits.speed * 20) / 100 * 190 : 0), 255});
+        }
+
+        if (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::ENERGY)
+        {
+            DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset }, .5f,
+                Color{ 0, static_cast<unsigned char>(entity.m_currentEnergy), 0, 255 });
+        }
     }
     else
     {

@@ -79,6 +79,8 @@ class Simulator : public Scene
         float averageSpeed;
         float averageSense;
     } summaryInfo;
+    bool catchSummaryInfo;
+    bool savedSimulationInfo;
 
     const std::array<std::string, 4> entityThoughts = {"SearchingFood", "GoingFood", "GoingHome", "Idle"};
 
