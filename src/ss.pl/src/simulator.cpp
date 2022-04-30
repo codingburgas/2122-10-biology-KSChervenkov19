@@ -30,8 +30,8 @@ void ss::pl::simulator::Simulator::Start() // called once, at the start of the s
     simulating = true;
 
     additionalMenuTriggered = false;
-    shouldShowProgressBar = false;
-    shouldShowTraits = false;
+    shouldShowProgressBar = true;
+    shouldShowTraits = true;
 }
 
 /// Method which is called every frame.
@@ -126,6 +126,18 @@ void ss::pl::simulator::Simulator::checkInput()
         }
     }
 
+    if (CheckCollisionPointRec(mousePos, {1298, 241, 45, 43}) &&
+        currentState == SimulatorState::Simulation && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && additionalMenuTriggered)
+    {
+        shouldShowProgressBar = !shouldShowProgressBar;
+    }
+
+    if (CheckCollisionPointRec(mousePos, {1298, 321, 45, 43}) &&
+        currentState == SimulatorState::Simulation && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && additionalMenuTriggered)
+    {
+        shouldShowTraits = !shouldShowTraits;
+    }
+
     if (IsKeyPressed(KEY_R))
     {
         resetCamera();
@@ -209,6 +221,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
         BeginMode3D(camera);
         DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
         DrawGrid(worldSize, 1.0f);
+        animateProgress();
 
         for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
         {
@@ -249,6 +262,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
         if (flag)
         {
             summaryInfo = getSummaryData();
+            aminationProgress = 0;
             flag = false;
         }
 
@@ -287,17 +301,21 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
 
     if (additionalMenuTriggered)
     {
-        DrawTextEx(fontInter, "Timescale:", {1073, 124}, 28.6F, 0,
+        DrawTextEx(fontInter, "Timescale:", {1073, 124}, 36, 0,
                    backgroundColors.at(!(static_cast<int>(currentTheme))));
         DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 474.0f}, .2f, 1, {193, 187, 245, 53});
         timeScale = GuiSliderBar({1073, 165, 355, 48}, nullptr, nullptr, timeScale, 0.1f, 10.0f);
 
-        DrawTextEx(fontInter, "Progressbar:", {1073, 241}, 28.6F, 0,
+        DrawTextEx(fontInter, "Progressbar:", {1073, 241}, 36, 0,
                    backgroundColors.at(!(static_cast<int>(currentTheme))));
+        DrawRectangleRounded({1298, 241, 45, 43}, .2f, 1, {255, 255, 255, 255});
+        if (shouldShowProgressBar) DrawTexture(checkmark, 1300, 246, WHITE);
         // draw checkbox
 
-        DrawTextEx(fontInter, "Monitor traits:", {1073, 321}, 28.6F, 0,
+        DrawTextEx(fontInter, "Monitor traits:", {1073, 321}, 36, 0,
                    backgroundColors.at(!(static_cast<int>(currentTheme))));
+        DrawRectangleRounded({1298, 321, 45, 43}, .2f, 1, {255, 255, 255, 255});
+        if (shouldShowTraits) DrawTexture(checkmark, 1300, 326, WHITE);
     }
 
     DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 65.0f}, 10.0f, 1, {158, 149, 245, 255});
@@ -306,7 +324,7 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
 
 void ss::pl::simulator::Simulator::drawProgressBar()
 {
-    if (shouldShowProgressBar)
+    if (!shouldShowProgressBar)
         return;
 
     //std::cout << (((simulation->m_currentCycle_n - 1 / cyclesCount) * 10) / 100) << '\n';
@@ -314,7 +332,7 @@ void ss::pl::simulator::Simulator::drawProgressBar()
     // draw background of progressbar
     DrawRectangle(0, 960, 1500, 20, WHITE);
     // draw progressbar fill
-    DrawRectangleRounded({-10, 960, animateProgress(), 20}, 1, 10, Color{101, 158, 244, 255});
+    DrawRectangleRounded({-10, 960, aminationProgress + 10, 20}, 1, 10, Color{101, 158, 244, 255});
 }
 
 float ss::pl::simulator::Simulator::animateProgress()
@@ -383,6 +401,7 @@ void ss::pl::simulator::Simulator::loadAssets()
     summary_Container = LoadTexture(std::format("../../assets/{}/simulator/Summary_Container.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
     exit_Button = LoadTexture(std::format("../../assets/{}/simulator/Exit_Button.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
     save_Data_Button = LoadTexture(std::format("../../assets/{}/simulator/Save_Data_Button.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
+    checkmark = LoadTexture("../../assets/lightTheme/simulator/Checkmark.png");
 
     GuiLoadStyle((currentTheme == ThemeTypes::LightTheme) ? "../../assets/bluish.txt.rgs" : "../../assets/lavanda.txt.rgs");
 }
@@ -396,6 +415,7 @@ void ss::pl::simulator::Simulator::deleteAssets()
     UnloadTexture(summary_Container);
     UnloadTexture(exit_Button);
     UnloadTexture(save_Data_Button);
+    UnloadTexture(checkmark);
 
     UnloadFont(fontInter);
 }

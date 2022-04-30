@@ -27,6 +27,7 @@ class Simulator : public Scene
     Texture2D summary_Container;
     Texture2D exit_Button;
     Texture2D save_Data_Button;
+    Texture2D checkmark;
 
     // Camera
     Camera3D camera{0};
