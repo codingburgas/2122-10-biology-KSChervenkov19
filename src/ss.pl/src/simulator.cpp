@@ -278,7 +278,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
     {
         if (flag)
         {
-            summaryInfo = getSummaryData();
+            // summaryInfo = getSummaryData();
             aminationProgress = 0;
             simulation->saveSimulationInfo({});
             flag = false;
