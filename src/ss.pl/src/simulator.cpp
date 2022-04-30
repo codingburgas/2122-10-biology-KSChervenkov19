@@ -274,6 +274,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
     // bll::simulation::Cycle::randomizeFoodPositions(simulation->m_foods, simulation->m_simInfo.worldSize);
 }
 
+/// This method draws summary screen at the end of the simulation
 void ss::pl::simulator::Simulator::drawSummary()
 {
     DrawTexture(summary_Container, 437, 201, WHITE);
@@ -292,6 +293,7 @@ void ss::pl::simulator::Simulator::drawSummary()
                Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
 }
 
+/// This method draws controls menu at simulation runtime
 void ss::pl::simulator::Simulator::drawAdditionalMenu()
 {
     if (CheckCollisionPointRec(mousePos, {1350.0f, 59.0f, 78.0f, 22.0f}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -318,7 +320,10 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
         if (shouldShowTraits) DrawTexture(checkmark, 1300, 326, WHITE);
     }
 
+    (currentTheme == ThemeTypes::LightTheme)? 
+    DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 65.0f}, 10.0f, 1, {101, 158, 244, 255}):
     DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 65.0f}, 10.0f, 1, {158, 149, 245, 255});
+
     DrawRectangleRounded({1350.0f, 59.0f, 78.0f, 22.0f}, 10.0f, 1, WHITE);
 }
 
