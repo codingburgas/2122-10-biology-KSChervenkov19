@@ -279,7 +279,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
     {
         if (flag)
         {
-            // summaryInfo = getSummaryData();
+            summaryInfo = getSummaryData();
             aminationProgress = 0;
             simulation->saveSimulationInfo({});
             flag = false;
@@ -453,10 +453,7 @@ void ss::pl::simulator::Simulator::drawEntityThoughts(const ss::bll::simulation:
 /// @return data for summary screen
 ss::pl::simulator::Simulator::SummaryInfo ss::pl::simulator::Simulator::getSummaryData()
 {
-    return SummaryInfo(simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt).size(),
-                       simulation->m_entities.size() -
-                           simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt).size(),
-                       69, 69);
+    return SummaryInfo(simulation->getTotalAliveEntities(), simulation->getTotalDiedEntities(), simulation->getAvgTraits().speed, simulation->getAvgTraits().sense);
 }
 
 // clang-format off
