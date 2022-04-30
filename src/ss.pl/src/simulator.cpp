@@ -224,10 +224,26 @@ void ss::pl::simulator::Simulator::drawSimulation()
         DrawGrid(worldSize, 1.0f);
         animateProgress();
 
+        int index = 0;
+        if (currentCycle != simulation->m_currentCycle_n)
+        {
+            delete[]radiusArray;
+            radiusArray = new float[simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt).size()];
+            currentCycle = simulation->m_currentCycle_n;
+        }
         for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
         {
-            drawEntity(entity);
+            if (entity.m_isDoneWithCycle && entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD)
+            {
+                radiusArray[index] = animateDying(radiusArray[index]);
+            }
+            else
+            {
+                radiusArray[index] = .5f;
+            }
 
+            drawEntity(entity, radiusArray[index]);
+            index++;
             // Debugging
             // std::cout << entity.m_cycleBornAt << ' ';
         }
@@ -357,14 +373,23 @@ float ss::pl::simulator::Simulator::animateProgress()
     return aminationProgress + 10;
 }
 
+/// Method for calculating the dying animation 
+/// @param current float radius
+/// @return new float radius
+float ss::pl::simulator::Simulator::animateDying(float currentRadius)
+{
+    if(currentRadius > 0) currentRadius -= .02f;
+    return currentRadius;
+}
+
 /// Method for drawing every entity at the simulation field
-void ss::pl::simulator::Simulator::drawEntity(const auto &entity)
+void ss::pl::simulator::Simulator::drawEntity(const auto &entity, float radius)
 {
     float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
     ss::types::fVec2 currentPos = entity.getPos();
 
     // draw entity body
-    DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f,
+    DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, radius,
                entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD
                    ? RED
                    : entity.m_foodStage == bll::simulation::EntityFoodStage::ONE_FOOD ? GREEN : DARKGREEN);
