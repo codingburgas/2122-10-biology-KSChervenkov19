@@ -215,7 +215,6 @@ void ss::pl::simulator::Simulator::drawSimulation()
         BeginMode3D(camera);
         DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
         DrawGrid(worldSize, 1.0f);
-        animateProgress();
 
         /*int index = 0;
         if (currentCycle != simulation->m_currentCycle_n)
@@ -265,7 +264,10 @@ void ss::pl::simulator::Simulator::drawSimulation()
         }
 
         if (simulating)
+        {
             simulation->update(GetFrameTime() * timeScale);
+            animateProgress();
+        }
     }
     else
     {
