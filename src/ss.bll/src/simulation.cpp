@@ -640,6 +640,44 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
     Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
 }
 
+size_t ss::bll::simulation::Simulation::getTotalAliveEntities() const
+{
+    return m_entities.size();
+}
+
+size_t ss::bll::simulation::Simulation::getTotalDiedEntities() const
+{
+    size_t diedCnt = 0;
+
+    for (const auto& entity : m_entities)
+    {
+	    if (!entity.m_isAlive)
+	    {
+            ++diedCnt;
+	    }
+    }
+
+    return diedCnt;
+}
+
+ss::types::Trait ss::bll::simulation::Simulation::getAvgTraits() const
+{
+    types::Trait avgTraits = { 0.0f, 0.0f };
+
+    for (const auto& entity : m_entities)
+    {
+        avgTraits.sense += entity.m_traits.sense;
+        avgTraits.speed += entity.m_traits.speed;
+    }
+
+    const float sizeF = m_entities.size();
+
+    avgTraits.sense = avgTraits.sense / sizeF;
+    avgTraits.speed = avgTraits.speed / sizeF;
+
+    return avgTraits;
+}
+
 void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::string> fileName) const
 {
     std::vector<types::Cycle> cycles;

@@ -158,6 +158,9 @@ class Simulation
 
   public:
     Simulation(types::SimulationInfo t_simInfo);
+    size_t getTotalAliveEntities() const;
+    size_t getTotalDiedEntities() const;
+    types::Trait getAvgTraits() const;
     void saveSimulationInfo(std::optional<std::string> fileName) const;
     void update(float elapsedTime);
     friend class Cycle;
