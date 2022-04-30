@@ -35,7 +35,7 @@ void ss::pl::simulator::Simulator::Start() // called once, at the start of the s
     selectedTraitsMonitor = SLECTED_TRAITS_MONITOR::SPEED;
     
     savedSimulationInfo = false;
-    catchSummaryInfo = false;
+    catchSummaryInfo = true;
 }
 
 /// Method which is called every frame.
@@ -104,6 +104,7 @@ void ss::pl::simulator::Simulator::checkInput()
         simulation = new ss::bll::simulation::Simulation(simInfo);
         offset = static_cast<float>(worldSize) / 2.0f;
         camera.canRotate = true;
+        catchSummaryInfo = true;
         resetCamera();
 
     }
@@ -268,11 +269,11 @@ void ss::pl::simulator::Simulator::drawSimulation()
     }
     else
     {
-        if (!catchSummaryInfo)
+        if (catchSummaryInfo)
         {
             summaryInfo = getSummaryData();
             aminationProgress = 0;
-            catchSummaryInfo = true;
+            catchSummaryInfo = false;
         }
 
         drawSummary();
