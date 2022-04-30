@@ -114,7 +114,7 @@ void ss::pl::simulator::Simulator::checkInput()
         }
     }
 
-    if (CheckCollisionPointRec(mousePos, {621, 673, static_cast<float>(save_Data_Button.width),
+    if (CheckCollisionPointRec(mousePos, {606, 673, static_cast<float>(save_Data_Button.width),
                                           static_cast<float>(save_Data_Button.height)}) &&
         currentState == SimulatorState::Simulation && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
@@ -280,7 +280,7 @@ void ss::pl::simulator::Simulator::drawSummary()
 {
     DrawTexture(summary_Container, 437, 201, WHITE);
     DrawTexture(exit_Button, 992, 243, WHITE);
-    DrawTexture(save_Data_Button, 621, 673, WHITE);
+    DrawTexture(save_Data_Button, 606, 673, WHITE);
 
     DrawTextEx(fontInter, "SUMMARY", {595, 255}, 70, 0,
                Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
