@@ -8,7 +8,7 @@ using Random = effolkronium::random_static;
 
 ss::bll::simulation::Entity::Entity(size_t t_id, const int t_worldSize, const types::Trait &t_traits = {1.0f, 1.0f},
                                     std::vector<Food> *t_foods = nullptr, size_t t_cycleBornAt = 0)
-    : m_id(t_id), m_worldSize(t_worldSize), m_foods(t_foods), m_traits(t_traits), m_cycleBornAt(t_cycleBornAt)
+    : m_id(t_id), m_worldSize(t_worldSize), m_foods(t_foods), m_traits(t_traits), m_cycleBornAt(t_cycleBornAt), m_energyMax(m_worldSize * 13)
 {
 }
 
@@ -202,7 +202,7 @@ void ss::bll::simulation::Entity::walk(const float elapsedTime)
         generateNewTurningAngle();
     }
 
-    if (abs(m_turningAngle) < 0.1f)
+    if (abs(m_turningAngle) < 0.5f)
     {
         m_turningAngle = 0.0f;
     }
@@ -210,8 +210,11 @@ void ss::bll::simulation::Entity::walk(const float elapsedTime)
     if (m_turningAngle != 0.0f)
     {
         const bool isNegative = signbit(m_turningAngle);
-        m_facingAngle += isNegative ? -m_turnRate : m_turnRate;
-        m_turningAngle += isNegative ? m_turnRate : -m_turnRate;
+        m_facingAngle += (isNegative ? -m_turnRate : m_turnRate) * elapsedTime;
+        m_turningAngle += (isNegative ? m_turnRate : -m_turnRate * elapsedTime);
+
+        if (isNegative != signbit(m_turningAngle))
+            m_turningAngle = 0;
     }
 
     move(elapsedTime);

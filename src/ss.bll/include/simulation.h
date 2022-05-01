@@ -54,7 +54,7 @@ class Entity
     size_t m_cycleDiedAt = 0;
 
     types::fVec2 m_pos = {0.0f, 0.0f};
-    /* const */ float m_turnRate = 1.0f;
+    /* const */ float m_turnRate = 70.0f;
     /* const */ float m_maxTurnAngle = 100.0f;
     float m_facingAngle = 0.0f;
     float m_turningAngle = 0.0f;
@@ -62,7 +62,7 @@ class Entity
 
     Food *m_targetFood = nullptr;
 
-    float m_energyMax = 200.0f;
+    float m_energyMax;
     float m_currentEnergy = m_energyMax;
 
     types::Trait m_traits;
