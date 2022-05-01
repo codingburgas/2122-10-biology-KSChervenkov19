@@ -33,7 +33,7 @@ void ss::pl::simulator::Simulator::Start() // called once, at the start of the s
     shouldShowProgressBar = true;
     shouldShowTraits = false;
     selectedTraitsMonitor = SLECTED_TRAITS_MONITOR::SPEED;
-    
+
     savedSimulationInfo = false;
     catchSummaryInfo = true;
 }
@@ -106,7 +106,6 @@ void ss::pl::simulator::Simulator::checkInput()
         camera.canRotate = true;
         catchSummaryInfo = true;
         resetCamera();
-
     }
 
     if (CheckCollisionPointRec(
@@ -120,14 +119,14 @@ void ss::pl::simulator::Simulator::checkInput()
         }
     }
 
-    if (CheckCollisionPointRec(mousePos, {1298, 241, 45, 43}) &&
-        currentState == SimulatorState::Simulation && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && additionalMenuTriggered)
+    if (CheckCollisionPointRec(mousePos, {1298, 241, 45, 43}) && currentState == SimulatorState::Simulation &&
+        IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && additionalMenuTriggered)
     {
         shouldShowProgressBar = !shouldShowProgressBar;
     }
 
-    if (CheckCollisionPointRec(mousePos, {1298, 321, 45, 43}) &&
-        currentState == SimulatorState::Simulation && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && additionalMenuTriggered)
+    if (CheckCollisionPointRec(mousePos, {1298, 321, 45, 43}) && currentState == SimulatorState::Simulation &&
+        IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && additionalMenuTriggered)
     {
         shouldShowTraits = !shouldShowTraits;
     }
@@ -220,22 +219,22 @@ void ss::pl::simulator::Simulator::drawSimulation()
         if (currentCycle != simulation->m_currentCycle_n)
         {
             delete[]radiusArray;
-            radiusArray = new float[simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt).size()];
-            currentCycle = simulation->m_currentCycle_n;
+            radiusArray = new float[simulation->getActiveEntities(simulation->m_entities,
+        simulation->m_entitiesEndIt).size()]; currentCycle = simulation->m_currentCycle_n;
         }*/
         for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
         {
-            //if (entity.m_isDoneWithCycle && entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD)
+            // if (entity.m_isDoneWithCycle && entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD)
             //{
             //    radiusArray[index] = animateDying(radiusArray[index]);
             //}
-            //else
+            // else
             //{
             //    radiusArray[index] = .5f;
             //}
 
             drawEntity(entity);
-            //index++;
+            // index++;
             // Debugging
             // std::cout << entity.m_cycleBornAt << ' ';
         }
@@ -247,10 +246,10 @@ void ss::pl::simulator::Simulator::drawSimulation()
         }
 
         handleEntityClick();
-        if (const ss::bll::simulation::Entity* selectedEntity = simulation->getEntityById(selectedEntityId);
+        if (const ss::bll::simulation::Entity *selectedEntity = simulation->getEntityById(selectedEntityId);
             selectedEntity)
         {
-            camera.target = { selectedEntity->m_pos.x - offset, .5f, selectedEntity->m_pos.y - offset };
+            camera.target = {selectedEntity->m_pos.x - offset, .5f, selectedEntity->m_pos.y - offset};
             drawEntityThoughts(selectedEntity);
         }
 
@@ -277,7 +276,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
 
         drawSummary();
 
-        if (CheckCollisionPointRec(mousePos, { 624, 659, 267, 79 }) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        if (CheckCollisionPointRec(mousePos, {624, 659, 267, 79}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             simulation->saveSimulationInfo({});
             currentState = SimulatorState::Setup;
@@ -318,34 +317,33 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
 
     if (additionalMenuTriggered)
     {
-        DrawTextEx(fontInter, "Timescale:", {1073, 124}, 36, 0,
-                   backgroundColors.at(!(static_cast<int>(currentTheme))));
+        DrawTextEx(fontInter, "Timescale:", {1073, 124}, 36, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
         DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 474.0f}, .2f, 1, {193, 187, 245, 53});
         timeScale = GuiSliderBar({1073, 165, 355, 48}, nullptr, nullptr, timeScale, 0.1f, 50.0f);
-
 
         DrawTextEx(fontInter, "Progressbar:", {1073, 241}, 36, 0,
                    backgroundColors.at(!(static_cast<int>(currentTheme))));
         DrawRectangleRounded({1298, 241, 45, 43}, .2f, 1, {255, 255, 255, 255});
-        if (shouldShowProgressBar) DrawTexture(checkmark, 1300, 246, WHITE);  // draw checkbox
-
+        if (shouldShowProgressBar)
+            DrawTexture(checkmark, 1300, 246, WHITE); // draw checkbox
 
         DrawTextEx(fontInter, "Monitor traits:", {1073, 321}, 36, 0,
                    backgroundColors.at(!(static_cast<int>(currentTheme))));
         DrawRectangleRounded({1298, 321, 45, 43}, .2f, 1, {255, 255, 255, 255});
-        if (shouldShowTraits) DrawTexture(checkmark, 1300, 326, WHITE); // draw checkbox
+        if (shouldShowTraits)
+            DrawTexture(checkmark, 1300, 326, WHITE); // draw checkbox
 
-        //draw switch
-        if (shouldShowTraits) drawTraitsSwitch();
-
+        // draw switch
+        if (shouldShowTraits)
+            drawTraitsSwitch();
     }
 
-    (currentTheme == ThemeTypes::LightTheme)? 
-    DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 65.0f}, 10.0f, 1, {101, 158, 244, 255}):
-    DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 65.0f}, 10.0f, 1, {158, 149, 245, 255});
+    (currentTheme == ThemeTypes::LightTheme)
+        ? DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 65.0f}, 10.0f, 1, {101, 158, 244, 255})
+        : DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 65.0f}, 10.0f, 1, {158, 149, 245, 255});
 
-    additionalMenuTriggered? DrawTexture(dropDown_Arrow_Selected, 1390, 57, WHITE):
-                             DrawTexture(dropDown_Arrow, 1400, 48, WHITE);
+    additionalMenuTriggered ? DrawTexture(dropDown_Arrow_Selected, 1390, 57, WHITE)
+                            : DrawTexture(dropDown_Arrow, 1400, 48, WHITE);
 }
 
 /// Method for drawing the progress bar at the bottom of simuation
@@ -354,9 +352,10 @@ void ss::pl::simulator::Simulator::drawProgressBar()
     if (!shouldShowProgressBar)
         return;
 
-    //std::cout << (((simulation->m_currentCycle_n - 1 / cyclesCount) * 10) / 100) << '\n';
+    // std::cout << (((simulation->m_currentCycle_n - 1 / cyclesCount) * 10) / 100) << '\n';
     // Draw current cycle number
-    DrawTextEx(fontInter, TextFormat("%i", simulation->m_currentCycle_n - 1), { aminationProgress-11, 915 }, 36, 1, { 132, 132, 132, 255 });
+    DrawTextEx(fontInter, TextFormat("%i", simulation->m_currentCycle_n - 1), {aminationProgress - 11, 915}, 36, 1,
+               {132, 132, 132, 255});
 
     // Draw background of progressbar
     DrawRectangle(0, 960, 1500, 20, WHITE);
@@ -367,31 +366,38 @@ void ss::pl::simulator::Simulator::drawProgressBar()
 
 void ss::pl::simulator::Simulator::drawTraitsSwitch()
 {
-    if (CheckCollisionPointRec(mousePos, { 1151, 403, 185, 57 }))
+    if (CheckCollisionPointRec(mousePos, {1151, 403, 185, 57}))
     {
         SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             SetMouseCursor(MOUSE_CURSOR_DEFAULT);
-            selectedTraitsMonitor = selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? SLECTED_TRAITS_MONITOR::ENERGY : SLECTED_TRAITS_MONITOR::SPEED;
+            selectedTraitsMonitor = selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED
+                                        ? SLECTED_TRAITS_MONITOR::ENERGY
+                                        : SLECTED_TRAITS_MONITOR::SPEED;
         }
     }
 
-    //draw base
-    DrawRectangleRounded({ 1152, 402, 184, 58 }, 1, 10, Color{ 205, 208, 238, 255 });
+    // draw base
+    DrawRectangleRounded({1152, 402, 184, 58}, 1, 10, Color{205, 208, 238, 255});
 
-    //drawCircle
-    DrawRectangleRounded({ static_cast<float>((selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? 1278 : 1152)), 402, 58, 58 }, 1, 10, WHITE);
+    // drawCircle
+    DrawRectangleRounded(
+        {static_cast<float>((selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? 1278 : 1152)), 402, 58, 58}, 1,
+        10, WHITE);
 
-    //draw monitored trait
-    DrawTextEx(fontInter, (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? "Speed" : "Energy"), { (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? 1167.0f : 1216.0f) , 412.0f}, 36, 1, {132, 132, 132, 255});
+    // draw monitored trait
+    DrawTextEx(fontInter, (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? "Speed" : "Energy"),
+               {(selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? 1167.0f : 1216.0f), 412.0f}, 36, 1,
+               {132, 132, 132, 255});
 }
 
 /// Method for animating the progress bar at the bottom of simuation
 /// @return current progress bar's X position
 float ss::pl::simulator::Simulator::animateProgress()
 {
-    if (aminationProgress <= (static_cast<float>(simulation->m_currentCycle_n - 1) / static_cast<float>(cyclesCount)) * 1500.0f)
+    if (aminationProgress <=
+        (static_cast<float>(simulation->m_currentCycle_n - 1) / static_cast<float>(cyclesCount)) * 1500.0f)
     {
         aminationProgress += timeScale / 2;
     }
@@ -399,17 +405,17 @@ float ss::pl::simulator::Simulator::animateProgress()
     return aminationProgress + 10;
 }
 
-/// Method for calculating the dying animation 
+/// Method for calculating the dying animation
 /// @param current float radius
 /// @return new float radius
-//float ss::pl::simulator::Simulator::animateDying(float currentRadius)
+// float ss::pl::simulator::Simulator::animateDying(float currentRadius)
 //{
 //    if(currentRadius > 0) currentRadius -= .02f;
 //    return currentRadius;
 //}
 
 /// Method for drawing every entity at the simulation field
-void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity& entity)
+void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity &entity)
 {
     float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
     ss::types::fVec2 currentPos = entity.getPos();
@@ -419,14 +425,19 @@ void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity&
     {
         if (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED)
         {
-            DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset }, .5f,
-                Color{static_cast<unsigned char>(90 + entity.m_traits.speed > 1 ? (entity.m_traits.speed * 20)/100 * 157 : 0), 90, static_cast<unsigned char>(65 + entity.m_traits.speed < 1 ? (entity.m_traits.speed * 20) / 100 * 190 : 0), 255});
+            DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f,
+                       Color{static_cast<unsigned char>(
+                                 90 + entity.m_traits.speed > 1 ? (entity.m_traits.speed * 20) / 100 * 157 : 0),
+                             90,
+                             static_cast<unsigned char>(
+                                 65 + entity.m_traits.speed < 1 ? (entity.m_traits.speed * 20) / 100 * 190 : 0),
+                             255});
         }
 
         if (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::ENERGY)
         {
-            DrawSphere({ currentPos.x - offset, .5f, currentPos.y - offset }, .5f,
-                Color{ 0, static_cast<unsigned char>(entity.m_currentEnergy), 0, 255 });
+            DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f,
+                       Color{0, static_cast<unsigned char>(entity.m_currentEnergy), 0, 255});
         }
     }
     else
@@ -463,25 +474,30 @@ void ss::pl::simulator::Simulator::drawEntityThoughts(const ss::bll::simulation:
     switch (entity->getBrain())
     {
     case ss::types::EntityTarget::SEARCHINGFOOD:
-        DrawBillboard(camera, entitySearchingFood, { entity->getPos().x - offset, 2.0f, entity->getPos().y - offset }, 2.0f, WHITE);
+        DrawBillboard(camera, entitySearchingFood, {entity->getPos().x - offset, 2.0f, entity->getPos().y - offset},
+                      2.0f, WHITE);
         break;
 
     case ss::types::EntityTarget::GOINGFOOD:
-        DrawBillboard(camera, entityGoingTowardsFood, { entity->getPos().x - offset, 2.0f, entity->getPos().y - offset }, 2.0f, WHITE);
+        DrawBillboard(camera, entityGoingTowardsFood, {entity->getPos().x - offset, 2.0f, entity->getPos().y - offset},
+                      2.0f, WHITE);
         break;
 
     case ss::types::EntityTarget::GOINGHOME:
-        DrawBillboard(camera, entityGoingHome, { entity->getPos().x - offset, 2.0f, entity->getPos().y - offset }, 2.0f, WHITE);
+        DrawBillboard(camera, entityGoingHome, {entity->getPos().x - offset, 2.0f, entity->getPos().y - offset}, 2.0f,
+                      WHITE);
         break;
 
     case ss::types::EntityTarget::IDLE:
         if (entity->m_foodStage == ss::bll::simulation::EntityFoodStage::TWO_FOOD)
         {
-            DrawBillboard(camera, entityShouldBreed, { entity->getPos().x - offset, 2.0f, entity->getPos().y - offset }, 2.0f, WHITE);
+            DrawBillboard(camera, entityShouldBreed, {entity->getPos().x - offset, 2.0f, entity->getPos().y - offset},
+                          2.0f, WHITE);
         }
         else
         {
-            DrawBillboard(camera, entityGoingHome, { entity->getPos().x - offset, 2.0f, entity->getPos().y - offset }, 2.0f, WHITE);
+            DrawBillboard(camera, entityGoingHome, {entity->getPos().x - offset, 2.0f, entity->getPos().y - offset},
+                          2.0f, WHITE);
         }
         break;
     }
@@ -491,7 +507,8 @@ void ss::pl::simulator::Simulator::drawEntityThoughts(const ss::bll::simulation:
 /// @return data for summary screen
 ss::pl::simulator::Simulator::SummaryInfo ss::pl::simulator::Simulator::getSummaryData()
 {
-    return SummaryInfo(simulation->getTotalAliveEntities(), simulation->getTotalDiedEntities(), simulation->getAvgTraits().speed, simulation->getAvgTraits().sense);
+    return SummaryInfo(simulation->getTotalAliveEntities(), simulation->getTotalDiedEntities(),
+                       simulation->getAvgTraits().speed, simulation->getAvgTraits().sense);
 }
 
 // clang-format off
