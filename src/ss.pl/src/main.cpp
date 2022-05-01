@@ -11,7 +11,7 @@ const int screenHeight = 980;
 
 int main()
 {
-    InitWindow(screenWidth, screenHeight, "Simulation");
+    InitWindow(screenWidth, screenHeight, "NANO Simulator");
 
     SetTargetFPS(60);
 
