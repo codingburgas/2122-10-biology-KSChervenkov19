@@ -92,7 +92,7 @@ void ss::pl::simulator::Simulator::checkInput()
     }
 
     if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
-                                          static_cast<float>(backArrow_Texture.height)}) &&
+                                          static_cast<float>(backArrow_Texture.height)}) && currentState == SimulatorState::Setup &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         m_sceneManager.setCurrentScene("MainMenu");
@@ -108,7 +108,7 @@ void ss::pl::simulator::Simulator::checkInput()
     }
 
     if (CheckCollisionPointRec(mousePos, {1064, 820, static_cast<float>(simulateButton_Texture.width),
-                                          static_cast<float>(simulateButton_Texture.height)}) &&
+                                          static_cast<float>(simulateButton_Texture.height)}) && currentState == SimulatorState::Setup && 
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         Simulator::currentState = SimulatorState::Simulation;
