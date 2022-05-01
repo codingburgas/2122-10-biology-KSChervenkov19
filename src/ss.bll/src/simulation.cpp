@@ -787,7 +787,7 @@ void ss::bll::simulation::Simulation::update(const float elapsedTime)
         return;
     }
 
-    if (m_currentCycle_n > m_simInfo.cyclesCount + 1)
+    if (m_currentCycle_n > m_simInfo.cyclesCount + 1 || getTotalAliveEntities() == getTotalDiedEntities())
     {
         isSimulationDone = true;
         cleanEntities();
