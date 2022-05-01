@@ -75,6 +75,10 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
     clampEntityPosToBoard();
 }
 
+///
+/// Returns the angle to the closest food in range (if there is any).
+///
+/// \returns Angle in degrees.
 std::optional<float> ss::bll::simulation::Entity::getAngleToClosestFoodInRange()
 {
     struct FoodDistance
@@ -109,6 +113,9 @@ std::optional<float> ss::bll::simulation::Entity::getAngleToClosestFoodInRange()
     return utils::getAngle(closestFood.food.pos, m_pos);
 }
 
+/// Returns the angle to the closest wall to the entity.
+///
+/// \returns Angle in degrees.
 float ss::bll::simulation::Entity::getAngleToClosestWall()
 {
     using namespace utils;
@@ -136,22 +143,37 @@ float ss::bll::simulation::Entity::getAngleToClosestWall()
     return {};
 }
 
+///
+/// Sets the turning angle to a new random value that's less than the max turning angle.
+///
 void ss::bll::simulation::Entity::generateNewTurningAngle()
 {
     m_turningAngle = Random::get(-m_maxTurnAngle, m_maxTurnAngle);
 }
 
+
+///
+/// Checks if the entity is outside the bounds of the board.
+///
 bool ss::bll::simulation::Entity::isOutOfBounds() const
 {
     return (m_pos.x < 0.0f || m_pos.x > m_worldSize) || (m_pos.y < 0.0f || m_pos.y > m_worldSize);
 }
 
+///
+/// Limits the position of the entity to the board.
+///
+/// If the entity ends up outside the board, this returns the coordinates to the appropriate point on the board.
+///
 void ss::bll::simulation::Entity::clampEntityPosToBoard()
 {
     m_pos.x = std::clamp(m_pos.x, 0.0f, static_cast<float>(m_worldSize));
     m_pos.y = std::clamp(m_pos.y, 0.0f, static_cast<float>(m_worldSize));
 }
 
+///
+/// Handles everything regarding food collision.
+///
 bool ss::bll::simulation::Entity::handleFoodCollision(const float elaspedTime)
 {
     if (m_targetFood)
@@ -168,6 +190,9 @@ bool ss::bll::simulation::Entity::handleFoodCollision(const float elaspedTime)
     return false;
 }
 
+///
+/// Prepares the entity for the next cycle.
+///
 void ss::bll::simulation::Entity::reset()
 {
     m_turningAngle = 0;
@@ -179,6 +204,9 @@ void ss::bll::simulation::Entity::reset()
     m_foodStage = EntityFoodStage::ZERO_FOOD;
 }
 
+///
+/// Handles the energy depletion of the entity.
+///
 void ss::bll::simulation::Entity::hanldeEnergy(const float elapsedTime)
 {
     m_currentEnergy -= (pow(m_traits.speed, 2) + pow(m_traits.sense, 3)) * elapsedTime;
@@ -191,8 +219,9 @@ void ss::bll::simulation::Entity::hanldeEnergy(const float elapsedTime)
     }
 }
 
-// walk mf is for turn logic and moving (mf -> member function)
-// move mf is for just moving forward based on pos and facingAngle
+///
+/// Handles special turning logic
+///
 void ss::bll::simulation::Entity::walk(const float elapsedTime)
 {
 
@@ -222,6 +251,12 @@ void ss::bll::simulation::Entity::walk(const float elapsedTime)
     m_timeSinceLastTurn += elapsedTime;
 }
 
+
+///
+/// Moves the entity in it's facing direction.
+///
+/// Just for moving forward based on position and facing angle.
+///
 void ss::bll::simulation::Entity::move(const float elapsedTime)
 {
     float facingRadian = utils::toRadian(m_facingAngle + 180);
@@ -239,6 +274,11 @@ void ss::bll::simulation::Entity::move(const float elapsedTime)
 	clampEntityPosToBoard();
 }
 
+///
+/// Peek into an entity's thoughts.
+///
+/// \returns the appropriate thought depending on internal state.
+///
 ss::types::EntityTarget ss::bll::simulation::Entity::getBrain() const
 {
     if (m_isDoneWithCycle)
@@ -259,16 +299,31 @@ ss::types::EntityTarget ss::bll::simulation::Entity::getBrain() const
     return types::EntityTarget::SEARCHINGFOOD;
 }
 
+///
+/// Getter for position.
+///
+/// \returns a const reference to the entity's position.
+///
 const ss::types::fVec2 &ss::bll::simulation::Entity::getPos() const
 {
     return m_pos;
 }
 
+///
+/// Getter for facing angle.
+///
+/// \returns the entity's facing angle.
+///
 float ss::bll::simulation::Entity::getFacingAngle() const
 {
     return m_facingAngle;
 }
 
+///
+/// Necessary default constructor.
+///
+/// \note Do not initialize a cycle without params.
+///
 ss::bll::simulation::Cycle::Cycle() : m_entities(nullptr), m_entitiesEndIter(nullptr), m_worldSize(0)
 {
 }
@@ -282,6 +337,11 @@ ss::bll::simulation::Cycle::Cycle(std::vector<Entity> *t_entities, std::vector<E
 {
 }
 
+///
+/// Prepares the entities for the next cycle.
+///
+/// Handles reproducing distributing and etc.
+///
 void ss::bll::simulation::Cycle::CycleEnd()
 {
     for (auto &entity : *m_entities)
@@ -313,6 +373,9 @@ void ss::bll::simulation::Cycle::CycleEnd()
     }
 }
 
+///
+/// Reproduces all entities that should reproduce with random traits inherited from their parent.
+///
 void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities,
                                                    std::vector<Entity>::iterator &entitiesEndIt, size_t *lastEntityId,
                                                    size_t cycleId, std::vector<Food> *foods)
@@ -346,6 +409,11 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities
     Simulation::repositionEntitiesIter(entities, entitiesEndIt);
 }
 
+///
+/// Distributes entities with equal spacing on the board.
+///
+/// \note Used only when there is enough space for that on the board.
+///
 void ss::bll::simulation::Cycle::equalEntitiesDistribution(std::span<Entity> entities, size_t wallSize)
 {
     const size_t entitiesCountRegularWall = round(static_cast<float>(entities.size()) / 4.0f);
@@ -399,6 +467,11 @@ void ss::bll::simulation::Cycle::equalEntitiesDistribution(std::span<Entity> ent
     }
 }
 
+///
+/// Distributes entities randomly on the edges of the board.
+///
+/// \note Used when there is not enough space for equal distribution.
+///
 void ss::bll::simulation::Cycle::randomEntitiesDistribution(std::span<Entity> entities, size_t wallSize)
 {
     size_t spacing = wallSize / (entities.size() / 4);
@@ -441,6 +514,9 @@ void ss::bll::simulation::Cycle::randomEntitiesDistribution(std::span<Entity> en
     }
 }
 
+///
+/// Determines if there is enough space for equal distribution and calls the appropriate function.
+///
 void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, size_t wallSize)
 {
     if (wallSize / (round(static_cast<float>(entities.size()) / 4.0f) + 1) > 1)
@@ -453,6 +529,9 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
     }
 }
 
+///
+/// Redistributes the food particles on the board.
+///
 void ss::bll::simulation::Cycle::randomizeFoodPositions(std::span<Food> foods, size_t worldSize)
 {
     for (auto &food : foods)
@@ -462,6 +541,11 @@ void ss::bll::simulation::Cycle::randomizeFoodPositions(std::span<Food> foods, s
     }
 }
 
+///
+/// Updates the current cycle.
+///
+/// Loops through all the entities and calls their update. Checks if the cycle should end.
+///
 void ss::bll::simulation::Cycle::update(const float elapsedTime)
 {
     if (m_isCycleDone)
@@ -483,6 +567,9 @@ void ss::bll::simulation::Cycle::update(const float elapsedTime)
         m_isCycleDone = true;
 }
 
+///
+/// Cleans up unused entities after the simulation has finished.
+///
 void ss::bll::simulation::Simulation::cleanEntities()
 {
     std::vector<int> indexesForDeletion;
@@ -511,17 +598,30 @@ void ss::bll::simulation::Simulation::cleanEntities()
     }
 }
 
+///
+/// Returns only the alive entities in the current cycle.
+///
+/// \returns a span looking into only the alive entiites.
+///
 std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiveEntities(
     std::vector<Entity> &entities, std::vector<Entity>::iterator &iter)
 {
     return std::span(entities.data(), std::distance(entities.begin(), iter));
 }
 
+///
+/// Getter for all the food particles.
+///
+/// \returns a constant reference to the container of foods.
+///
 const std::vector<ss::bll::simulation::Food> &ss::bll::simulation::Simulation::getFoods() const
 {
     return m_foods;
 }
 
+///
+/// Sets an appropriate position for the iterator used to mark the point between the alive and dead entities in the entities' container.
+///
 void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity> &entities,
                                                              std::vector<Entity>::iterator &iter)
 {
@@ -533,6 +633,13 @@ void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity>
     iter = current;
 }
 
+///
+/// Getter for entity by id.
+///
+/// \param id The id of the wanted entity.
+///
+/// \returns nullptr if there is no entity with specified id. Else returns a constant pointer to the specified entity.
+///
 const ss::bll::simulation::Entity *ss::bll::simulation::Simulation::getEntityById(size_t id)
 {
     auto activeEntities = getActiveEntities(m_entities, m_entitiesEndIt);
@@ -545,10 +652,13 @@ const ss::bll::simulation::Entity *ss::bll::simulation::Simulation::getEntityByI
     return nullptr;
 }
 
+/// 
 /// Constructor for the Simulation class.
 ///
 /// Constructs the Simulation class with approriate ss::types::SimulationInfo.
-/// @param t_simInfo object of user defined type ss::types::SimulationInfo holding the data.
+///
+/// \param t_simInfo object of user defined type ss::types::SimulationInfo holding the data.
+///
 ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_simInfo)
     : m_simInfo(t_simInfo), m_foods(std::vector<Food>(m_simInfo.foodCount))
 {
@@ -569,11 +679,21 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
     Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
 }
 
+/// 
+/// Calculates the amount of the total alive entities.
+///
+/// \returns the count of once alive entities.
+///
 size_t ss::bll::simulation::Simulation::getTotalAliveEntities() const
 {
     return m_entities.size();
 }
 
+/// 
+/// Calculates the amount of the total died entities.
+///
+/// \returns the count of all died entities.
+///
 size_t ss::bll::simulation::Simulation::getTotalDiedEntities() const
 {
     size_t diedCnt = 0;
@@ -589,6 +709,11 @@ size_t ss::bll::simulation::Simulation::getTotalDiedEntities() const
     return diedCnt;
 }
 
+///
+/// Calculates the average traits of all entities for the whole simulation.
+///
+/// \returns a trait object with the average sense and speed values for the whole simulation.
+///
 ss::types::Trait ss::bll::simulation::Simulation::getAvgTraits() const
 {
     types::Trait avgTraits = {0.0f, 0.0f};
@@ -607,6 +732,11 @@ ss::types::Trait ss::bll::simulation::Simulation::getAvgTraits() const
     return avgTraits;
 }
 
+///
+/// Generates and attempts to save all of the information gathered throughout the simulation.
+///
+/// \note Rethrows all exceptions caught from DAL so the must be handled by the caller.
+///
 void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::string> fileName) const
 {
     std::vector<types::Cycle> cycles;
@@ -645,6 +775,11 @@ void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::stri
 	}
 }
 
+///
+/// Updates the simulation.
+///
+/// Checks if the simulation is over and updates the current cycle.
+///
 void ss::bll::simulation::Simulation::update(const float elapsedTime)
 {
     if (isSimulationDone)
