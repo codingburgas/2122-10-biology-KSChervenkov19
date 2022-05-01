@@ -138,6 +138,8 @@ class Cycle
     static void randomEntitiesDistribution(std::span<Entity> entities, size_t wallSize);
 
     static void distributeEntities(std::span<Entity> entities, size_t wallSize);
+
+    static void handleFoodCount(std::vector<Food>& foods, int changeBy);
     static void randomizeFoodPositions(std::span<Food> foods, size_t worldSize);
 
   public:
@@ -176,7 +178,7 @@ class Simulation
     const std::vector<Food> &getFoods() const;
     static void repositionEntitiesIter(std::vector<Entity> &entities, std::vector<Entity>::iterator &iter);
     const Entity *getEntityById(size_t id);
-    void setEntityTraits(const size_t id, const types::Trait &traits);
+    void setEntityTraits(size_t id, const types::Trait &traits);
 
   public:
     Simulation(types::SimulationInfo t_simInfo);

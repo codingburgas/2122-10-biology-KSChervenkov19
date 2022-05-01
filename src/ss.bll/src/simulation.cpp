@@ -217,7 +217,6 @@ void ss::bll::simulation::Entity::hanldeEnergy(const float elapsedTime)
     {
         m_isDoneWithCycle = true;
         m_foodStage = EntityFoodStage::ZERO_FOOD;
-        // m_cycleDiedAt = m_cycle
     }
 }
 
@@ -531,6 +530,15 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
     }
 }
 
+void ss::bll::simulation::Cycle::handleFoodCount(std::vector<Food>& foods, int changeBy)
+{
+    int newCnt = foods.size() + changeBy;
+    if (newCnt < 0)
+        newCnt = 0;
+
+    foods.resize(newCnt);
+}
+
 ///
 /// Redistributes the food particles on the board.
 ///
@@ -818,6 +826,8 @@ void ss::bll::simulation::Simulation::update(const float elapsedTime)
         m_currentCycle.CycleEnd();
         m_currentCycle =
             Cycle(&m_entities, &m_entitiesEndIt, m_simInfo.worldSize, &m_foods, m_currentCycle_n, &m_lastEntityId);
+
+        Cycle::handleFoodCount(m_foods, m_simInfo.foodChange);
         Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
     }
 
