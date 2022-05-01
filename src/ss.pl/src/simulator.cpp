@@ -414,7 +414,7 @@ void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity 
         if (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::ENERGY)
         {
             DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f,
-                       Color{0, static_cast<unsigned char>(entity.m_currentEnergy), 0, 255});
+                       Color{0, static_cast<unsigned char>(((entity.m_currentEnergy / entity.m_energyMax) * 100) / 100 * 255), 0, 255});
         }
     }
     else
