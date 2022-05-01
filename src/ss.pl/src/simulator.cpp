@@ -145,6 +145,14 @@ void ss::pl::simulator::Simulator::checkInput()
         shouldShowTraits = !shouldShowTraits;
     }
 
+    if (CheckCollisionPointRec(mousePos, {41, 23, static_cast<float>(backArrow_Texture.width), static_cast<float>(backArrow_Texture.height)}) && currentState == SimulatorState::Simulation &&
+        IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        resetCamera();
+        aminationProgress = 0;
+        currentState = SimulatorState::Setup;
+    }
+
     if (IsKeyPressed(KEY_R))
     {
         resetCamera();
@@ -258,6 +266,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
         EndMode3D();
 
         drawProgressBar();
+        DrawTexture(backArrow_Texture, 41, 23, WHITE);
 
         drawAdditionalMenu();
 
@@ -322,7 +331,7 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
         DrawTextEx(fontInter, "Timescale:", {1073, 124}, 36, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
         DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 474.0f}, .2f, 1, {193, 187, 245, 53});
         timeScale = GuiSliderBar({1073, 165, 355, 48}, nullptr, nullptr, timeScale, 0.1f, 20.0f);
-        DrawTextEx(fontInter, TextFormat("%.1f", timeScale), { 1373, 215 }, 30, 1, BLACK);
+        DrawTextEx(fontInter, TextFormat("%.1f", timeScale), { 1373, 215 }, 30, 1, {132, 132, 132, 255});
 
         DrawTextEx(fontInter, "Progressbar:", {1073, 241}, 36, 0,
                    backgroundColors.at(!(static_cast<int>(currentTheme))));
