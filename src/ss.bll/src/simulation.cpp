@@ -16,7 +16,7 @@ ss::bll::simulation::Entity::Entity(size_t t_id, const int t_worldSize, const ty
 ///
 ///	This function checks for food collision and etc. It handles everything an entity should do.
 ///
-/// \param elapsedTime 
+/// @param elapsedTime 
 ///
 void ss::bll::simulation::Entity::update(const float elapsedTime)
 {
@@ -80,7 +80,7 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
 ///
 /// Returns the angle to the closest food in range (if there is any).
 ///
-/// \returns Angle in degrees.
+/// @returns Angle in degrees.
 std::optional<float> ss::bll::simulation::Entity::getAngleToClosestFoodInRange()
 {
     struct FoodDistance
@@ -117,7 +117,7 @@ std::optional<float> ss::bll::simulation::Entity::getAngleToClosestFoodInRange()
 
 /// Returns the angle to the closest wall to the entity.
 ///
-/// \returns Angle in degrees.
+/// @returns Angle in degrees.
 float ss::bll::simulation::Entity::getAngleToClosestWall()
 {
     using namespace utils;
@@ -279,7 +279,7 @@ void ss::bll::simulation::Entity::move(const float elapsedTime)
 ///
 /// Peek into an entity's thoughts.
 ///
-/// \returns the appropriate thought depending on internal state.
+/// @returns the appropriate thought depending on internal state.
 ///
 ss::types::EntityTarget ss::bll::simulation::Entity::getBrain() const
 {
@@ -304,7 +304,7 @@ ss::types::EntityTarget ss::bll::simulation::Entity::getBrain() const
 ///
 /// Getter for position.
 ///
-/// \returns a const reference to the entity's position.
+/// @returns a const reference to the entity's position.
 ///
 const ss::types::fVec2 &ss::bll::simulation::Entity::getPos() const
 {
@@ -314,7 +314,7 @@ const ss::types::fVec2 &ss::bll::simulation::Entity::getPos() const
 ///
 /// Getter for facing angle.
 ///
-/// \returns the entity's facing angle.
+/// @returns the entity's facing angle.
 ///
 float ss::bll::simulation::Entity::getFacingAngle() const
 {
@@ -324,7 +324,7 @@ float ss::bll::simulation::Entity::getFacingAngle() const
 ///
 /// Necessary default constructor.
 ///
-/// \note Do not initialize a cycle without params.
+/// @note Do not initialize a cycle without params.
 ///
 ss::bll::simulation::Cycle::Cycle() : m_entities(nullptr), m_entitiesEndIter(nullptr), m_worldSize(0)
 {
@@ -414,7 +414,7 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities
 ///
 /// Distributes entities with equal spacing on the board.
 ///
-/// \note Used only when there is enough space for that on the board.
+/// @note Used only when there is enough space for that on the board.
 ///
 void ss::bll::simulation::Cycle::equalEntitiesDistribution(std::span<Entity> entities, size_t wallSize)
 {
@@ -472,7 +472,7 @@ void ss::bll::simulation::Cycle::equalEntitiesDistribution(std::span<Entity> ent
 ///
 /// Distributes entities randomly on the edges of the board.
 ///
-/// \note Used when there is not enough space for equal distribution.
+/// @note Used when there is not enough space for equal distribution.
 ///
 void ss::bll::simulation::Cycle::randomEntitiesDistribution(std::span<Entity> entities, size_t wallSize)
 {
@@ -603,7 +603,7 @@ void ss::bll::simulation::Simulation::cleanEntities()
 ///
 /// Returns only the alive entities in the current cycle.
 ///
-/// \returns a span looking into only the alive entiites.
+/// @returns a span looking into only the alive entiites.
 ///
 std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiveEntities(
     std::vector<Entity> &entities, std::vector<Entity>::iterator &iter)
@@ -614,7 +614,7 @@ std::span<ss::bll::simulation::Entity> ss::bll::simulation::Simulation::getActiv
 ///
 /// Getter for all the food particles.
 ///
-/// \returns a constant reference to the container of foods.
+/// @returns a constant reference to the container of foods.
 ///
 const std::vector<ss::bll::simulation::Food> &ss::bll::simulation::Simulation::getFoods() const
 {
@@ -638,9 +638,9 @@ void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity>
 ///
 /// Getter for entity by id.
 ///
-/// \param id The id of the wanted entity.
+/// @param id The id of the wanted entity.
 ///
-/// \returns nullptr if there is no entity with specified id. Else returns a constant pointer to the specified entity.
+/// @returns nullptr if there is no entity with specified id. Else returns a constant pointer to the specified entity.
 ///
 const ss::bll::simulation::Entity *ss::bll::simulation::Simulation::getEntityById(size_t id)
 {
@@ -659,7 +659,7 @@ const ss::bll::simulation::Entity *ss::bll::simulation::Simulation::getEntityByI
 ///
 /// Constructs the Simulation class with approriate ss::types::SimulationInfo.
 ///
-/// \param t_simInfo object of user defined type ss::types::SimulationInfo holding the data.
+/// @param t_simInfo object of user defined type ss::types::SimulationInfo holding the data.
 ///
 ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_simInfo)
     : m_simInfo(t_simInfo), m_foods(std::vector<Food>(m_simInfo.foodCount))
@@ -684,7 +684,7 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
 /// 
 /// Calculates the amount of the total alive entities.
 ///
-/// \returns the count of once alive entities.
+/// @returns the count of once alive entities.
 ///
 size_t ss::bll::simulation::Simulation::getTotalAliveEntities() const
 {
@@ -694,7 +694,7 @@ size_t ss::bll::simulation::Simulation::getTotalAliveEntities() const
 /// 
 /// Calculates the amount of the total died entities.
 ///
-/// \returns the count of all died entities.
+/// @returns the count of all died entities.
 ///
 size_t ss::bll::simulation::Simulation::getTotalDiedEntities() const
 {
@@ -714,7 +714,7 @@ size_t ss::bll::simulation::Simulation::getTotalDiedEntities() const
 ///
 /// Calculates the average traits of all entities for the whole simulation.
 ///
-/// \returns a trait object with the average sense and speed values for the whole simulation.
+/// @returns a trait object with the average sense and speed values for the whole simulation.
 ///
 ss::types::Trait ss::bll::simulation::Simulation::getAvgTraits() const
 {
@@ -737,7 +737,7 @@ ss::types::Trait ss::bll::simulation::Simulation::getAvgTraits() const
 ///
 /// Generates and attempts to save all of the information gathered throughout the simulation.
 ///
-/// \note Rethrows all exceptions caught from DAL so the must be handled by the caller.
+/// @note Rethrows all exceptions caught from DAL so the must be handled by the caller.
 ///
 void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::string> fileName) const
 {
