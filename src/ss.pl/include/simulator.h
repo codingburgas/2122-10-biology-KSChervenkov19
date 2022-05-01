@@ -31,6 +31,11 @@ class Simulator : public Scene
     Texture2D dropDown_Arrow;
     Texture2D dropDown_Arrow_Selected;
 
+    Texture2D entitySearchingFood;
+    Texture2D entityGoingHome;
+    Texture2D entityGoingTowardsFood;
+    Texture2D entityShouldBreed;
+
     // Camera
     Camera3D camera{0};
 
@@ -43,13 +48,13 @@ class Simulator : public Scene
     size_t worldSize;
     size_t entities;
     size_t food;
-    //size_t currentCycle;
+    // size_t currentCycle;
 
     float offset;
     float entityLookingDirRadian;
     float aminationProgress;
-    //float entityRadius;
-    //float* radiusArray;
+    // float entityRadius;
+    // float* radiusArray;
     bool simulating;
 
     size_t selectedEntityId;
@@ -94,13 +99,13 @@ class Simulator : public Scene
     void drawTraitsSwitch();
     void drawProgressBar();
 
-    //void drawEntity(const auto &entity, float radius);
+    // void drawEntity(const auto &entity, float radius);
     void drawEntity(const ss::bll::simulation::Entity &entity);
     void drawFood(const auto &food);
     void drawEntityThoughts(const ss::bll::simulation::Entity *entity);
 
     float animateProgress();
-    //float animateDying(float currentRadius);
+    // float animateDying(float currentRadius);
 
     // Getter methods
     SummaryInfo getSummaryData();

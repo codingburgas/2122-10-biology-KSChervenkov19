@@ -17,5 +17,6 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include "random.hpp"
 
 #endif // PCH_H_BLL

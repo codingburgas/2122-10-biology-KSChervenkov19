@@ -132,6 +132,10 @@ class Cycle
 
     static void reproduceEntities(std::vector<Entity> &entities, std::vector<Entity>::iterator &entitiesEndIt,
                                   size_t *lastEntityId, size_t cycleId, std::vector<Food> *foods);
+
+    static void equalEntitiesDistribution(std::span<Entity> entities, size_t wallSize);
+    static void randomEntitiesDistribution(std::span<Entity> entities, size_t wallSize);
+
     static void distributeEntities(std::span<Entity> entities, size_t wallSize);
     static void randomizeFoodPositions(std::span<Food> foods, size_t worldSize);
 

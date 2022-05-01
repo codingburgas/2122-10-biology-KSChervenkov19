@@ -7,28 +7,28 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace ss::bll::unit_testing
 {
-	/// Test case for toRadian method in bll.
+	/// Test case for getDistance method in bll.
 	/// 
 	/// Testing if the function gets the appropriate result from bll utils method.
-	TEST_CLASS(get_degree_from_radian)
+	TEST_CLASS(get_distance_between_two_points)
 	{
 	public:
 
-		BEGIN_TEST_METHOD_ATTRIBUTE(toDegreeFromRadian1)
+		BEGIN_TEST_METHOD_ATTRIBUTE(get_distance1)
 			TEST_OWNER(L"MCBerberov19")
-			TEST_PRIORITY("Low")
+			TEST_PRIORITY("High")
 			END_TEST_METHOD_ATTRIBUTE()
-			TEST_METHOD(toDegreeFromRadian1)
+			TEST_METHOD(get_distance1)
 		{
 			// Arrange
-			double radian = 0;
-			double expected = 45;
+			float distance = 0.f;
+			float expected = 2.0f;
 
 			// Act
-			radian = ss::bll::utils::toDegree(0.785398);
+			distance = ss::bll::utils::getDistance({3, 4}, {2, 2});
 
 			// Assert
-			Assert::AreEqual(std::round(expected), std::round(radian), L"Equality != =");
+			Assert::AreEqual(std::round(expected), std::round(distance), L"Equality != =");
 		}
 	};
 }
