@@ -432,6 +432,7 @@ void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity 
                RED);
 
     // draw entity aura(only if user has demanded)
+    if(shouldShowTraits)
     DrawCircle3D({currentPos.x - offset, .1f, currentPos.y - offset}, entity.m_traits.sense, {1.0f, 0.0f, 0.0f}, 90.0f,
                  {255, 0, 0, 100});
 }
