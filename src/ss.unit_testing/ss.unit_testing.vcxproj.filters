@@ -48,6 +48,9 @@
     <ClCompile Include="src\ss.bll.unit_testing\get_degree_from_radian.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ss.bll.unit_testing\get_distance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\pch_unit_testing.h">

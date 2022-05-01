@@ -21,14 +21,14 @@ namespace ss::bll::unit_testing
 			TEST_METHOD(toRadianFromDegree1)
 		{
 			// Arrange
-			double degree = 45.0;
-			double expected;
+			double degree = 0;
+			double expected = 0.785398;
 
 			// Act
-			expected = ss::bll::utils::toRadian(degree);
+			degree = ss::bll::utils::toRadian(45);
 
 			// Assert
-			Assert::AreEqual(std::round(expected), std::round(0.785398), L"Equality != =");
+			Assert::AreEqual(std::round(expected), std::round(degree), L"Equality != =");
 		}
 	};
 }
