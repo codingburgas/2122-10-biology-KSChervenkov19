@@ -176,6 +176,7 @@ class Simulation
     const std::vector<Food> &getFoods() const;
     static void repositionEntitiesIter(std::vector<Entity> &entities, std::vector<Entity>::iterator &iter);
     const Entity *getEntityById(size_t id);
+    void setEntityTraits(const size_t id, const types::Trait &traits);
 
   public:
     Simulation(types::SimulationInfo t_simInfo);

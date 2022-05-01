@@ -654,6 +654,22 @@ const ss::bll::simulation::Entity *ss::bll::simulation::Simulation::getEntityByI
     return nullptr;
 }
 
+///
+/// Sets the traits of an entity.
+///
+/// @param id The id of the entity whose traits you want to edit.
+/// @param traits The traits you want to be set on the entity.
+///
+void ss::bll::simulation::Simulation::setEntityTraits(const size_t id, const types::Trait& traits)
+{
+    Entity* entity = const_cast<Entity*>(getEntityById(id));
+
+    if (entity == nullptr)
+        return;
+
+    entity->m_traits = traits;
+}
+
 /// 
 /// Constructor for the Simulation class.
 ///
