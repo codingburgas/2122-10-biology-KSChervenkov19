@@ -7,6 +7,9 @@
 
 namespace ss::bll::simulation
 {
+///
+/// @brief An enumeration type representing a single food particle.
+///
 struct Food
 {
     types::fVec2 pos = {0, 0};
@@ -34,6 +37,10 @@ enum class EntityFoodStage
     TWO_FOOD   // Entity has found 2 pieces of food. Going home. No more detours for food.
 };
 
+/// A class representing a single entity in the simulation.
+///
+/// This class holds all the information and logic for the function of an entity.
+///
 class Entity
 {
   public:
@@ -97,6 +104,10 @@ class Entity
     friend class Simulation;
 };
 
+/// A class representing a single cycle in the simulation.
+///
+/// This class holds all the information and logic for the function of a cycle.
+///
 class Cycle
 {
     std::vector<Entity> *m_entities;
@@ -130,6 +141,10 @@ class Cycle
     friend class Simulation;
 };
 
+/// A class representing the simulation.
+///
+/// This class holds all the information and logic for the simulation to be able to manage all of it's subclasses (not in inheritance meaning).
+///
 class Simulation
 {
   public:

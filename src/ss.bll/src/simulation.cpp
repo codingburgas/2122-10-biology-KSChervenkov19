@@ -16,6 +16,12 @@ ss::bll::simulation::Entity::Entity(size_t t_id, const int t_worldSize, const ty
 {
 }
 
+/// Update the entity.
+///
+///	This function checks for food collision and etc. It handles everything an entity should do.
+///
+/// \param elapsedTime 
+///
 void ss::bll::simulation::Entity::update(const float elapsedTime)
 {
 	if (!m_isAlive)
@@ -650,13 +656,17 @@ void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::stri
 		std::cout << std::format("Alive entities for cycle: {}", cycle.lastedEntities);
 	}
 
-	if (fileName)
+
+	try
 	{
-		dal::StatisticsStore::saveStatisticTo(*fileName, cycles);
+		if (fileName)
+			dal::StatisticsStore::saveStatisticTo(*fileName, cycles);
+		else
+			dal::StatisticsStore::saveStatisticTo(cycles);
 	}
-	else
+	catch (const std::exception& e)
 	{
-		dal::StatisticsStore::saveStatisticTo(cycles);
+		throw e;
 	}
 }
 
