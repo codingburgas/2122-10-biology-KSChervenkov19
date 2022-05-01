@@ -38,6 +38,7 @@ class Simulator : public Scene
 
     // Camera
     Camera3D camera{0};
+    Camera3D entityCamera{ 0 };
 
     // Font
     Font fontInter;
@@ -59,6 +60,7 @@ class Simulator : public Scene
 
     size_t selectedEntityId;
     ss::bll::simulation::Entity *selectedEntity;
+    bool followingEntity;
 
     bool additionalMenuTriggered;
     float timeScale;

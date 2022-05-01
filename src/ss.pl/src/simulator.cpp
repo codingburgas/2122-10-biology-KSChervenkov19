@@ -199,7 +199,7 @@ void ss::pl::simulator::Simulator::drawSetup()
     worldSize = GuiSliderBar({1000, 132, 455, 53}, nullptr, nullptr, worldSize, 6, 200);
     entities = GuiSliderBar({1000, 282, 455, 53}, nullptr, nullptr, entities, 3, 200);
     food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 3, 400);
-    cyclesCount = GuiSliderBar({1180, 730, 242, 51}, nullptr, TextFormat("%i", cyclesCount), cyclesCount, 3, 1000);
+    cyclesCount = GuiSliderBar({1180, 730, 242, 51}, nullptr, TextFormat("%i", cyclesCount), cyclesCount, 3, 500);
 
     if (!CheckCollisionPointRec(mousePos, {950, 0, (float)graphsContainerPos, (float)graphsContainerPos}))
     {
@@ -404,10 +404,10 @@ void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity 
         {
             DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f,
                        Color{static_cast<unsigned char>(
-                                 90 + entity.m_traits.speed > 1 ? (entity.m_traits.speed * 20) / 100 * 157 : 0),
+                                 90 + entity.m_traits.speed > 1  && 90 + (entity.m_traits.speed * 30) / 100 * 157 <= 255 ? (entity.m_traits.speed * 30) / 100 * 157 : 0),
                              90,
                              static_cast<unsigned char>(
-                                 65 + entity.m_traits.speed < 1 ? (entity.m_traits.speed * 20) / 100 * 190 : 0),
+                                 65 + entity.m_traits.speed < 1 && 90 + (entity.m_traits.speed * 30) / 100 * 190 <= 255 ? (entity.m_traits.speed * 30) / 100 * 190 : 0),
                              255});
         }
 
