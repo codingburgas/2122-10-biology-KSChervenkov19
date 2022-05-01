@@ -314,14 +314,6 @@ void ss::bll::simulation::Cycle::CycleEnd()
     reproduceEntities(*m_entities, *m_entitiesEndIter, m_lastEntityId, m_cycleId, m_foods);
     distributeEntities(Simulation::getActiveEntities(*m_entities, *m_entitiesEndIter), m_worldSize);
 
-    std::cout << std::format("Cycle Id: {}\n", m_cycleId);
-    for (const auto &entity : *m_entities)
-    {
-        std::cout << std::format("Id: {}, Born: {}, LivedFor: {}\n", entity.m_id, entity.m_cycleBornAt,
-                                 entity.m_cyclesLived);
-    }
-    std::cout << std::string(15, '-') << '\n';
-
     for (auto &entity : *m_entities)
     {
         entity.reset();
@@ -366,101 +358,112 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities
     Simulation::repositionEntitiesIter(entities, entitiesEndIt);
 }
 
+void ss::bll::simulation::Cycle::equalEntitiesDistribution(std::span<Entity> entities, size_t wallSize)
+{
+    const size_t entitiesCountRegularWall = round(static_cast<float>(entities.size()) / 4.0f);
+    const size_t entitiesCountLastWall = entities.size() - entitiesCountRegularWall * 3;
+    size_t spacing = wallSize / (entitiesCountRegularWall + 1);
+    size_t coordinate = spacing;
+
+    for (size_t i = 0; i < entitiesCountRegularWall; ++i)
+    {
+        entities[i].m_facingAngle = 0.0f;
+        entities[i].m_pos = { static_cast<float>(wallSize), static_cast<float>(coordinate) };
+
+        coordinate += spacing;
+    }
+
+    if (entities.size() >= 2)
+    {
+        coordinate = spacing;
+        for (size_t i = entitiesCountRegularWall; i < entitiesCountRegularWall * 2; ++i)
+        {
+            entities[i].m_facingAngle = 90.0f;
+            entities[i].m_pos = { static_cast<float>(coordinate), static_cast<float>(wallSize) };
+
+            coordinate += spacing;
+        }
+    }
+
+    if (entities.size() >= 3)
+    {
+        coordinate = spacing;
+        for (size_t i = entitiesCountRegularWall * 2; i < entitiesCountRegularWall * 3; ++i)
+        {
+            entities[i].m_facingAngle = 180.0f;
+            entities[i].m_pos = { 0.0f, static_cast<float>(coordinate) };
+
+            coordinate += spacing;
+        }
+    }
+
+    if (entities.size() >= 4)
+    {
+        spacing = wallSize / (entitiesCountLastWall + 1);
+        coordinate = spacing;
+        for (size_t i = entitiesCountRegularWall * 3; i < entities.size(); ++i)
+        {
+            entities[i].m_facingAngle = 270.0f;
+            entities[i].m_pos = { static_cast<float>(coordinate), 0.0f };
+
+            coordinate += spacing;
+        }
+    }
+}
+
+void ss::bll::simulation::Cycle::randomEntitiesDistribution(std::span<Entity> entities, size_t wallSize)
+{
+    size_t spacing = wallSize / (entities.size() / 4);
+    size_t coordinate = 0;
+    auto currentDirection = DirectionsDeg::LEFT;
+
+    for (auto& entity : entities)
+    {
+        entity.m_facingAngle = static_cast<float>(currentDirection);
+
+        switch (currentDirection)
+        {
+        case DirectionsDeg::LEFT:
+            // { wallSize, coordinate }
+            entity.m_pos = { static_cast<float>(wallSize), static_cast<float>(Random::get(0, (int)wallSize)) };
+            break;
+        case DirectionsDeg::UP:
+            // { coordinate, wallSize }
+            entity.m_pos = { static_cast<float>(Random::get(0, (int)wallSize)), static_cast<float>(wallSize) };
+            break;
+        case DirectionsDeg::RIGHT:
+            // { 0, coordinate }
+            entity.m_pos = { 0.0f, static_cast<float>(Random::get(0, (int)wallSize)) };
+            break;
+        case DirectionsDeg::DOWN:
+            // { coordinate, 0 }
+            entity.m_pos = { static_cast<float>(Random::get(0, (int)wallSize)), 0.0f };
+            break;
+        }
+
+        if (currentDirection == DirectionsDeg::DOWN)
+        {
+            currentDirection = DirectionsDeg::LEFT;
+            coordinate += spacing;
+        }
+        else
+        {
+            currentDirection = static_cast<DirectionsDeg>(static_cast<size_t>(currentDirection) + 90);
+        }
+    }
+}
+
 void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, size_t wallSize)
 {
     if (wallSize / (round(static_cast<float>(entities.size()) / 4.0f) + 1) > 1)
     {
-        const size_t entitiesCountRegularWall = round(static_cast<float>(entities.size()) / 4.0f);
-        const size_t entitiesCountLastWall = entities.size() - entitiesCountRegularWall * 3;
-        size_t spacing = wallSize / (entitiesCountRegularWall + 1);
-        size_t coordinate = spacing;
-        std::cout << entitiesCountRegularWall;
-
-        for (size_t i = 0; i < entitiesCountRegularWall; ++i)
-        {
-            entities[i].m_facingAngle = 0.0f;
-            entities[i].m_pos = {static_cast<float>(wallSize), static_cast<float>(coordinate)};
-
-            coordinate += spacing;
-        }
-
-        if (entities.size() >= 2)
-        {
-            coordinate = spacing;
-            for (size_t i = entitiesCountRegularWall; i < entitiesCountRegularWall * 2; ++i)
-            {
-                entities[i].m_facingAngle = 90.0f;
-                entities[i].m_pos = {static_cast<float>(coordinate), static_cast<float>(wallSize)};
-
-                coordinate += spacing;
-            }
-        }
-
-        if (entities.size() >= 3)
-        {
-            coordinate = spacing;
-            for (size_t i = entitiesCountRegularWall * 2; i < entitiesCountRegularWall * 3; ++i)
-            {
-                entities[i].m_facingAngle = 180.0f;
-                entities[i].m_pos = {0.0f, static_cast<float>(coordinate)};
-
-                coordinate += spacing;
-            }
-        }
-
-        if (entities.size() >= 4)
-        {
-            spacing = wallSize / (entitiesCountLastWall + 1);
-            coordinate = spacing;
-            for (size_t i = entitiesCountRegularWall * 3; i < entities.size(); ++i)
-            {
-                entities[i].m_facingAngle = 270.0f;
-                entities[i].m_pos = {static_cast<float>(coordinate), 0.0f};
-
-                coordinate += spacing;
-            }
-        }
+        std::cout << "Equal";
+        equalEntitiesDistribution(entities, wallSize);
     }
     else
     {
-        size_t spacing = wallSize / (entities.size() / 4);
-        size_t coordinate = 0;
-        auto currentDirection = DirectionsDeg::LEFT;
-
-        for (auto &entity : entities)
-        {
-            entity.m_facingAngle = static_cast<float>(currentDirection);
-
-            switch (currentDirection)
-            {
-            case DirectionsDeg::LEFT:
-                // { wallSize, coordinate }
-                entity.m_pos = {static_cast<float>(wallSize), static_cast<float>(Random::get(0, (int)wallSize))};
-                break;
-            case DirectionsDeg::UP:
-                // { coordinate, wallSize }
-                entity.m_pos = {static_cast<float>(Random::get(0, (int)wallSize)), static_cast<float>(wallSize)};
-                break;
-            case DirectionsDeg::RIGHT:
-                // { 0, coordinate }
-                entity.m_pos = {0.0f, static_cast<float>(Random::get(0, (int)wallSize))};
-                break;
-            case DirectionsDeg::DOWN:
-                // { coordinate, 0 }
-                entity.m_pos = {static_cast<float>(Random::get(0, (int)wallSize)), 0.0f};
-                break;
-            }
-
-            if (currentDirection == DirectionsDeg::DOWN)
-            {
-                currentDirection = DirectionsDeg::LEFT;
-                coordinate += spacing;
-            }
-            else
-            {
-                currentDirection = static_cast<DirectionsDeg>(static_cast<size_t>(currentDirection) + 90);
-            }
-        }
+        std::cout << "random";
+        randomEntitiesDistribution(entities, wallSize);
     }
 }
 
@@ -646,7 +649,6 @@ void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::stri
         }
 
         cycles.push_back(cycle);
-        std::cout << std::format("Alive entities for cycle: {}", cycle.lastedEntities);
     }
 
     if (fileName)
