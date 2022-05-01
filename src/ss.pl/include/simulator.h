@@ -66,9 +66,6 @@ class Simulator : public Scene
     float timeScale;
     bool shouldShowProgressBar;
     bool shouldShowTraits;
-    bool inputName;
-    char* fileName;
-    std::string realFileName;
 
     enum class SLECTED_TRAITS_MONITOR
     {

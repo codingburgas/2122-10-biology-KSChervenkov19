@@ -321,7 +321,8 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
     {
         DrawTextEx(fontInter, "Timescale:", {1073, 124}, 36, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
         DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 474.0f}, .2f, 1, {193, 187, 245, 53});
-        timeScale = GuiSliderBar({1073, 165, 355, 48}, nullptr, TextFormat("%.1f", timeScale), timeScale, 0.1f, 20.0f);
+        timeScale = GuiSliderBar({1073, 165, 355, 48}, nullptr, nullptr, timeScale, 0.1f, 20.0f);
+        DrawTextEx(fontInter, TextFormat("%.1f", timeScale), { 1373, 215 }, 30, 1, BLACK);
 
         DrawTextEx(fontInter, "Progressbar:", {1073, 241}, 36, 0,
                    backgroundColors.at(!(static_cast<int>(currentTheme))));
