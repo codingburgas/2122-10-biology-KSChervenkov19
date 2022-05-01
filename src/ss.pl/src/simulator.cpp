@@ -9,7 +9,11 @@ ss::pl::simulator::Simulator::Simulator(std::string sceneName, SceneManager &sce
 {
 }
 
+///
 /// Method which is called in the start of the Simulation page.
+///
+/// Used to set up variables, needed throughout the simulation.
+/// 
 void ss::pl::simulator::Simulator::Start() // called once, at the start of the scene
 {
     loadAssets();
@@ -38,9 +42,11 @@ void ss::pl::simulator::Simulator::Start() // called once, at the start of the s
     catchSummaryInfo = true;
 }
 
+///
 /// Method which is called every frame.
 ///
-/// It updates the current scene every frame.
+/// Main functionallity of the simulator is located here.
+/// 
 void ss::pl::simulator::Simulator::Update() // called every frame
 {
     mousePos = GetMousePosition();
@@ -56,15 +62,21 @@ void ss::pl::simulator::Simulator::Update() // called every frame
     EndDrawing();
 }
 
+///
 /// Method which is called when we exit the program or the Simulation page.
 ///
 /// It deallocates every dynamically created object in the class' instance.
+/// 
 void ss::pl::simulator::Simulator::onExit() // called once, at the end of the scene
 {
     deleteAssets();
 }
 
+///
 /// This method creates checks for the mouse input during the actual simulation.
+///
+/// Used to determine and act on mouse clicks.
+/// 
 void ss::pl::simulator::Simulator::checkInput()
 {
     if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
@@ -145,7 +157,9 @@ void ss::pl::simulator::Simulator::checkInput()
     }
 }
 
-/// Method for handling the camera and collision for clickig on entity
+/// 
+/// Method for handling the camera and collision for clickig on entity.
+///
 void ss::pl::simulator::Simulator::handleEntityClick()
 {
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -166,7 +180,9 @@ void ss::pl::simulator::Simulator::handleEntityClick()
     }
 }
 
+///
 /// Method for reseting the camera to its initial position.
+/// 
 void ss::pl::simulator::Simulator::resetCamera()
 {
     camera.position = {10.0f, 10.0f, 10.0f};
@@ -174,7 +190,9 @@ void ss::pl::simulator::Simulator::resetCamera()
     camera.up = {0.0f, 1.0f, 0.0f};
 }
 
+///
 /// Method for drawing the setUp page before the actual simulation.
+/// 
 void ss::pl::simulator::Simulator::drawSetup()
 {
     BeginMode3D(camera);
@@ -207,7 +225,9 @@ void ss::pl::simulator::Simulator::drawSetup()
     }
 }
 
+///
 /// Method for drawing the actual simulation.
+/// 
 void ss::pl::simulator::Simulator::drawSimulation()
 {
     if (!simulation->isSimulationDone)
@@ -266,7 +286,9 @@ void ss::pl::simulator::Simulator::drawSimulation()
     }
 }
 
-/// Method for drawing summary screen at the end of the simulation
+///
+/// Method for drawing summary screen at the end of the simulation.
+/// 
 void ss::pl::simulator::Simulator::drawSummary()
 {
     DrawTexture(summary_Container, 437, 201, WHITE);
@@ -285,7 +307,9 @@ void ss::pl::simulator::Simulator::drawSummary()
                Simulator::backgroundColors.at(!static_cast<int>(Simulator::currentTheme)));
 }
 
-/// Method for drawing controls menu at simulation runtime
+///
+/// Method for drawing controls menu at simulation runtime.
+/// 
 void ss::pl::simulator::Simulator::drawAdditionalMenu()
 {
     if (CheckCollisionPointRec(mousePos, {1044.0f, 37.0f, 419.0f, 65.0f}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -324,7 +348,9 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
                             : DrawTexture(dropDown_Arrow, 1400, 48, WHITE);
 }
 
-/// Method for drawing the progress bar at the bottom of simuation
+///
+/// Method for drawing the progress bar at the bottom of simuation.
+/// 
 void ss::pl::simulator::Simulator::drawProgressBar()
 {
     if (!shouldShowProgressBar)
@@ -341,6 +367,9 @@ void ss::pl::simulator::Simulator::drawProgressBar()
     DrawRectangleRounded({-10, 960, aminationProgress + 10, 20}, 1, 10, Color{101, 158, 244, 255});
 }
 
+/// 
+/// Function to draw the switch in the additionals menu.
+/// 
 void ss::pl::simulator::Simulator::drawTraitsSwitch()
 {
     if (CheckCollisionPointRec(mousePos, {1151, 403, 185, 57}))
@@ -369,8 +398,11 @@ void ss::pl::simulator::Simulator::drawTraitsSwitch()
                {132, 132, 132, 255});
 }
 
-/// Method for animating the progress bar at the bottom of simuation
-/// @return current progress bar's X position
+///
+/// Method for animating the progress bar at the bottom of simuation.
+/// 
+/// @return current progress bar's position along the X axis.
+/// 
 float ss::pl::simulator::Simulator::animateProgress()
 {
     if (aminationProgress <=
@@ -382,16 +414,11 @@ float ss::pl::simulator::Simulator::animateProgress()
     return aminationProgress + 10;
 }
 
-/// Method for calculating the dying animation
-/// @param current float radius
-/// @return new float radius
-// float ss::pl::simulator::Simulator::animateDying(float currentRadius)
-//{
-//    if(currentRadius > 0) currentRadius -= .02f;
-//    return currentRadius;
-//}
-
-/// Method for drawing every entity at the simulation field
+///
+/// Method for drawing every entity at the simulation field.
+/// 
+/// @param entity Reference to the entity that should be drawn.
+/// 
 void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity &entity)
 {
     float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
@@ -437,7 +464,11 @@ void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity 
                  {255, 0, 0, 100});
 }
 
-/// Method for drawing every food at the simulation field
+///
+/// Method for drawing every food on the simulation field.
+/// 
+/// @param food Reference to the food that should be drawn.
+/// 
 void ss::pl::simulator::Simulator::drawFood(const auto &food)
 {
     if (!food.isEaten)
@@ -446,7 +477,11 @@ void ss::pl::simulator::Simulator::drawFood(const auto &food)
     }
 }
 
-/// Method for drawing entity's movement target when you click on it
+///
+/// Function that draws the thoughts of a desired entity
+/// 
+/// @param entity Reference to the desired entity
+/// 
 void ss::pl::simulator::Simulator::drawEntityThoughts(const ss::bll::simulation::Entity *entity)
 {
     switch (entity->getBrain())
@@ -481,8 +516,10 @@ void ss::pl::simulator::Simulator::drawEntityThoughts(const ss::bll::simulation:
     }
 }
 
-/// Method for getting the data for summary screen
-/// @return data for summary screen
+///
+/// Method for getting the data for summary screen.
+/// @return Data for summary screen.
+/// 
 ss::pl::simulator::Simulator::SummaryInfo ss::pl::simulator::Simulator::getSummaryData()
 {
     return SummaryInfo(simulation->getTotalAliveEntities(), simulation->getTotalDiedEntities(),
@@ -491,7 +528,9 @@ ss::pl::simulator::Simulator::SummaryInfo ss::pl::simulator::Simulator::getSumma
 
 // clang-format off
 
+///
 /// Method for loading all the needed assets in the Simulation page.
+/// 
 void ss::pl::simulator::Simulator::loadAssets()
 {
     fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 96, 0, 0);
@@ -514,7 +553,9 @@ void ss::pl::simulator::Simulator::loadAssets()
     GuiLoadStyle((currentTheme == ThemeTypes::LightTheme) ? "../../assets/bluish.txt.rgs" : "../../assets/lavanda.txt.rgs");
 }
 
+///
 /// Method for deallocating the dynamically created assets.
+/// 
 void ss::pl::simulator::Simulator::deleteAssets()
 {
     UnloadTexture(setupContainer_Texture);
