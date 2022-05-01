@@ -41,6 +41,7 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
         }
         else
         {
+            m_targetFood = nullptr;
             walk(elapsedTime);
         }
         break;
@@ -59,6 +60,7 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
         {
             const float angle = getAngleToClosestWall();
             m_facingAngle = angle;
+            m_targetFood = nullptr;
             move(elapsedTime);
         }
         break;
