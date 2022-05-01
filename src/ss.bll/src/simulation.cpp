@@ -1,12 +1,8 @@
 // clang-format off
 #include "pch_bll.h"
 #include "simulation.h"
-// clang-format on
-
-#include <iostream>
-
-#include "random.hpp"
 #include "utils.h"
+// clang-format on
 
 using Random = effolkronium::random_static;
 
