@@ -321,7 +321,13 @@ void ss::pl::graph::Graph::checkCollision()
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         if (currentCycle != cycleInfo.size())
+        {
             currentCycle++;
+        }
+        else
+        {
+            currentCycle = 1;
+        }
 
         getTraitData(currentCycle);
 
@@ -348,7 +354,13 @@ void ss::pl::graph::Graph::checkCollision()
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         if (currentCycle - 1 != 0)
+        {
             currentCycle--;
+        }
+        else
+        {
+            currentCycle = cycleInfo.size();
+        }
 
         getTraitData(currentCycle);
 

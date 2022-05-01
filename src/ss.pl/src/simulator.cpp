@@ -197,9 +197,9 @@ void ss::pl::simulator::Simulator::drawSetup()
                backgroundColors.at(!(static_cast<int>(currentTheme))));
 
     worldSize = GuiSliderBar({1000, 132, 455, 53}, nullptr, nullptr, worldSize, 6, 200);
-    entities = GuiSliderBar({1000, 282, 455, 53}, nullptr, nullptr, entities, 1, 200);
-    food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 2, 400);
-    cyclesCount = GuiSliderBar({1180, 730, 242, 51}, nullptr, TextFormat("%i", cyclesCount), cyclesCount, 1, 200);
+    entities = GuiSliderBar({1000, 282, 455, 53}, nullptr, nullptr, entities, 3, 200);
+    food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 3, 400);
+    cyclesCount = GuiSliderBar({1180, 730, 242, 51}, nullptr, TextFormat("%i", cyclesCount), cyclesCount, 3, 1000);
 
     if (!CheckCollisionPointRec(mousePos, {950, 0, (float)graphsContainerPos, (float)graphsContainerPos}))
     {
