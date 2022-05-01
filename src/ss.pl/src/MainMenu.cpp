@@ -147,12 +147,15 @@ void ss::pl::mainMenu::MainMenu::displayGraphCards()
     checkGraphButtonCollisions();
     currentGraphPos.y = 54;
 
+    if (statisticNames.empty())
+    {
+        DrawTextEx(fontInter, "No simulations yet :(", { currentGraphPos.x + 60, currentGraphPos.y + 100 }, 80, 1, { 132, 132, 132, 155 });
+    }
+
     for (auto statistics : statisticNames)
     {
         currentGraphPos.y -= GetMouseWheelMove();
         DrawTexture(statisticCard_Texture, currentGraphPos.x, currentGraphPos.y + scrollOffset, WHITE);
-        /*DrawRectangleRounded({currentGraphPos.x, currentGraphPos.y + scrollOffset, 781, 144}, 0.54f, 20,
-                             {235, 239, 247, 255});*/
         currentGraphPos.y += 189;
 
         for (auto graphContainer : graphCards)
