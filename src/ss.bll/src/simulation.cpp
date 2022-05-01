@@ -72,6 +72,7 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
     }
 
     hanldeEnergy(elapsedTime);
+    clampEntityPosToBoard();
 }
 
 std::optional<float> ss::bll::simulation::Entity::getAngleToClosestFoodInRange()
@@ -143,6 +144,12 @@ void ss::bll::simulation::Entity::generateNewTurningAngle()
 bool ss::bll::simulation::Entity::isOutOfBounds() const
 {
     return (m_pos.x < 0.0f || m_pos.x > m_worldSize) || (m_pos.y < 0.0f || m_pos.y > m_worldSize);
+}
+
+void ss::bll::simulation::Entity::clampEntityPosToBoard()
+{
+    m_pos.x = std::clamp(m_pos.x, 0.0f, static_cast<float>(m_worldSize));
+    m_pos.y = std::clamp(m_pos.y, 0.0f, static_cast<float>(m_worldSize));
 }
 
 bool ss::bll::simulation::Entity::handleFoodCollision(const float elaspedTime)
@@ -222,7 +229,11 @@ void ss::bll::simulation::Entity::move(const float elapsedTime)
     m_pos = {XX, YY};
 
     if (isOutOfBounds())
+    {
         m_isDoneWithCycle = true;
+    }
+
+	clampEntityPosToBoard();
 }
 
 ss::types::EntityTarget ss::bll::simulation::Entity::getBrain() const
