@@ -215,30 +215,10 @@ void ss::pl::simulator::Simulator::drawSimulation()
         DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
         DrawGrid(worldSize, 1.0f);
 
-        /*int index = 0;
-        if (currentCycle != simulation->m_currentCycle_n)
-        {
-            delete[]radiusArray;
-            radiusArray = new float[simulation->getActiveEntities(simulation->m_entities,
-        simulation->m_entitiesEndIt).size()]; currentCycle = simulation->m_currentCycle_n;
-        }*/
         for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
         {
-            // if (entity.m_isDoneWithCycle && entity.m_foodStage == ss::bll::simulation::EntityFoodStage::ZERO_FOOD)
-            //{
-            //    radiusArray[index] = animateDying(radiusArray[index]);
-            //}
-            // else
-            //{
-            //    radiusArray[index] = .5f;
-            //}
-
             drawEntity(entity);
-            // index++;
-            // Debugging
-            // std::cout << entity.m_cycleBornAt << ' ';
         }
-        // std::cout << '\n';
 
         for (const auto &food : simulation->getFoods())
         {
@@ -282,10 +262,6 @@ void ss::pl::simulator::Simulator::drawSimulation()
             currentState = SimulatorState::Setup;
         }
     }
-
-    // The funny. Do not touch
-    // bll::simulation::Cycle::distributeEntities(simulation->m_entities, simulation->m_simInfo.worldSize);
-    // bll::simulation::Cycle::randomizeFoodPositions(simulation->m_foods, simulation->m_simInfo.worldSize);
 }
 
 /// Method for drawing summary screen at the end of the simulation
@@ -352,7 +328,6 @@ void ss::pl::simulator::Simulator::drawProgressBar()
     if (!shouldShowProgressBar)
         return;
 
-    // std::cout << (((simulation->m_currentCycle_n - 1 / cyclesCount) * 10) / 100) << '\n';
     // Draw current cycle number
     DrawTextEx(fontInter, TextFormat("%i", simulation->m_currentCycle_n - 1), {aminationProgress - 11, 915}, 36, 1,
                {132, 132, 132, 255});

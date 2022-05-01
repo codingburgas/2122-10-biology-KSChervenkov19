@@ -70,9 +70,6 @@ void ss::bll::simulation::Entity::update(const float elapsedTime)
     }
 
     hanldeEnergy(elapsedTime);
-
-    // Debugging
-    // walk(elapsedTime);
 }
 
 std::optional<float> ss::bll::simulation::Entity::getAngleToClosestFoodInRange()
@@ -189,22 +186,12 @@ void ss::bll::simulation::Entity::hanldeEnergy(const float elapsedTime)
 // move mf is for just moving forward based on pos and facingAngle
 void ss::bll::simulation::Entity::walk(const float elapsedTime)
 {
-    // 0.
-    // check if timeSinceLastTurn > 1.0f (i.e.)
-    // if true: timeSinceLastTurn -= 1.0f
-    // generate new turningAngle
 
     if (m_timeSinceLastTurn > 1.6f)
     {
         m_timeSinceLastTurn -= 1.6f;
         generateNewTurningAngle();
     }
-
-    // 1.
-    // turn angle for current frame = turnRate * elapsedTime
-    // add TAFCF to facingAngle and subtract TAFCF from turningAngle
-    // if turningAngle really smol prolly best to set it to 0
-    // think about that last one a lil more
 
     if (abs(m_turningAngle) < 0.1f)
     {
@@ -218,17 +205,7 @@ void ss::bll::simulation::Entity::walk(const float elapsedTime)
         m_turningAngle += isNegative ? m_turnRate : -m_turnRate;
     }
 
-    // #THIS SHOULD BE SEPARATE FUNCTION probably named walk
-    // 2.determine new position based on pos and angle
-    /// check if new pos is out of bounds
-    /// if true: isDoneWithCycle = true
-    /// if true: isAlive = false
-    // #ENDTHIS
-
     move(elapsedTime);
-
-    // last step
-    // timeSinceLastTurn += elapsedTime
 
     m_timeSinceLastTurn += elapsedTime;
 }
@@ -325,7 +302,6 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities
                                                    size_t cycleId, std::vector<Food> *foods)
 {
     for (size_t i = 0; i < entities.size(); ++i)
-    // for (auto& entity : entities)
     {
         if (entities[i].m_isAlive)
         {
@@ -343,15 +319,11 @@ void ss::bll::simulation::Cycle::reproduceEntities(std::vector<Entity> &entities
 
                 entities.push_back({*lastEntityId, entities[i].m_worldSize, {sense, speed}, foods, cycleId});
                 ++(*lastEntityId);
-                // broken v
-                // entities.insert(entitiesEndIt, newEntity);
 
                 entities[i].m_shouldReproduce = false;
             }
         }
     }
-
-    // std::remove_if(entities.begin(), entities.end(), [](const Entity& et) { return !et.m_isAlive; });
 
     std::ranges::sort(entities, [](const Entity &lhs, const Entity &rhs) { return lhs.m_isAlive > rhs.m_isAlive; });
 
@@ -457,12 +429,10 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
 {
     if (wallSize / (round(static_cast<float>(entities.size()) / 4.0f) + 1) > 1)
     {
-        std::cout << "Equal";
         equalEntitiesDistribution(entities, wallSize);
     }
     else
     {
-        std::cout << "random";
         randomEntitiesDistribution(entities, wallSize);
     }
 }
@@ -566,9 +536,6 @@ const ss::bll::simulation::Entity *ss::bll::simulation::Simulation::getEntityByI
 ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_simInfo)
     : m_simInfo(t_simInfo), m_foods(std::vector<Food>(m_simInfo.foodCount))
 {
-    // m_entities = std::vector<Entity>(m_simInfo.startingEntityCount);
-    // m_entitiesEndIt = m_entities.end();
-
     m_entities.reserve(m_simInfo.startingEntityCount);
 
     for (size_t i = 0; i < m_simInfo.startingEntityCount; ++i)
@@ -638,9 +605,6 @@ void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::stri
 
         for (const auto &entity : m_entities)
         {
-            // if (entity.m_cycleBornAt + entity.m_cyclesLived > cycleId)
-            // if (entity.m_cycleBornAt <= cycleId &&
-            //   entity.m_cycleBornAt + entity.m_cyclesLived > cycleId)
             if (entity.m_cycleBornAt <= cycleId && entity.m_cycleDiedAt >= cycleId)
             {
                 ++cycle.lastedEntities;
