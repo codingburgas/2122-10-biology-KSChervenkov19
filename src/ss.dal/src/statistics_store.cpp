@@ -25,6 +25,24 @@ void ss::types::from_json(const json &j, ss::types::Cycle &cycle)
     j.at("Traits").get_to(cycle.traitsInfo);
 }
 
+/// Get the appropriate folder path for current directory.
+/// 
+/// @return std::string. Folder path.
+std::string ss::dal::StatisticsStore::getFolderPath()
+{
+    std::string path = "statistics/";
+    
+    for (size_t i = 0; i < 3; i++)
+    {
+        if (std::filesystem::exists(path))
+            return path;
+        else
+            path = "../../" + path;
+    }
+
+    throw std::runtime_error("Statistics folder doesn't exist");
+}
+
 /// Getter files names' function.
 ///
 /// The function searches for a file with a .json extension and gets its name.
@@ -32,7 +50,7 @@ void ss::types::from_json(const json &j, ss::types::Cycle &cycle)
 std::vector<std::string> ss::dal::StatisticsStore::getStatisticsNames()
 {
     std::vector<std::string> fileNames;
-    const std::string path = R"(../../statistics/)";
+    std::string path = getFolderPath();
 
     for (std::string file; const auto &entry : std::filesystem::directory_iterator(path))
     {
@@ -53,7 +71,8 @@ std::vector<std::string> ss::dal::StatisticsStore::getStatisticsNames()
 /// @param cycles A generation data.
 void ss::dal::StatisticsStore::saveStatisticTo(const std::string &fileName, const std::vector<ss::types::Cycle> &cycles)
 {
-    std::ofstream out("../../statistics/" + fileName + ".json");
+    std::string path = getFolderPath();
+    std::ofstream out(path + fileName + ".json");
 
     if (!out.is_open())
         throw std::runtime_error("File: " + fileName + " cannot be opened!");
@@ -82,7 +101,8 @@ void ss::dal::StatisticsStore::saveStatisticTo(const std::vector<ss::types::Cycl
 /// @return An array of cycles which is a generation.
 std::vector<ss::types::Cycle> ss::dal::StatisticsStore::getStatisticFrom(const std::string &fileName)
 {
-    std::ifstream in("../../statistics/" + fileName + ".json");
+    std::string path = getFolderPath();
+    std::ifstream in(path + fileName + ".json");
 
     if (!in.is_open())
         throw std::runtime_error("File: " + fileName + " cannot be opened!");
