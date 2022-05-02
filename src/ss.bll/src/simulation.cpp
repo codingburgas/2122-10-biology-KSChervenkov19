@@ -8,7 +8,8 @@ using Random = effolkronium::random_static;
 
 ss::bll::simulation::Entity::Entity(size_t t_id, const int t_worldSize, const types::Trait &t_traits = {1.0f, 1.0f},
                                     std::vector<Food> *t_foods = nullptr, size_t t_cycleBornAt = 0)
-    : m_id(t_id), m_worldSize(t_worldSize), m_foods(t_foods), m_traits(t_traits), m_cycleBornAt(t_cycleBornAt), m_energyMax(m_worldSize * 13)
+    : m_id(t_id), m_worldSize(t_worldSize), m_foods(t_foods), m_traits(t_traits), m_cycleBornAt(t_cycleBornAt),
+      m_energyMax(m_worldSize * 13)
 {
 }
 
@@ -16,7 +17,7 @@ ss::bll::simulation::Entity::Entity(size_t t_id, const int t_worldSize, const ty
 ///
 ///	This function checks for food collision and etc. It handles everything an entity should do.
 ///
-/// @param elapsedTime 
+/// @param elapsedTime
 ///
 void ss::bll::simulation::Entity::update(const float elapsedTime)
 {
@@ -153,7 +154,6 @@ void ss::bll::simulation::Entity::generateNewTurningAngle()
     m_turningAngle = Random::get(-m_maxTurnAngle, m_maxTurnAngle);
 }
 
-
 ///
 /// Checks if the entity is outside the bounds of the board.
 ///
@@ -252,7 +252,6 @@ void ss::bll::simulation::Entity::walk(const float elapsedTime)
     m_timeSinceLastTurn += elapsedTime;
 }
 
-
 ///
 /// Moves the entity in it's facing direction.
 ///
@@ -272,7 +271,7 @@ void ss::bll::simulation::Entity::move(const float elapsedTime)
         m_isDoneWithCycle = true;
     }
 
-	clampEntityPosToBoard();
+    clampEntityPosToBoard();
 }
 
 ///
@@ -425,7 +424,7 @@ void ss::bll::simulation::Cycle::equalEntitiesDistribution(std::span<Entity> ent
     for (size_t i = 0; i < entitiesCountRegularWall; ++i)
     {
         entities[i].m_facingAngle = 0.0f;
-        entities[i].m_pos = { static_cast<float>(wallSize), static_cast<float>(coordinate) };
+        entities[i].m_pos = {static_cast<float>(wallSize), static_cast<float>(coordinate)};
 
         coordinate += spacing;
     }
@@ -436,7 +435,7 @@ void ss::bll::simulation::Cycle::equalEntitiesDistribution(std::span<Entity> ent
         for (size_t i = entitiesCountRegularWall; i < entitiesCountRegularWall * 2; ++i)
         {
             entities[i].m_facingAngle = 90.0f;
-            entities[i].m_pos = { static_cast<float>(coordinate), static_cast<float>(wallSize) };
+            entities[i].m_pos = {static_cast<float>(coordinate), static_cast<float>(wallSize)};
 
             coordinate += spacing;
         }
@@ -448,7 +447,7 @@ void ss::bll::simulation::Cycle::equalEntitiesDistribution(std::span<Entity> ent
         for (size_t i = entitiesCountRegularWall * 2; i < entitiesCountRegularWall * 3; ++i)
         {
             entities[i].m_facingAngle = 180.0f;
-            entities[i].m_pos = { 0.0f, static_cast<float>(coordinate) };
+            entities[i].m_pos = {0.0f, static_cast<float>(coordinate)};
 
             coordinate += spacing;
         }
@@ -461,7 +460,7 @@ void ss::bll::simulation::Cycle::equalEntitiesDistribution(std::span<Entity> ent
         for (size_t i = entitiesCountRegularWall * 3; i < entities.size(); ++i)
         {
             entities[i].m_facingAngle = 270.0f;
-            entities[i].m_pos = { static_cast<float>(coordinate), 0.0f };
+            entities[i].m_pos = {static_cast<float>(coordinate), 0.0f};
 
             coordinate += spacing;
         }
@@ -479,7 +478,7 @@ void ss::bll::simulation::Cycle::randomEntitiesDistribution(std::span<Entity> en
     size_t coordinate = 0;
     auto currentDirection = DirectionsDeg::LEFT;
 
-    for (auto& entity : entities)
+    for (auto &entity : entities)
     {
         entity.m_facingAngle = static_cast<float>(currentDirection);
 
@@ -487,19 +486,19 @@ void ss::bll::simulation::Cycle::randomEntitiesDistribution(std::span<Entity> en
         {
         case DirectionsDeg::LEFT:
             // { wallSize, coordinate }
-            entity.m_pos = { static_cast<float>(wallSize), static_cast<float>(Random::get(0, (int)wallSize)) };
+            entity.m_pos = {static_cast<float>(wallSize), static_cast<float>(Random::get(0, (int)wallSize))};
             break;
         case DirectionsDeg::UP:
             // { coordinate, wallSize }
-            entity.m_pos = { static_cast<float>(Random::get(0, (int)wallSize)), static_cast<float>(wallSize) };
+            entity.m_pos = {static_cast<float>(Random::get(0, (int)wallSize)), static_cast<float>(wallSize)};
             break;
         case DirectionsDeg::RIGHT:
             // { 0, coordinate }
-            entity.m_pos = { 0.0f, static_cast<float>(Random::get(0, (int)wallSize)) };
+            entity.m_pos = {0.0f, static_cast<float>(Random::get(0, (int)wallSize))};
             break;
         case DirectionsDeg::DOWN:
             // { coordinate, 0 }
-            entity.m_pos = { static_cast<float>(Random::get(0, (int)wallSize)), 0.0f };
+            entity.m_pos = {static_cast<float>(Random::get(0, (int)wallSize)), 0.0f};
             break;
         }
 
@@ -530,7 +529,7 @@ void ss::bll::simulation::Cycle::distributeEntities(std::span<Entity> entities, 
     }
 }
 
-void ss::bll::simulation::Cycle::handleFoodCount(std::vector<Food>& foods, int changeBy)
+void ss::bll::simulation::Cycle::handleFoodCount(std::vector<Food> &foods, int changeBy)
 {
     int newCnt = foods.size() + changeBy;
     if (newCnt < 0)
@@ -630,7 +629,8 @@ const std::vector<ss::bll::simulation::Food> &ss::bll::simulation::Simulation::g
 }
 
 ///
-/// Sets an appropriate position for the iterator used to mark the point between the alive and dead entities in the entities' container.
+/// Sets an appropriate position for the iterator used to mark the point between the alive and dead entities in the
+/// entities' container.
 ///
 void ss::bll::simulation::Simulation::repositionEntitiesIter(std::vector<Entity> &entities,
                                                              std::vector<Entity>::iterator &iter)
@@ -668,9 +668,9 @@ const ss::bll::simulation::Entity *ss::bll::simulation::Simulation::getEntityByI
 /// @param id The id of the entity whose traits you want to edit.
 /// @param traits The traits you want to be set on the entity.
 ///
-void ss::bll::simulation::Simulation::setEntityTraits(const size_t id, const types::Trait& traits)
+void ss::bll::simulation::Simulation::setEntityTraits(const size_t id, const types::Trait &traits)
 {
-    Entity* entity = const_cast<Entity*>(getEntityById(id));
+    Entity *entity = const_cast<Entity *>(getEntityById(id));
 
     if (entity == nullptr)
         return;
@@ -678,7 +678,7 @@ void ss::bll::simulation::Simulation::setEntityTraits(const size_t id, const typ
     entity->m_traits = traits;
 }
 
-/// 
+///
 /// Constructor for the Simulation class.
 ///
 /// Constructs the Simulation class with approriate ss::types::SimulationInfo.
@@ -705,7 +705,7 @@ ss::bll::simulation::Simulation::Simulation(const ss::types::SimulationInfo t_si
     Cycle::randomizeFoodPositions(m_foods, m_simInfo.worldSize);
 }
 
-/// 
+///
 /// Calculates the amount of the total alive entities.
 ///
 /// @returns the count of once alive entities.
@@ -715,7 +715,7 @@ size_t ss::bll::simulation::Simulation::getTotalAliveEntities() const
     return m_entities.size();
 }
 
-/// 
+///
 /// Calculates the amount of the total died entities.
 ///
 /// @returns the count of all died entities.
@@ -787,18 +787,17 @@ void ss::bll::simulation::Simulation::saveSimulationInfo(std::optional<std::stri
         cycles.push_back(cycle);
     }
 
-
-	try
-	{
-		if (fileName)
-			dal::StatisticsStore::saveStatisticTo(*fileName, cycles);
-		else
-			dal::StatisticsStore::saveStatisticTo(cycles);
-	}
-	catch (const std::exception& e)
-	{
-		throw e;
-	}
+    try
+    {
+        if (fileName)
+            dal::StatisticsStore::saveStatisticTo(*fileName, cycles);
+        else
+            dal::StatisticsStore::saveStatisticTo(cycles);
+    }
+    catch (const std::exception &e)
+    {
+        throw e;
+    }
 }
 
 ///
