@@ -64,6 +64,8 @@ class Simulator : public Scene
 
     bool additionalMenuTriggered;
     float timeScale;
+    int foodChange;
+    int newFoodChange;
     bool shouldShowProgressBar;
     bool shouldShowTraits;
 

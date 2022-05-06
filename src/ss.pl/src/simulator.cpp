@@ -131,15 +131,16 @@ void ss::pl::simulator::Simulator::checkInput()
         }
     }
 
-    if (CheckCollisionPointRec(mousePos, {1298, 241, 45, 43}) && currentState == SimulatorState::Simulation &&
+    if (CheckCollisionPointRec(mousePos, {1298, 407, 45, 43}) && currentState == SimulatorState::Simulation &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && additionalMenuTriggered)
     {
         shouldShowProgressBar = !shouldShowProgressBar;
     }
 
     camera.canRotate = !CheckCollisionPointRec(mousePos, {1073, 165, 355, 48}) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
+    camera.canRotate = !CheckCollisionPointRec(mousePos, {1073, 315, 355, 48}) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
 
-    if (CheckCollisionPointRec(mousePos, {1298, 321, 45, 43}) && currentState == SimulatorState::Simulation &&
+    if (CheckCollisionPointRec(mousePos, {1298, 487, 45, 43}) && currentState == SimulatorState::Simulation &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && additionalMenuTriggered)
     {
         shouldShowTraits = !shouldShowTraits;
@@ -223,7 +224,7 @@ void ss::pl::simulator::Simulator::drawSetup()
     DrawTextEx(fontInter, TextFormat("%i", food), {1412, 490}, 25.5F, 0,
                backgroundColors.at(!(static_cast<int>(currentTheme))));
 
-    worldSize = GuiSliderBar({1000, 132, 455, 53}, nullptr, nullptr, worldSize, 6, 200);
+    worldSize = GuiSliderBar({1000, 132, 455, 53}, nullptr, nullptr, worldSize, 6, 100);
     entities = GuiSliderBar({1000, 282, 455, 53}, nullptr, nullptr, entities, 3, 200);
     food = GuiSliderBar({1000, 432, 455, 53}, nullptr, nullptr, food, 3, 400);
     cyclesCount = GuiSliderBar({1180, 730, 242, 51}, nullptr, TextFormat("%i", cyclesCount), cyclesCount, 3, 500);
@@ -245,6 +246,11 @@ void ss::pl::simulator::Simulator::drawSimulation()
         BeginMode3D(camera);
         DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
         DrawGrid(worldSize, 1.0f);
+        if (newFoodChange != foodChange)
+        {
+            simulation->setFoodChange(foodChange);
+            newFoodChange = foodChange;
+        }
 
         for (const auto &entity : simulation->getActiveEntities(simulation->m_entities, simulation->m_entitiesEndIt))
         {
@@ -329,22 +335,26 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
 
     if (additionalMenuTriggered)
     {
+        DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 629.0f}, .2f, 1, {193, 187, 245, 53});
         DrawTextEx(fontInter, "Timescale:", {1073, 124}, 36, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
-        DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 474.0f}, .2f, 1, {193, 187, 245, 53});
         timeScale = GuiSliderBar({1073, 165, 355, 48}, nullptr, nullptr, timeScale, 0.1f, 20.0f);
         DrawTextEx(fontInter, TextFormat("%.1f", timeScale), {1373, 215}, 30, 1, {132, 132, 132, 255});
 
-        DrawTextEx(fontInter, "Progressbar:", {1073, 241}, 36, 0,
-                   backgroundColors.at(!(static_cast<int>(currentTheme))));
-        DrawRectangleRounded({1298, 241, 45, 43}, .2f, 1, {255, 255, 255, 255});
-        if (shouldShowProgressBar)
-            DrawTexture(checkmark, 1300, 246, WHITE); // draw checkbox
+        DrawTextEx(fontInter, "Food change:", {1073, 273}, 36, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+        foodChange = GuiSliderBar({1073, 315, 355, 48}, nullptr, nullptr, foodChange, -5, 5);
+        DrawTextEx(fontInter, TextFormat("%i", foodChange), {1408, 364}, 30, 1, {132, 132, 132, 255});
 
-        DrawTextEx(fontInter, "Monitor traits:", {1073, 321}, 36, 0,
+        DrawTextEx(fontInter, "Progressbar:", {1073, 407}, 36, 0,
                    backgroundColors.at(!(static_cast<int>(currentTheme))));
-        DrawRectangleRounded({1298, 321, 45, 43}, .2f, 1, {255, 255, 255, 255});
+        DrawRectangleRounded({1298, 407, 45, 43}, .2f, 1, {255, 255, 255, 255});
+        if (shouldShowProgressBar)
+            DrawTexture(checkmark, 1300, 412, WHITE); // draw checkbox
+
+        DrawTextEx(fontInter, "Monitor traits:", {1073, 487}, 36, 0,
+                   backgroundColors.at(!(static_cast<int>(currentTheme))));
+        DrawRectangleRounded({1298, 487, 45, 43}, .2f, 1, {255, 255, 255, 255});
         if (shouldShowTraits)
-            DrawTexture(checkmark, 1300, 326, WHITE); // draw checkbox
+            DrawTexture(checkmark, 1300, 492, WHITE); // draw checkbox
 
         // draw switch
         if (shouldShowTraits)
@@ -383,12 +393,10 @@ void ss::pl::simulator::Simulator::drawProgressBar()
 ///
 void ss::pl::simulator::Simulator::drawTraitsSwitch()
 {
-    if (CheckCollisionPointRec(mousePos, {1151, 403, 185, 57}))
+    if (CheckCollisionPointRec(mousePos, {1151, 568, 185, 57}))
     {
-        SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
-            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
             selectedTraitsMonitor = selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED
                                         ? SLECTED_TRAITS_MONITOR::ENERGY
                                         : SLECTED_TRAITS_MONITOR::SPEED;
@@ -396,16 +404,16 @@ void ss::pl::simulator::Simulator::drawTraitsSwitch()
     }
 
     // draw base
-    DrawRectangleRounded({1152, 402, 184, 58}, 1, 10, Color{205, 208, 238, 255});
+    DrawRectangleRounded({1152, 568, 184, 58}, 1, 10, Color{205, 208, 238, 255});
 
     // drawCircle
     DrawRectangleRounded(
-        {static_cast<float>((selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? 1278 : 1152)), 402, 58, 58}, 1,
+        {static_cast<float>((selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? 1278 : 1152)), 568, 58, 58}, 1,
         10, WHITE);
 
     // draw monitored trait
     DrawTextEx(fontInter, (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? "Speed" : "Energy"),
-               {(selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? 1167.0f : 1216.0f), 412.0f}, 36, 1,
+               {(selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED ? 1167.0f : 1216.0f), 577.0f}, 36, 1,
                {132, 132, 132, 255});
 }
 
