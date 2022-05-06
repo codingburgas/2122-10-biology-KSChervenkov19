@@ -139,7 +139,7 @@ class Cycle
 
     static void distributeEntities(std::span<Entity> entities, size_t wallSize);
 
-    static void handleFoodCount(std::vector<Food>& foods, int changeBy);
+    static void handleFoodCount(std::vector<Food> &foods, int changeBy);
     static void randomizeFoodPositions(std::span<Food> foods, size_t worldSize);
 
   public:
@@ -150,7 +150,8 @@ class Cycle
 
 /// A class representing the simulation.
 ///
-/// This class holds all the information and logic for the simulation to be able to manage all of it's subclasses (not in inheritance meaning).
+/// This class holds all the information and logic for the simulation to be able to manage all of it's subclasses (not
+/// in inheritance meaning).
 ///
 class Simulation
 {

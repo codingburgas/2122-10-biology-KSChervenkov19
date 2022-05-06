@@ -149,7 +149,8 @@ void ss::pl::mainMenu::MainMenu::displayGraphCards()
 
     if (statisticNames.empty())
     {
-        DrawTextEx(fontInter, "No simulations yet :(", { currentGraphPos.x + 60, currentGraphPos.y + 100 }, 80, 1, { 132, 132, 132, 155 });
+        DrawTextEx(fontInter, "No simulations yet :(", {currentGraphPos.x + 60, currentGraphPos.y + 100}, 80, 1,
+                   {132, 132, 132, 155});
     }
 
     for (auto statistics : statisticNames)

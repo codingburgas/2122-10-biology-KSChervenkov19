@@ -10,8 +10,9 @@ namespace ss::dal
 {
 class StatisticsStore
 {
-private:
+  private:
     static std::string getFolderPath();
+
   public:
     static std::vector<std::string> getStatisticsNames();
 

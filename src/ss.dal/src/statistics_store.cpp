@@ -26,12 +26,12 @@ void ss::types::from_json(const json &j, ss::types::Cycle &cycle)
 }
 
 /// Get the appropriate folder path for current directory.
-/// 
+///
 /// @return std::string. Folder path.
 std::string ss::dal::StatisticsStore::getFolderPath()
 {
     std::string path = "statistics/";
-    
+
     for (size_t i = 0; i < 3; i++)
     {
         if (std::filesystem::exists(path))

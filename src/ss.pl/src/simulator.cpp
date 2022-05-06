@@ -13,7 +13,7 @@ ss::pl::simulator::Simulator::Simulator(std::string sceneName, SceneManager &sce
 /// Method which is called in the start of the Simulation page.
 ///
 /// Used to set up variables, needed throughout the simulation.
-/// 
+///
 void ss::pl::simulator::Simulator::Start() // called once, at the start of the scene
 {
     loadAssets();
@@ -46,7 +46,7 @@ void ss::pl::simulator::Simulator::Start() // called once, at the start of the s
 /// Method which is called every frame.
 ///
 /// Main functionallity of the simulator is located here.
-/// 
+///
 void ss::pl::simulator::Simulator::Update() // called every frame
 {
     mousePos = GetMousePosition();
@@ -66,7 +66,7 @@ void ss::pl::simulator::Simulator::Update() // called every frame
 /// Method which is called when we exit the program or the Simulation page.
 ///
 /// It deallocates every dynamically created object in the class' instance.
-/// 
+///
 void ss::pl::simulator::Simulator::onExit() // called once, at the end of the scene
 {
     deleteAssets();
@@ -76,7 +76,7 @@ void ss::pl::simulator::Simulator::onExit() // called once, at the end of the sc
 /// This method creates checks for the mouse input during the actual simulation.
 ///
 /// Used to determine and act on mouse clicks.
-/// 
+///
 void ss::pl::simulator::Simulator::checkInput()
 {
     if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
@@ -92,8 +92,8 @@ void ss::pl::simulator::Simulator::checkInput()
     }
 
     if (CheckCollisionPointRec(mousePos, {50, 90, static_cast<float>(backArrow_Texture.width),
-                                          static_cast<float>(backArrow_Texture.height)}) && currentState == SimulatorState::Setup &&
-        IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                                          static_cast<float>(backArrow_Texture.height)}) &&
+        currentState == SimulatorState::Setup && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         m_sceneManager.setCurrentScene("MainMenu");
     }
@@ -108,8 +108,8 @@ void ss::pl::simulator::Simulator::checkInput()
     }
 
     if (CheckCollisionPointRec(mousePos, {1064, 820, static_cast<float>(simulateButton_Texture.width),
-                                          static_cast<float>(simulateButton_Texture.height)}) && currentState == SimulatorState::Setup && 
-        IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                                          static_cast<float>(simulateButton_Texture.height)}) &&
+        currentState == SimulatorState::Setup && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         Simulator::currentState = SimulatorState::Simulation;
         const types::SimulationInfo simInfo = {worldSize, cyclesCount, food, entities, {2.0f, 1.0f}};
@@ -137,7 +137,7 @@ void ss::pl::simulator::Simulator::checkInput()
         shouldShowProgressBar = !shouldShowProgressBar;
     }
 
-    camera.canRotate = !CheckCollisionPointRec(mousePos, { 1073, 165, 355, 48 }) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
+    camera.canRotate = !CheckCollisionPointRec(mousePos, {1073, 165, 355, 48}) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
 
     if (CheckCollisionPointRec(mousePos, {1298, 321, 45, 43}) && currentState == SimulatorState::Simulation &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && additionalMenuTriggered)
@@ -145,8 +145,9 @@ void ss::pl::simulator::Simulator::checkInput()
         shouldShowTraits = !shouldShowTraits;
     }
 
-    if (CheckCollisionPointRec(mousePos, {41, 23, static_cast<float>(backArrow_Texture.width), static_cast<float>(backArrow_Texture.height)}) && currentState == SimulatorState::Simulation &&
-        IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    if (CheckCollisionPointRec(mousePos, {41, 23, static_cast<float>(backArrow_Texture.width),
+                                          static_cast<float>(backArrow_Texture.height)}) &&
+        currentState == SimulatorState::Simulation && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         resetCamera();
         aminationProgress = 0;
@@ -165,7 +166,7 @@ void ss::pl::simulator::Simulator::checkInput()
     }
 }
 
-/// 
+///
 /// Method for handling the camera and collision for clickig on entity.
 ///
 void ss::pl::simulator::Simulator::handleEntityClick()
@@ -190,7 +191,7 @@ void ss::pl::simulator::Simulator::handleEntityClick()
 
 ///
 /// Method for reseting the camera to its initial position.
-/// 
+///
 void ss::pl::simulator::Simulator::resetCamera()
 {
     camera.position = {10.0f, 10.0f, 10.0f};
@@ -200,7 +201,7 @@ void ss::pl::simulator::Simulator::resetCamera()
 
 ///
 /// Method for drawing the setUp page before the actual simulation.
-/// 
+///
 void ss::pl::simulator::Simulator::drawSetup()
 {
     BeginMode3D(camera);
@@ -235,7 +236,7 @@ void ss::pl::simulator::Simulator::drawSetup()
 
 ///
 /// Method for drawing the actual simulation.
-/// 
+///
 void ss::pl::simulator::Simulator::drawSimulation()
 {
     if (!simulation->isSimulationDone)
@@ -297,7 +298,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
 
 ///
 /// Method for drawing summary screen at the end of the simulation.
-/// 
+///
 void ss::pl::simulator::Simulator::drawSummary()
 {
     DrawTexture(summary_Container, 437, 201, WHITE);
@@ -318,7 +319,7 @@ void ss::pl::simulator::Simulator::drawSummary()
 
 ///
 /// Method for drawing controls menu at simulation runtime.
-/// 
+///
 void ss::pl::simulator::Simulator::drawAdditionalMenu()
 {
     if (CheckCollisionPointRec(mousePos, {1044.0f, 37.0f, 419.0f, 65.0f}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -331,7 +332,7 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
         DrawTextEx(fontInter, "Timescale:", {1073, 124}, 36, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
         DrawRectangleRounded({1044.0f, 37.0f, 419.0f, 474.0f}, .2f, 1, {193, 187, 245, 53});
         timeScale = GuiSliderBar({1073, 165, 355, 48}, nullptr, nullptr, timeScale, 0.1f, 20.0f);
-        DrawTextEx(fontInter, TextFormat("%.1f", timeScale), { 1373, 215 }, 30, 1, {132, 132, 132, 255});
+        DrawTextEx(fontInter, TextFormat("%.1f", timeScale), {1373, 215}, 30, 1, {132, 132, 132, 255});
 
         DrawTextEx(fontInter, "Progressbar:", {1073, 241}, 36, 0,
                    backgroundColors.at(!(static_cast<int>(currentTheme))));
@@ -360,7 +361,7 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
 
 ///
 /// Method for drawing the progress bar at the bottom of simuation.
-/// 
+///
 void ss::pl::simulator::Simulator::drawProgressBar()
 {
     if (!shouldShowProgressBar)
@@ -377,9 +378,9 @@ void ss::pl::simulator::Simulator::drawProgressBar()
     DrawRectangleRounded({-10, 960, aminationProgress + 10, 20}, 1, 10, Color{101, 158, 244, 255});
 }
 
-/// 
+///
 /// Function to draw the switch in the additionals menu.
-/// 
+///
 void ss::pl::simulator::Simulator::drawTraitsSwitch()
 {
     if (CheckCollisionPointRec(mousePos, {1151, 403, 185, 57}))
@@ -410,9 +411,9 @@ void ss::pl::simulator::Simulator::drawTraitsSwitch()
 
 ///
 /// Method for animating the progress bar at the bottom of simuation.
-/// 
+///
 /// @return current progress bar's position along the X axis.
-/// 
+///
 float ss::pl::simulator::Simulator::animateProgress()
 {
     if (aminationProgress <=
@@ -426,9 +427,9 @@ float ss::pl::simulator::Simulator::animateProgress()
 
 ///
 /// Method for drawing every entity at the simulation field.
-/// 
+///
 /// @param entity Reference to the entity that should be drawn.
-/// 
+///
 void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity &entity)
 {
     float entityLookingDirRadian = ss::bll::utils::toRadian(entity.getFacingAngle() + 180);
@@ -440,18 +441,24 @@ void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity 
         if (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::SPEED)
         {
             DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f,
-                       Color{static_cast<unsigned char>(
-                                 90 + entity.m_traits.speed > 1 && 90 + (entity.m_traits.speed * 30) / 100 * 157 <= 255 ? (entity.m_traits.speed * 30) / 100 * 157 : 0),
+                       Color{static_cast<unsigned char>(90 + entity.m_traits.speed > 1 &&
+                                                                90 + (entity.m_traits.speed * 30) / 100 * 157 <= 255
+                                                            ? (entity.m_traits.speed * 30) / 100 * 157
+                                                            : 0),
                              90,
-                             static_cast<unsigned char>(
-                                 65 + entity.m_traits.speed < 1 && 90 + (entity.m_traits.speed * 30) / 100 * 190 <= 255 ? (entity.m_traits.speed * 30) / 100 * 190 : 0),
+                             static_cast<unsigned char>(65 + entity.m_traits.speed < 1 &&
+                                                                90 + (entity.m_traits.speed * 30) / 100 * 190 <= 255
+                                                            ? (entity.m_traits.speed * 30) / 100 * 190
+                                                            : 0),
                              255});
         }
 
         if (selectedTraitsMonitor == SLECTED_TRAITS_MONITOR::ENERGY)
         {
-            DrawSphere({currentPos.x - offset, .5f, currentPos.y - offset}, .5f,
-                       Color{0, static_cast<unsigned char>(((entity.m_currentEnergy / entity.m_energyMax) * 100) / 100 * 255), 0, 255});
+            DrawSphere(
+                {currentPos.x - offset, .5f, currentPos.y - offset}, .5f,
+                Color{0, static_cast<unsigned char>(((entity.m_currentEnergy / entity.m_energyMax) * 100) / 100 * 255),
+                      0, 255});
         }
     }
     else
@@ -469,16 +476,16 @@ void ss::pl::simulator::Simulator::drawEntity(const ss::bll::simulation::Entity 
                RED);
 
     // draw entity aura(only if user has demanded)
-    if(shouldShowTraits)
-    DrawCircle3D({currentPos.x - offset, .1f, currentPos.y - offset}, entity.m_traits.sense, {1.0f, 0.0f, 0.0f}, 90.0f,
-                 {255, 0, 0, 100});
+    if (shouldShowTraits)
+        DrawCircle3D({currentPos.x - offset, .1f, currentPos.y - offset}, entity.m_traits.sense, {1.0f, 0.0f, 0.0f},
+                     90.0f, {255, 0, 0, 100});
 }
 
 ///
 /// Method for drawing every food on the simulation field.
-/// 
+///
 /// @param food Reference to the food that should be drawn.
-/// 
+///
 void ss::pl::simulator::Simulator::drawFood(const auto &food)
 {
     if (!food.isEaten)
@@ -489,9 +496,9 @@ void ss::pl::simulator::Simulator::drawFood(const auto &food)
 
 ///
 /// Function that draws the thoughts of a desired entity
-/// 
+///
 /// @param entity Reference to the desired entity
-/// 
+///
 void ss::pl::simulator::Simulator::drawEntityThoughts(const ss::bll::simulation::Entity *entity)
 {
     switch (entity->getBrain())
@@ -529,7 +536,7 @@ void ss::pl::simulator::Simulator::drawEntityThoughts(const ss::bll::simulation:
 ///
 /// Method for getting the data for summary screen.
 /// @return Data for summary screen.
-/// 
+///
 ss::pl::simulator::Simulator::SummaryInfo ss::pl::simulator::Simulator::getSummaryData()
 {
     return SummaryInfo(simulation->getTotalAliveEntities(), simulation->getTotalDiedEntities(),

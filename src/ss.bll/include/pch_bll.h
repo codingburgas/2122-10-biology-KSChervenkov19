@@ -10,6 +10,7 @@
 #define _USE_MATH_DEFINES
 
 // add headers that you want to pre-compile here
+#include "random.hpp"
 #include <algorithm>
 #include <cmath>
 #include <optional>
@@ -17,6 +18,5 @@
 #include <string>
 #include <tuple>
 #include <vector>
-#include "random.hpp"
 
 #endif // PCH_H_BLL
