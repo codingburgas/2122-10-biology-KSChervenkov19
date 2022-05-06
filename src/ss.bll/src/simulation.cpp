@@ -833,3 +833,8 @@ void ss::bll::simulation::Simulation::update(const float elapsedTime)
 
     m_currentCycle.update(elapsedTime);
 }
+
+void ss::bll::simulation::Simulation::setFoodChange(int foodChange)
+{
+    m_simInfo.foodChange = foodChange;
+}

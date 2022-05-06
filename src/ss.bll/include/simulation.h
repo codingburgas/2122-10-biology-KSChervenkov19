@@ -155,7 +155,7 @@ class Cycle
 class Simulation
 {
   public:
-    const ss::types::SimulationInfo m_simInfo;
+    types::SimulationInfo m_simInfo;
 
     std::vector<Entity> m_entities;
     std::vector<Entity>::iterator m_entitiesEndIt;
@@ -187,6 +187,7 @@ class Simulation
     types::Trait getAvgTraits() const;
     void saveSimulationInfo(std::optional<std::string> fileName) const;
     void update(float elapsedTime);
+    void setFoodChange(int foodChange);
     friend class Cycle;
 };
 } // namespace ss::bll::simulation
