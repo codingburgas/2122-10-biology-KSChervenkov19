@@ -340,7 +340,8 @@ void ss::pl::simulator::Simulator::drawAdditionalMenu()
         timeScale = GuiSliderBar({1073, 165, 355, 48}, nullptr, nullptr, timeScale, 0.1f, 20.0f);
         DrawTextEx(fontInter, TextFormat("%.1f", timeScale), {1373, 215}, 30, 1, {132, 132, 132, 255});
 
-        DrawTextEx(fontInter, "Food change:", {1073, 273}, 36, 0, backgroundColors.at(!(static_cast<int>(currentTheme))));
+        DrawTextEx(fontInter, "Food change:", {1073, 273}, 36, 0,
+                   backgroundColors.at(!(static_cast<int>(currentTheme))));
         foodChange = GuiSliderBar({1073, 315, 355, 48}, nullptr, nullptr, foodChange, -5, 5);
         DrawTextEx(fontInter, TextFormat("%i", foodChange), {1408, 364}, 30, 1, {132, 132, 132, 255});
 
