@@ -558,7 +558,7 @@ ss::pl::simulator::Simulator::SummaryInfo ss::pl::simulator::Simulator::getSumma
 /// 
 void ss::pl::simulator::Simulator::loadAssets()
 {
-    fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 96, 0, 0);
+    fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 120, 0, 0);
 
     setupContainer_Texture = LoadTexture(std::format("../../assets/{}/simulator/Setup_Container.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
     backArrow_Texture = LoadTexture(std::format("../../assets/{}/simulator/Back_Arrow.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
