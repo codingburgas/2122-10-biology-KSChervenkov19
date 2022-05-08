@@ -137,8 +137,7 @@ void ss::pl::simulator::Simulator::checkInput()
         shouldShowProgressBar = !shouldShowProgressBar;
     }
 
-    camera.canRotate = !CheckCollisionPointRec(mousePos, {1073, 165, 355, 48}) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
-    camera.canRotate = !CheckCollisionPointRec(mousePos, {1073, 315, 355, 48}) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
+    camera.canRotate = !CheckCollisionPointRec(mousePos, {1073, 315, 355, 48}) && IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !CheckCollisionPointRec(mousePos, { 1073, 165, 355, 48 }) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
 
     if (CheckCollisionPointRec(mousePos, {1298, 487, 45, 43}) && currentState == SimulatorState::Simulation &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && additionalMenuTriggered)
