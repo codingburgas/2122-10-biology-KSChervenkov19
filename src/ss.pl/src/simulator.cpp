@@ -243,7 +243,7 @@ void ss::pl::simulator::Simulator::drawSimulation()
     {
         UpdateCamera(&camera);
         BeginMode3D(camera);
-        DrawPlane({0.0f, 0.0f, 0.0f}, {(float)worldSize, (float)worldSize}, WHITE);
+        DrawPlane({ 0.0f, 0.0f, 0.0f }, { (float)worldSize, (float)worldSize }, WHITE);
         DrawGrid(worldSize, 1.0f);
         if (newFoodChange != foodChange)
         {
