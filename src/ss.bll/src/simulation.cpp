@@ -268,7 +268,9 @@ void ss::bll::simulation::Entity::move(const float elapsedTime)
 
     if (isOutOfBounds())
     {
-        m_isDoneWithCycle = true;
+
+        if (m_foodStage != EntityFoodStage::ZERO_FOOD)
+            m_isDoneWithCycle = true;
     }
 
     clampEntityPosToBoard();
