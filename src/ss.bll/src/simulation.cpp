@@ -326,7 +326,8 @@ float ss::bll::simulation::Entity::getFacingAngle() const
 ///
 /// @note Do not initialize a cycle without params.
 ///
-ss::bll::simulation::Cycle::Cycle() : m_entities(nullptr), m_entitiesEndIter(nullptr), m_worldSize(0), m_cycleId(0), m_foods(nullptr)
+ss::bll::simulation::Cycle::Cycle()
+    : m_entities(nullptr), m_entitiesEndIter(nullptr), m_worldSize(0), m_cycleId(0), m_foods(nullptr)
 {
 }
 
