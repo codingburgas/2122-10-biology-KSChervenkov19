@@ -368,3 +368,6 @@ html/
 
 #JSON files
 statistics/*.json
+
+#bin folder
+bin/
