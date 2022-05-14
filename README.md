@@ -29,11 +29,11 @@ ___
 ___
 ## 📄 Documentation
   - [Doxygen](https://mcberberov19.github.io/Nano-Documentation/)
-  - [Documentation](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+  - [Documentation](https://codingburgas-my.sharepoint.com/:w:/g/personal/bnsavov19_codingburgas_bg/EaH6IwxBvYBLrLXXbqqDyncB07BPMcb1CpvQQPpTBvgRmw?e=Ba17fV)
 
   ___
 ## 📖 Presenting
-- [Presentation](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+- [Presentation](https://codingburgas-my.sharepoint.com/:p:/g/personal/bnsavov19_codingburgas_bg/Eci8JtYcgEJCj7WJrLL34LYBcZZXS8IRLApJdLGPrryX0g?e=scixUP)
 
 ___
 ## 💽 Setup
@@ -62,13 +62,3 @@ ___
 - **Helpsypoo for the inspiration**
 - **Value for helping us with the design**
 - **And YOU for experimenting with this simulator**
-
-___
-## ✔️ Reviews
-If you're not sold on this simulator yet, just listen to what our very satisfied customers have to say about it!
-
-![Picture](assets/Blob.png) "This simulator is pretty cool" - Blob <br>
-    (picture of Blob)
-
-![Picture](assets/Blob.png) "Really fun to try with friends and family haha" - Also Blob <br>
-    (another picture of Blob)

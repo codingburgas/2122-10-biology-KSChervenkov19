@@ -9,7 +9,7 @@ using Random = effolkronium::random_static;
 ss::bll::simulation::Entity::Entity(size_t t_id, const int t_worldSize, const types::Trait &t_traits = {1.0f, 1.0f},
                                     std::vector<Food> *t_foods = nullptr, size_t t_cycleBornAt = 0)
     : m_id(t_id), m_worldSize(t_worldSize), m_foods(t_foods), m_traits(t_traits), m_cycleBornAt(t_cycleBornAt),
-      m_energyMax(m_worldSize * 13)
+      m_energyMax(static_cast<float>(m_worldSize * 13))
 {
 }
 
@@ -259,16 +259,18 @@ void ss::bll::simulation::Entity::walk(const float elapsedTime)
 ///
 void ss::bll::simulation::Entity::move(const float elapsedTime)
 {
-    float facingRadian = utils::toRadian(m_facingAngle + 180);
+    const float facingRadian = utils::toRadian(static_cast<double>(m_facingAngle) + 180.0);
 
-    float XX = m_pos.x + m_traits.speed * elapsedTime * cos(facingRadian);
-    float YY = m_pos.y + m_traits.speed * elapsedTime * sin(facingRadian);
+    const float XX = m_pos.x + m_traits.speed * elapsedTime * cos(facingRadian);
+    const float YY = m_pos.y + m_traits.speed * elapsedTime * sin(facingRadian);
 
     m_pos = {XX, YY};
 
     if (isOutOfBounds())
     {
-        m_isDoneWithCycle = true;
+
+        if (m_foodStage != EntityFoodStage::ZERO_FOOD)
+            m_isDoneWithCycle = true;
     }
 
     clampEntityPosToBoard();
@@ -324,7 +326,8 @@ float ss::bll::simulation::Entity::getFacingAngle() const
 ///
 /// @note Do not initialize a cycle without params.
 ///
-ss::bll::simulation::Cycle::Cycle() : m_entities(nullptr), m_entitiesEndIter(nullptr), m_worldSize(0)
+ss::bll::simulation::Cycle::Cycle()
+    : m_entities(nullptr), m_entitiesEndIter(nullptr), m_worldSize(0), m_cycleId(0), m_foods(nullptr)
 {
 }
 
@@ -360,7 +363,8 @@ void ss::bll::simulation::Cycle::CycleEnd()
         case EntityFoodStage::TWO_FOOD:
             entity.m_shouldReproduce = true;
             break;
-        default:;
+        default:
+            break;
         }
     }
 

@@ -137,8 +137,9 @@ void ss::pl::simulator::Simulator::checkInput()
         shouldShowProgressBar = !shouldShowProgressBar;
     }
 
-    camera.canRotate = !CheckCollisionPointRec(mousePos, {1073, 165, 355, 48}) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
-    camera.canRotate = !CheckCollisionPointRec(mousePos, {1073, 315, 355, 48}) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
+    camera.canRotate = !CheckCollisionPointRec(mousePos, {1073, 315, 355, 48}) &&
+                       IsMouseButtonDown(MOUSE_BUTTON_LEFT) &&
+                       !CheckCollisionPointRec(mousePos, {1073, 165, 355, 48}) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
 
     if (CheckCollisionPointRec(mousePos, {1298, 487, 45, 43}) && currentState == SimulatorState::Simulation &&
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && additionalMenuTriggered)
@@ -559,7 +560,7 @@ ss::pl::simulator::Simulator::SummaryInfo ss::pl::simulator::Simulator::getSumma
 /// 
 void ss::pl::simulator::Simulator::loadAssets()
 {
-    fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 96, 0, 0);
+    fontInter = LoadFontEx("../../assets/fonts/Inter.ttf", 120, 0, 0);
 
     setupContainer_Texture = LoadTexture(std::format("../../assets/{}/simulator/Setup_Container.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
     backArrow_Texture = LoadTexture(std::format("../../assets/{}/simulator/Back_Arrow.png", themePaths.at(static_cast<int>(Simulator::currentTheme))).c_str());
