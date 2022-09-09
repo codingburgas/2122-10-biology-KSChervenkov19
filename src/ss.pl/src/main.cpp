@@ -16,6 +16,7 @@ int main()
     SetTargetFPS(60);
 
     SetWindowIcon(LoadImage("../../assets/logos/Logo_Square_Transparent.png"));
+    Texture2D panicImage = LoadTexture("../../assets/panic.png");
 
     SceneManager sceneManager;
 
@@ -29,9 +30,25 @@ int main()
 
     sceneManager.setCurrentScene("MainMenu");
 
-    while (!WindowShouldClose())
+    if (GetMonitorWidth(0) <= screenWidth)
     {
-        sceneManager.updateScene();
+        while (!WindowShouldClose())
+        {
+            BeginDrawing();
+
+            ClearBackground(WHITE);
+            DrawTexture(panicImage, 0, 0, WHITE);
+
+            EndDrawing();
+        }
+    }
+
+    else
+    {
+        while (!WindowShouldClose())
+        {
+            sceneManager.updateScene();
+        }
     }
 
     CloseWindow();
